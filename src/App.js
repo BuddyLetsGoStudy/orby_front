@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from 'react';
+import { Switch, Route, NavLink, Redirect } from "react-router-dom";
+import SpaceCreate from './components/Space/SpaceCreate/SpaceCreate';
+import SpaceEdit from './components/Space/SpaceEdit/SpaceEdit';
+import Navbar from './components/Navbar/Navbar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+const App = () => (
+  <Fragment>
+    <Navbar />
+    <Switch>
+        <Route path={"/edit/:spaceid"} component={SpaceEdit} />
+        <Route path={"/create"} exact component={SpaceCreate} />
+        <Redirect to={"/"} />
+    </Switch>
+  </Fragment>
+
+)
+    
 
 export default App;
+

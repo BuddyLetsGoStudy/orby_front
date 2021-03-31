@@ -1,0 +1,23 @@
+.space-create-wall{
+    height: 188.38px;
+    width: 300px;
+    background: #EDF0F9;
+    transform: rotate(-20deg) skew(-20deg, 0deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space-create-wall > :last-child{
+    margin-right: 0;
+}
+
+.space-create-wall-artobject{
+    background-color: white;
+    width: 63.86px;
+    height: 45.19px;
+    margin-right: 10px;
+    border: 1px dashed #9A9A9A;
+    box-sizing: border-box;
+    cursor: pointer;
+}
