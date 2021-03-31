@@ -1,4 +1,6 @@
 # ORBY FRONTEND
 ## Install&Run
-`yarn i`
-`yarn start`
+```sh
+yarn i
+yarn start
+```
