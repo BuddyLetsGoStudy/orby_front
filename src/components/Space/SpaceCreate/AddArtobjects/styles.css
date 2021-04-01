@@ -1,0 +1,93 @@
+body:after{
+    opacity: 0;
+    content: url('./assets/img/rect-dashed-hover.svg') url('./assets/img/qube-dashed-hover.svg');
+}   
+
+.create-add-artobjects{
+    display: flex;
+}
+  
+.create-add-artobjects-title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 135%;
+    color: #AEB2BE;
+    margin-bottom: 12.5px;
+    margin-left: 13.5px;
+}
+
+.create-add-artobjects-cont{
+    display: flex;
+    justify-content: space-between;
+    width: 280px;
+    height: 86px;
+    box-sizing: border-box;
+    padding: 17.73px 13.65px;
+    transition: .2s;
+
+}
+
+.create-add-artobjects-cont:hover{
+    background: #EDF0F9;
+}
+
+.create-add-artobjects-cont-hover{
+    background: #EDF0F9;
+}
+
+.create-add-artobjects-add{
+    width: 76.76px;
+    height: 50.53px;
+    background: #FCFCFC;
+    box-shadow: 0px 32px 60px rgba(70, 67, 79, 0.08);
+    border-radius: 8px;
+    background-image: url('./assets/img/rect-dashed.svg');
+    background-position: center;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    transition: .2s;
+}
+
+.create-add-artobjects-add:hover{
+    background-image: url('./assets/img/rect-dashed-hover.svg');
+}
+.create-add-artobjects-title-3d{
+    margin-bottom: 30.3px;
+}
+
+.create-add-artobjects-add-3d{
+    width: 76.8px;
+    height: 50.89px;
+    left: 385.64px;
+    top: 158.59px;
+    background: #FCFCFC;
+    box-shadow: 0px 32px 60px rgba(70, 67, 79, 0.08);
+    border-radius: 8px;
+    background-image: url('./assets/img/qube-dashed.svg');
+    background-position: center;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 36px;
+    margin-left: 12.64px;
+    transition: .2s;
+}
+
+.create-add-artobjects-add-3d:hover{
+    background-image: url('./assets/img/qube-dashed-hover.svg');
+}
+
+.create-add-artobjects-order{
+    order: 2;
+}
+
+.create-add-artobjects-order-3d > :first-child{
+    margin-left: 0px;
+}
+
+.create-add-artobjects-order-3d > :last-child{
+    margin-right: 12.64px;
+    margin-left: 0;
+}
+
+

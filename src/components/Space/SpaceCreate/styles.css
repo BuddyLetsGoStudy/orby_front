@@ -2,7 +2,7 @@
     margin-top: 34.84px;
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 34.84px - 75px - 75px);
+    min-height: calc(100vh - 230px);
     justify-content: space-between;
   }
   .create-cont-top{
@@ -13,47 +13,6 @@
   .create-cont-bottom{
     display: flex;
     justify-content: space-between;
-  }
-  
-  .create-add-artobjects{}
-  
-  .create-add-artobjects-title{
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 135%;
-    color: #AEB2BE;
-    margin-bottom: 12.5px;
-    margin-left: 13.5px
-  }
-  
-  .create-add-artobjects-cont{
-    display: flex;
-    justify-content: space-between;
-    width: 280px;
-    height: 86px;
-    box-sizing: border-box;
-    padding: 17.73px 13.65px;
-  }
-  
-  .create-add-artobjects-cont:hover{
-    background: #EDF0F9;
-  }
-  
-  .create-add-artobjects-add{
-    width: 76.76px;
-    height: 50.53px;
-    background: #FCFCFC;
-    box-shadow: 0px 32px 60px rgba(70, 67, 79, 0.08);
-    border-radius: 8px;
-    background-image: url('./assets/img/rect-dashed.svg');
-    background-position: center;
-    cursor: pointer;
-    background-repeat: no-repeat;
-  }
-  
-  .create-add-artobjects-add:hover{
-    background-image: url('./assets/img/rect-dashed-hover.svg');
   }
   
   .create-btn-cont{
@@ -197,3 +156,12 @@
     line-height: 131.52%;
     color: #FFFFFF;
   }
+
+  .space-create-wall-cont{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 620px;
+    margin: auto;
+    justify-content: center;
+}
+

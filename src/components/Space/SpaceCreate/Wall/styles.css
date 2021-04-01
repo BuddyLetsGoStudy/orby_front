@@ -1,23 +1,116 @@
+
 .space-create-wall{
-    height: 188.38px;
-    width: 300px;
-    background: #EDF0F9;
-    transform: rotate(-20deg) skew(-20deg, 0deg);
+    height: 163.38px;
+    width: 208px;
+    /* height: 16vh;
+    width: 24vh; */
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid #9A9A9A;
+    box-sizing: border-box;
+    position: relative;
+    transition: .2s;
 }
+
+
+.space-create-wall-hover{
+    background: #EDF0F9;
+    border-color: transparent;
+}
+
+
+.space-create-wall-1{
+    transform: rotate(-22deg) skew(-22deg, 0deg);
+    margin-bottom: 135px;
+    margin-right: 75px;
+}
+
+.space-create-wall-1 > .space-create-cube{
+    transform: rotate(22deg) skew(22deg, 0deg);
+
+}
+
+.space-create-wall-2{
+    transform: rotate(22deg) skew(22deg, 0deg);
+    /* margin-left: 17px; */
+}
+
+.space-create-wall-2 > .space-create-cube{
+    transform: rotate(-22deg) skew(-22deg, 0deg);
+}
+
+.space-create-wall-3{
+    transform: rotate(-22deg) skew(-22deg, 0deg);
+    /* margin-left: 17px; */
+}
+
+.space-create-wall-3 > .space-create-cube{
+    transform: rotate(22deg) skew(22deg, 0deg);
+}
+
+.space-create-wall-4{
+    transform: rotate(22deg) skew(22deg, 0deg);
+    margin-right: 75px;
+}
+
+.space-create-wall-4 > .space-create-cube{
+    transform: rotate(-22deg) skew(-22deg, 0deg);
+}
+
 
 .space-create-wall > :last-child{
     margin-right: 0;
 }
 
 .space-create-wall-artobject{
-    background-color: white;
-    width: 63.86px;
-    height: 45.19px;
+    width: 50px;
+    height: 35px;
+    /* width: 5.5vh;
+    height: 3.7vh; */
     margin-right: 10px;
     border: 1px dashed #9A9A9A;
     box-sizing: border-box;
-    cursor: pointer;
+    transition: .2s;
+}
+
+.space-create-wall-artobject-hover{
+    border-color: #832FFF;
+    background-color: white;
+}
+
+.space-create-wall-and-cube{
+    position: relative;
+}
+
+.space-create-cube{
+    background-image: url('../AddArtobjects/assets/img/qube-dashed.svg');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    transition: .2s;
+}
+
+.space-create-cube-hover{
+    background-image: url('../AddArtobjects/assets/img/qube-dashed-hover.svg');
+}
+
+.space-create-cube-1{
+    right: 11px;
+    top: 18px;
+}
+
+.space-create-cube-2{
+    right: -55px;
+    bottom: 43px;
+}
+.space-create-cube-3{
+    bottom: 20px;
+    left: -61px;
+}
+
+.space-create-cube-4{
+    top: -92px;
+    left: -55px;
 }
