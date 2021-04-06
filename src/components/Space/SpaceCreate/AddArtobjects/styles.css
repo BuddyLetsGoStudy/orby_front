@@ -1,4 +1,4 @@
-body:after{
+.create-add-artobjects:after{
     opacity: 0;
     content: url('./assets/img/rect-dashed-hover.svg') url('./assets/img/qube-dashed-hover.svg');
 }   
