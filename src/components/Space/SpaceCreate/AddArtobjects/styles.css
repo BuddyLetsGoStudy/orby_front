@@ -1,6 +1,8 @@
 .create-add-artobjects:after{
     opacity: 0;
     content: url('./assets/img/rect-dashed-hover.svg') url('./assets/img/qube-dashed-hover.svg');
+    width: 0;
+    height: 0;
 }   
 
 .create-add-artobjects{
@@ -52,6 +54,7 @@
 .create-add-artobjects-add:hover{
     background-image: url('./assets/img/rect-dashed-hover.svg');
 }
+
 .create-add-artobjects-title-3d{
     margin-bottom: 30.3px;
 }

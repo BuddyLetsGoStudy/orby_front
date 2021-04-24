@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { ShowAuthModal } from "../../actions/AuthActions";
+import { ShowAuthModal, LoadUser } from "../../actions/AuthActions";
 import { Link } from 'react-router-dom';
 import './styles.css'
 
 const Navbar = () => {
     const dispatch = useDispatch();
+    const authState = useSelector(state => state.Auth);
+
+    useEffect(() => {
+        dispatch(LoadUser())
+    }, [])
+
     return (
         <div className={'navbar'}>
             <div className={'navbar-cont'}>
@@ -22,16 +28,28 @@ const Navbar = () => {
                             Create a space
                         </Link>
                     </div>
-                    <div className={'navbar-ul-li'}>
-                        <div className={'navbar-ul-li-text'}>
-                            My spaces
+                    {
+                        authState.token ?
+                        <>
+                        <div className={'navbar-ul-li'}>
+                            <div className={'navbar-ul-li-text'}>
+                                My spaces
+                            </div>
                         </div>
-                    </div>
-                    <div className={'navbar-ul-li'}>
-                        <div className={'navbar-ul-li-text'} onClick={() => dispatch(ShowAuthModal())}>
-                            Log In
+                        <div className={'navbar-ul-li'}>
+                            <div className={'navbar-ul-li-text'} onClick={() => dispatch({ type: 'LOGOUT_USER' })}>
+                                {authState.username}
+                            </div>
                         </div>
-                    </div>
+                        </>
+                        :
+                        <div className={'navbar-ul-li'}>
+                            <div className={'navbar-ul-li-text'} onClick={() => dispatch(ShowAuthModal())}>
+                                Log In
+                            </div>
+                        </div>
+                    }
+                    
                 </div>
             </div>
         </div>

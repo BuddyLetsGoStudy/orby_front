@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { CloseAuthModal } from "../../actions/AuthActions";
+import { CloseAuthModal, LoginUser, RegUser } from "../../actions/AuthActions";
 import './styles.css'
+
 
 const AuthModal = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,20 @@ const AuthModal = () => {
         setModalType('login')
     }
 
+    const submitLoginForm = () => {
+        const email = document.getElementsByName('email')[0].value
+        const password = document.getElementsByName('password')[0].value
+        dispatch(LoginUser(email, password))
+    }
+
+    const submitRegForm = () => {
+        const email = document.getElementsByName('email')[0].value
+        const password = document.getElementsByName('password')[0].value
+        const username = document.getElementsByName('login')[0].value
+        console.log(email,password,username)
+        dispatch(RegUser(email, username, password))
+    }
+
     if (authState.showAuthModal) {
         return(
             <div className={'auth-modal'}>
@@ -24,12 +39,12 @@ const AuthModal = () => {
                         modalType === 'login' ?
                             <>
                             <div className={'auth-modal-title-reg'}>Log in</div>
-                            <input type='text' className={'auth-modal-input'} name={'login'} placeholder="Login name or e-mail address"/>
+                            <input type='email' className={'auth-modal-input'} name={'email'} placeholder="E-mail address"/>
                             <div className={'auth-modal-input-pswd-cont'}>
                                 <input type={showPswd ? 'text' : 'password'} className={'auth-modal-input'} name={'password'} placeholder="Password"/>
                                 <div className={`auth-modal-input-pswd-eye ${showPswd ? 'auth-modal-input-pswd-eye-open' : ''}`} onClick={togglePassword}/>
                             </div>
-                            <div className={'auth-modal-confirm'}>Log In</div>
+                            <div className={'auth-modal-confirm'} onClick={submitLoginForm}>Log In</div>
                             <div className={'auth-modal-register'} onClick={() => setModalType('registration')}>
                                 DONT HAVE AN ACCOUNT? 
                                 <span> SIGN UP</span>
@@ -44,7 +59,7 @@ const AuthModal = () => {
                                 <input type={showPswd ? 'text' : 'password'} className={'auth-modal-input'} name={'password'} placeholder="Password"/>
                                 <div className={`auth-modal-input-pswd-eye ${showPswd ? 'auth-modal-input-pswd-eye-open' : ''}`} onClick={togglePassword}/>
                             </div>
-                            <div className={'auth-modal-confirm auth-modal-confirm-reg'}>Lets get started</div>
+                            <div className={'auth-modal-confirm auth-modal-confirm-reg'} onClick={submitRegForm}>Lets get started</div>
                             </>
                     }
     

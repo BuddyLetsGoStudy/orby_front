@@ -1,16 +1,51 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import _ from 'lodash'
+import { ArtobjectUploadAndUpdate, deleteArtobject } from '../../../../../actions/Artobjects'
 import './styles.css'
 
-export default class AddArtobject extends Component {
+class AddArtobject extends Component {
     state = {
         file: '',
         upload: '',
+        name: '1',
+        description: '1',
+        artist: '1',
+        date: '1',
+        width: '1',
+        height: '1',
         proportionOne: '',
-        proportionTwo: ''
+        proportionTwo: '',
+        artobject: {},
+        create: true
+    }
+
+    imageToBase64 = (url, callback) => {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
     }
     
     componentDidMount(){
         // document.body.classList.add('no-scroll');
+        const { positionID, positions, artobjects } = this.props;
+        const artobjectID = positions[positionID - 1]
+        if (artobjectID !== 0) {
+            const artobject = _.find(artobjects, {id: artobjectID})
+            const { name, description, upload, options } = artobject;
+            
+            this.imageToBase64(upload, base64img => {
+                this.setState({...JSON.parse(options), upload: base64img, name, description, create: false, artobjectID})
+            })
+        }
     }
 
     imageChange = e => {
@@ -42,9 +77,44 @@ export default class AddArtobject extends Component {
         reader.readAsDataURL(file);
     }
 
+    submitArtobject = () => {
+        const { name, file, description, artist, date, width, height, create, artobjectID } = this.state;
+        const options = { width, height, artist, date };
+
+        const formData = new FormData();
+
+        formData.append("name", name)
+        formData.append("description", description)
+        formData.append("upload", file)
+        formData.append("category", 1)
+        formData.append("options", JSON.stringify(options))
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        this.props.ArtobjectUploadAndUpdate(formData, create ? false : artobjectID)
+            .then(artobject => {
+                console.log(artobject, 'che blyat')
+                this.props.onCreated(this.props.positionID, artobject)
+                this.props.onClose()
+            })
+            .catch(e => console.log('я ненавижу женщин', e))
+    }
+
+    deleteArtobject = () => {
+        this.props.deleteArtobject(this.state.artobjectID)
+            .then(() => {
+                this.props.onDeleted(this.props.positionID)
+                this.props.onClose()
+            })
+            .catch(e => console.log('яя в говвмно', e))
+    }
+
+    updState = e => this.setState({[e.target.name]: e.target.value})
+
     render() {
         const { onClose, positionID } = this.props;
-        const { upload } = this.state;
+        const { name, description, artist, width, height, upload, date, create } = this.state;
         return (
             <div className={'create-popup background-transparent'}>
                 <div className={'create-popup-cont'}>
@@ -68,30 +138,43 @@ export default class AddArtobject extends Component {
                         <div className={'create-popup-add-inputs'}>
                             <div className={'create-popup-add-input-cont'}>
                                 <div className={'create-popup-add-input-text'}>Artwork name</div>
-                                <input type="text" className={'create-popup-add-input'} placeholder={'Type artwork name'}></input>
+                                <input type="text" className={'create-popup-add-input'} placeholder={'Type artwork name'} name={'name'} onChange={this.updState} value={name}></input>
                             </div>
                             <div className={'create-popup-add-input-cont'}>
                                 <div className={'create-popup-add-input-text'}>Artist</div>
-                                <input type="text" className={'create-popup-add-input'} placeholder={'Type Artist name'}></input>
+                                <input type="text" className={'create-popup-add-input'} placeholder={'Type Artist name'} name={'artist'} onChange={this.updState} value={artist}></input>
                             </div>
                             <div className={'create-popup-add-input-cont '}>
                                 <div className={'create-popup-add-input-text'}>Size</div>
                                 <div className={'create-popup-add-input-short-cont'}>
-                                    <input type="text" className={'create-popup-add-input create-popup-add-input-short'} placeholder={'Width (cm)'}></input>
+                                    <input type="text" className={'create-popup-add-input create-popup-add-input-short'} placeholder={'Width (cm)'} name={'width'} onChange={this.updState} value={width}></input>
                                     <div className={'create-popup-add-input-short-separator'}>X</div>
-                                    <input type="text" className={'create-popup-add-input create-popup-add-input-short'} placeholder={'Height (cm)'}></input>
+                                    <input type="text" className={'create-popup-add-input create-popup-add-input-short'} placeholder={'Height (cm)'} name={'height'} onChange={this.updState} value={height}></input>
                                 </div>
                             </div>
                             <div className={'create-popup-add-input-cont'}>
                                 <div className={'create-popup-add-input-text'}>Date of creation</div>
-                                <input type="text" className={'create-popup-add-input'} placeholder={'Type when work was created'}></input>
+                                <input type="text" className={'create-popup-add-input'} placeholder={'Type when work was created'} name={'date'} onChange={this.updState} value={date}></input>
                             </div>
-                            <textarea className={'create-popup-add-textarea'} placeholder='Add artwork description&#10;Tell a little story about this work'></textarea>
+                            <textarea className={'create-popup-add-textarea'} placeholder='Add artwork description&#10;Tell a little story about this work' name={'description'} onChange={this.updState} value={description}></textarea>
                         </div>
                     </div>
-                    <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={onClose}>OK</div>
+                    <div className={'create-popup-btn-cont'}>
+                        {!create && <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.deleteArtobject}>Delete artwork</div>}
+                        <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.submitArtobject}>OK</div>
+                    </div>
                 </div>
             </div>
         )
     }
 }
+
+
+const mapStateToProps = state => ({
+    loading: state.Artobjects.loading,
+    artobject: state.Artobjects.artobject,
+    artobjects: state.Space.space.artobjects,
+    positions: state.Space.space.positions,
+})
+
+export default connect(mapStateToProps, { ArtobjectUploadAndUpdate, deleteArtobject })(AddArtobject);

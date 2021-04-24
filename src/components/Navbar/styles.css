@@ -58,11 +58,11 @@
     align-items: center;
   }
   
-  .navbar-ul > :first-child{
+  .navbar-ul > div{
     margin-right: 55px;
   }
   
-  .navbar-ul > :nth-child(2){
+  .navbar-ul > :last-child{
     margin-right: 55px;
   }
   

@@ -146,3 +146,15 @@
     color: #5555556e;
     padding-right: 9px;
 }
+
+.create-popup-btn-cont{
+    display: flex;
+    justify-content: center;
+}
+.create-popup-btn-cont > div{
+    margin-right: 0;
+    margin-left: 0;
+}
+.create-popup-btn-cont > :nth-child(2){
+    margin-left: 25px;
+}

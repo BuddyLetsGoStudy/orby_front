@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import _ from 'lodash'
+
 import AddArtobjects from './AddArtobjects/AddArtobjects'
 import Welcome from './Popups/Welcome/Welcome'
 import AddArtobject from './Popups/AddArtobject/AddArtobject'
 import Wall from './Wall/Wall'
+
 import './styles.css'
 
 
@@ -14,6 +18,13 @@ class SpaceCreate extends Component {
         hoveredArtobject: 0,
         clickedPosition: 0
     }
+    
+    componentDidMount(){
+        const { artobjects, positions } = this.props.space;
+        positions.forEach((id, i) => {
+            id !== 0 && this.displayArtobject(i + 1, _.find(artobjects, {id}).upload)
+        })
+    }
 
     closePopup = () => this.setState({showWelcome: false, showAddArtobject: false})
 
@@ -24,6 +35,28 @@ class SpaceCreate extends Component {
     unhoverArtobject = () => this.setState({hoveredArtobject: 0})
 
     addArtobject = e => this.setState({showAddArtobject: true, clickedPosition: e.target.id})
+
+    artobjectAdded = (positionID, artobject) => {
+        const { id, upload } = artobject;
+        console.log(this.props.space.artobjects, id);
+        this.displayArtobject(positionID, upload)
+
+        this.props.dispatch({type: 'UPDATE_SPACE', payload: {field: 'artobjects', value: [...this.props.space.artobjects, artobject]}})
+        console.log([...this.props.space.artobjects, artobject])
+        let newPositions = this.props.space.positions
+        newPositions[positionID - 1] = id
+        this.props.dispatch({type: 'UPDATE_SPACE', payload: {field: 'positions', value: newPositions}})
+    }
+
+    artobjectDeleted = positionID => this.displayArtobject(positionID)
+
+    displayArtobject = (id, url=false) => {
+        const artobjCont = document.getElementById(`${id}`)
+        const artobjWallCont =  document.getElementById(`d${id}`)
+        artobjCont.style.backgroundImage = url ? `url('${url}')` : ``
+        artobjWallCont.style.backgroundImage = url ? `url('${url}')` : ``
+        url ? artobjCont.classList.add('artobject-added') : artobjCont.classList.remove('artobject-added')
+    }
 
     render() {
         const { showWelcome, showAddArtobject, hoveredWall, hoveredArtobject, clickedPosition } = this.state;
@@ -50,11 +83,17 @@ class SpaceCreate extends Component {
                     <div className={'create-btn-submit'}>Create a space</div>
                 </div>
                 { showWelcome && <Welcome onClose={this.closePopup} /> }
-                { showAddArtobject && <AddArtobject onClose={this.closePopup} positionID={clickedPosition} /> }
+                { showAddArtobject && <AddArtobject onClose={this.closePopup} onCreated={this.artobjectAdded} onDeleted={this.artobjectDeleted} positionID={clickedPosition} /> }
             </div>
         )
     }
 }
 
 
-export default SpaceCreate;
+
+const mapStateToProps = state => ({
+    loading: state.Space.loading,
+    space: state.Space.space,
+})
+
+export default connect(mapStateToProps, null)(SpaceCreate);
