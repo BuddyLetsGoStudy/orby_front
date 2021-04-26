@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_DOMAIN } from "../variables";
+import { API_DOMAIN, AUTH_CONFIG } from "../variables";
 import _ from 'lodash';
 import store from '../store';
 
@@ -10,13 +10,7 @@ export const ArtobjectUploadAndUpdate = (artobject, id) => async dispatch => {
                 type: "ARTOBJECT_UPLOAD_LOADING"
             });
     
-            const config = {
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('token')}`
-                }
-            }
-    
-            const res = id ? await axios.put(`${API_DOMAIN}/artobjects/${id}/`, artobject, config) : await axios.post(`${API_DOMAIN}/artobjects/`, artobject, config) 
+            const res = id ? await axios.put(`${API_DOMAIN}/artobjects/${id}/`, artobject, AUTH_CONFIG) : await axios.post(`${API_DOMAIN}/artobjects/`, artobject, AUTH_CONFIG) 
             id && dispatch({
                 type: "UPDATE_SPACE",
                 payload: {field: "artobjects", value: _.remove(store.getState().Space.artobjects, {id})},
@@ -42,13 +36,7 @@ export const ArtobjectUploadAndUpdate = (artobject, id) => async dispatch => {
 export const deleteArtobject = (id) => async dispatch => {
     return new Promise(async (resolve, reject) => {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('token')}`
-                }
-            }
-
-            const res = await axios.delete(`${API_DOMAIN}/artobjects/${id}/`, config)
+            const res = await axios.delete(`${API_DOMAIN}/artobjects/${id}/`, AUTH_CONFIG)
             dispatch({
                 type: "UPDATE_SPACE",
                 payload: {field: "artobjects", value: _.remove(store.getState().Space.artobjects, {id})},

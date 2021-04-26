@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_DOMAIN } from "../variables"
+import { API_DOMAIN, AUTH_CONFIG } from "../variables"
 
 export const ShowAuthModal = () => async dispatch => dispatch({type: "SHOW_AUTHMODAL"});
 
@@ -10,14 +10,9 @@ export const LoginUser = (email, password) => async dispatch => {
         dispatch({
             type: "LOGIN_USER_LOADING"
         });
-        const config = {
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }
-
+    
         const body = JSON.stringify({user: { email, password }})
-        const res = await axios.post(`${API_DOMAIN}/api/users/login/`, body, config)
+        const res = await axios.post(`${API_DOMAIN}/api/users/login/`, body, AUTH_CONFIG)
         console.log(res.data)
         dispatch({
             type: "LOGIN_USER_SUCCESS",
@@ -37,14 +32,10 @@ export const RegUser = (email, username, password) => async dispatch => {
         dispatch({
             type: "REG_USER_LOADING"
         });
-        const config = {
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }
+      
 
         const body = JSON.stringify({user: { email, username, password }})
-        const res = await axios.post(`${API_DOMAIN}/api/users/`, body, config)
+        const res = await axios.post(`${API_DOMAIN}/api/users/`, body, AUTH_CONFIG)
         console.log(res.data)
         dispatch({
             type: "REG_USER_SUCCESS",
@@ -66,13 +57,8 @@ export const LoadUser = () => async dispatch => {
         dispatch({
             type: "USER_LOADING"
         });
-        const config = {
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('token')}`
-            }
-        }
-
-        const res = await axios.get(`${API_DOMAIN}/api/user`, config)
+    
+        const res = await axios.get(`${API_DOMAIN}/api/user`, AUTH_CONFIG)
         dispatch({
             type: "USER_LOADED",
             payload: res.data,

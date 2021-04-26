@@ -10,7 +10,7 @@ import Wall from './Wall/Wall'
 import './styles.css'
 
 
-class SpaceCreate extends Component {
+class SpaceArtobjects extends Component {
     state = {
         showWelcome: false,
         showAddArtobject: false,
@@ -80,7 +80,7 @@ class SpaceCreate extends Component {
                 </div>
                 <div className={'create-btn-cont'}>
                     <div className={'create-btn-preview'}>Preview 3D gallery</div>
-                    <div className={'create-btn-submit'}>Create a space</div>
+                    <div className={'create-btn-submit'} onClick={this.props.onSubmit}>Create a space</div>
                 </div>
                 { showWelcome && <Welcome onClose={this.closePopup} /> }
                 { showAddArtobject && <AddArtobject onClose={this.closePopup} onCreated={this.artobjectAdded} onDeleted={this.artobjectDeleted} positionID={clickedPosition} /> }
@@ -96,4 +96,4 @@ const mapStateToProps = state => ({
     space: state.Space.space,
 })
 
-export default connect(mapStateToProps, null)(SpaceCreate);
+export default connect(mapStateToProps, null)(SpaceArtobjects);
