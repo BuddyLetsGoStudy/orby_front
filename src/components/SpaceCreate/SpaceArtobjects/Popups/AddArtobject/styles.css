@@ -158,3 +158,36 @@
 .create-popup-btn-cont > :nth-child(2){
     margin-left: 25px;
 }
+
+@media screen and (max-height: 900px){
+    .create-popup-header{
+      height: 80px;
+      padding: 27.5px 0;
+    }
+    .create-popup-header-close{
+      top: 29px;
+    }
+    .create-popup-cont{
+      margin: 20px auto 0 auto;
+      padding-bottom: 30px;
+    }
+    .create-popup-body-add{
+      padding: 25px 43px 0 43px;
+    }
+    .create-popup-add-file{
+      height: 203.27px;
+      width: 361.13px;
+    }
+    .create-popup-add-file-text{
+      margin-top: 57px;
+    }
+    .create-popup-add-inputs{
+      margin-top: 15px;
+    }
+    .create-popup-add-textarea{
+      height: 65px;
+    }
+    .create-popup-mrg-top{
+      margin-top: 5px;
+    }
+  }

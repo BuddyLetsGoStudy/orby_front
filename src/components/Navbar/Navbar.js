@@ -32,9 +32,9 @@ const Navbar = () => {
                         authState.token ?
                         <>
                         <div className={'navbar-ul-li'}>
-                            <div className={'navbar-ul-li-text'}>
+                            <Link to="/myspaces" className={'navbar-ul-li-text'}>
                                 My spaces
-                            </div>
+                            </Link>
                         </div>
                         <div className={'navbar-ul-li'}>
                             <div className={'navbar-ul-li-text'} onClick={() => dispatch({ type: 'LOGOUT_USER' })}>

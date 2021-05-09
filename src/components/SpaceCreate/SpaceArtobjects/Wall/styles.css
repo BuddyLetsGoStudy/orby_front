@@ -12,6 +12,12 @@
     position: relative;
     transition: .2s;
 }
+@media screen and (max-height: 900px){
+    .space-create-wall{
+        height: 137.38px;
+        width: 193px;
+    }
+}
 
 
 .space-create-wall-hover{
@@ -76,6 +82,15 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+@media screen and (max-height: 900px){
+    .space-create-wall-artobject{
+        width: 46px;
+        height: 31px;
+    }
+}
+
+
 
 .space-create-wall-artobject-hover{
     border-color: #832FFF;

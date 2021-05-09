@@ -10,7 +10,9 @@ const DefaultState = {
         artobjects: [],
         avatarRaw: ''
     },
-    uploadedSpace: {}
+    uploadedSpace: {},
+    step: 'artobjects',
+    edit: false
 };
   
 const SpaceReducer = (state = DefaultState, action) => {
@@ -23,6 +25,11 @@ const SpaceReducer = (state = DefaultState, action) => {
                     ...state.space,
                     [action.payload.field]: action.payload.value
                 }
+            }
+        case "UPDATE_WHOLE_SPACE":
+            return {
+                ...state,
+                space: action.payload
             }
         case "SPACE_CREATE_LOADING":
             return {
@@ -41,10 +48,35 @@ const SpaceReducer = (state = DefaultState, action) => {
                     artobjects: [],
                     avatarRaw: ''
                 },
-                uploadedSpace: action.payload
+                uploadedSpace: action.payload,
+                step: 'artobjects',
+                edit: action.payload.id,
+                loading: false
             }
         case "SPACE_CREATE_ERROR":
             return {
+                ...state,
+                loading: false,
+            }
+        case "SPACE_CREATE_STEP":
+            return {
+                ...state,
+                step: action.payload
+            }
+        case "SPACE_EDIT_STEP":
+            return {
+                ...state,
+                step: action.payload.step,
+                edit: action.payload.edit
+            }
+        case "SPACE_EDIT_SUCCESS":
+            return {
+                ...state,
+                edit: false
+            }
+        case "SPACE_DEFAULT":
+            return {
+                loading: false,
                 space: {
                     name: '',
                     description: '',
@@ -55,7 +87,26 @@ const SpaceReducer = (state = DefaultState, action) => {
                     artobjects: [],
                     avatarRaw: ''
                 },
+                uploadedSpace: {},
+                step: 'artobjects',
+                edit: false,
+            }
+        case "SPACE_CLOSE":
+            return {
                 loading: false,
+                space: {
+                    name: '',
+                    description: '',
+                    geo: [0, 0],
+                    date: '',
+                    avatar: '',
+                    positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    artobjects: [],
+                    avatarRaw: ''
+                },
+                uploadedSpace: {},
+                step: 'artobjects',
+                edit: false
             }
         default:
             return state

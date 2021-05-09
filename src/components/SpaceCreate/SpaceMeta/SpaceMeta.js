@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
-import { createSpace } from '../../../actions/SpaceCreation'
 
 
 import './styles.css'
@@ -28,12 +27,9 @@ class SpaceMeta extends Component {
 
     onChange = e => this.props.dispatch({type: 'UPDATE_SPACE', payload: {field: e.target.name, value: e.target.value}})
 
-    onSubmit = () => {
-        console.log('che nahui')
-        this.props.createSpace()}
-
     render() {
-        const { avatar, geo, name, date, description } = this.props.space;
+        const { edit, space } = this.props;
+        const { avatar, geo, name, date, description } = space;
         return (
             <div className={'create-meta-cont'}>
                 <div className={'create-meta-avatar'} style={{backgroundImage: avatar ? `url('${avatar}')` : ''}}>
@@ -69,18 +65,18 @@ class SpaceMeta extends Component {
                         </Map>
                     </YMaps>
                 </div>
-                <div className={'create-meta-button'} onClick={this.onSubmit}>Next</div>
+                <div className={'create-meta-button'} onClick={this.props.onSubmit}>{edit ? 'Save' : 'Next'}</div>
             </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    space: state.Space.space,
+    space: state.Space.space, 
+    edit: state.Space.edit
 })
 
 const mapDispatchToProps = dispatch => ({
-    createSpace: () => dispatch(createSpace()),
     dispatch               
  })
 

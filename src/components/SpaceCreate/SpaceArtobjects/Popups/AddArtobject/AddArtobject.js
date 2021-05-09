@@ -8,12 +8,12 @@ class AddArtobject extends Component {
     state = {
         file: '',
         upload: '',
-        name: '1',
-        description: '1',
-        artist: '1',
-        date: '1',
-        width: '1',
-        height: '1',
+        name: '',
+        description: '',
+        artist: '',
+        date: '',
+        width: '',
+        height: '',
         proportionOne: '',
         proportionTwo: '',
         artobject: {},
@@ -43,7 +43,7 @@ class AddArtobject extends Component {
             const { name, description, upload, options } = artobject;
             
             this.imageToBase64(upload, base64img => {
-                this.setState({...JSON.parse(options), upload: base64img, name, description, create: false, artobjectID})
+                this.setState({...JSON.parse(options), upload: base64img, name, description, create: false, artobjectID, file: false})
             })
         }
     }
@@ -78,14 +78,14 @@ class AddArtobject extends Component {
     }
 
     submitArtobject = () => {
-        const { name, file, description, artist, date, width, height, create, artobjectID } = this.state;
+        const { name, file, description, artist, date, width, height, create, artobjectID, upload } = this.state;
         const options = { width, height, artist, date };
 
         const formData = new FormData();
 
         formData.append("name", name)
         formData.append("description", description)
-        formData.append("upload", file)
+        file && formData.append("upload", file)
         formData.append("category", 1)
         formData.append("options", JSON.stringify(options))
         for (var pair of formData.entries()) {
@@ -100,7 +100,33 @@ class AddArtobject extends Component {
             })
             .catch(e => console.log('я ненавижу женщин', e))
     }
+    // submitArtobject = () => {
+    //     const { name, file, description, artist, date, width, height, create, artobjectID, upload } = this.state;
+    //     const options = { width, height, artist, date };
 
+    //     const formData = new FormData();
+
+    //     formData.append("name", name)
+    //     formData.append("description", description)
+    //     fetch(upload)
+    //     .then(res => res.blob())
+    //     .then(blob => {
+    //         file ? formData.append("upload", file) : formData.append("upload", new File([blob], "File name",{ type: "image/png" }))
+    //         formData.append("category", 1)
+    //         formData.append("options", JSON.stringify(options))
+    //         for (var pair of formData.entries()) {
+    //             console.log(pair[0]+ ', ' + pair[1]); 
+    //         }
+    
+    //         this.props.ArtobjectUploadAndUpdate(formData, create ? false : artobjectID)
+    //             .then(artobject => {
+    //                 console.log(artobject, 'che blyat')
+    //                 this.props.onCreated(this.props.positionID, artobject)
+    //                 this.props.onClose()
+    //             })
+    //             .catch(e => console.log('я ненавижу женщин', e))
+    //     })
+    // }
     deleteArtobject = () => {
         this.props.deleteArtobject(this.state.artobjectID)
             .then(() => {

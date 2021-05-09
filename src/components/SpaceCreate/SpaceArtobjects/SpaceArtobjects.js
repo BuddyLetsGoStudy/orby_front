@@ -58,8 +58,13 @@ class SpaceArtobjects extends Component {
         url ? artobjCont.classList.add('artobject-added') : artobjCont.classList.remove('artobject-added')
     }
 
+    onSubmit = () => _.isEmpty(this.props.space.artobjects) ? null : this.props.onSubmit()
+
     render() {
         const { showWelcome, showAddArtobject, hoveredWall, hoveredArtobject, clickedPosition } = this.state;
+        const { edit, space } = this.props;
+        const { artobjects } = space;
+
         return (
             <div className={`body-cont`}>
                 <div className={'create-cont'}>
@@ -79,8 +84,8 @@ class SpaceArtobjects extends Component {
                     </div>
                 </div>
                 <div className={'create-btn-cont'}>
-                    <div className={'create-btn-preview'}>Preview 3D gallery</div>
-                    <div className={'create-btn-submit'} onClick={this.props.onSubmit}>Create a space</div>
+                    <div className={'create-btn-preview not-ready'}>Preview 3D gallery</div>
+                    <div className={`create-btn-submit ${_.isEmpty(artobjects) ? '' : 'create-btn-submit-active'}`} onClick={this.onSubmit}>{edit ? 'Save' : 'Create a space'}</div>
                 </div>
                 { showWelcome && <Welcome onClose={this.closePopup} /> }
                 { showAddArtobject && <AddArtobject onClose={this.closePopup} onCreated={this.artobjectAdded} onDeleted={this.artobjectDeleted} positionID={clickedPosition} /> }
@@ -94,6 +99,7 @@ class SpaceArtobjects extends Component {
 const mapStateToProps = state => ({
     loading: state.Space.loading,
     space: state.Space.space,
+    edit: state.Space.edit
 })
 
 export default connect(mapStateToProps, null)(SpaceArtobjects);

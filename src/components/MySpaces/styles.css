@@ -1,0 +1,90 @@
+.myspaces-cont{
+   display: flex;
+   flex-wrap: wrap;
+   width: 1126px;
+   margin: auto;
+   justify-content: space-between;
+   margin-top: 35px;
+}
+
+.myspaces-block{
+    width: 335.51px;
+    margin-bottom: 55px;
+}
+
+.myspaces-block-card{
+    height: 233px;
+    background: grey;
+    box-shadow: 0px 32px 60px rgba(84, 95, 122, 0.08);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    cursor: pointer;
+    display: block;
+}
+
+.myspaces-block-card-avatar{
+    position: absolute;
+    filter: drop-shadow(0px 0px 11px rgba(0, 0, 0, 0.11));
+    top: 12px;
+    left: 12px;
+    width: 55px;
+    height: 55px;
+    background-color: white;
+    border-radius: 50px;
+    background-size: cover;
+}
+
+.myspaces-block-card-bottom{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 69px;
+    border-bottom-left-radius: 19px;
+    border-bottom-right-radius: 19px;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 12px;
+    background-image: url('./assets/img/arrow.svg');
+    background-repeat: no-repeat;
+    background-position: top 23px right 12px;
+}
+
+.myspaces-block-card-title{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #3F414E;
+}
+
+.myspaces-block-card-geo{
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    color: #272727;
+}
+
+.myspaces-block-publish{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.myspaces-block-publish-marble{
+    background-image: url('./assets/img/marble.svg');
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+}
+
+.myspaces-block-publish-text{
+    font-size: 18px;
+    line-height: 22px;
+    color: #3F414E;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+

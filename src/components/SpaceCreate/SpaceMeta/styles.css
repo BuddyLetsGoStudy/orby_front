@@ -106,7 +106,9 @@
     height: 320px;
     width: 620px;
 }
-
+.space-form-location-map-size > ymaps > ymaps > ymaps > :nth-child(3) > :last-child{
+    display: none;
+}
 .create-meta-button{
     background: linear-gradient(90deg, #FA2CA4 0%, #652EEF 100%);
     box-shadow: 0px 10px 10px rgba(84, 95, 122, 0.09);

@@ -16,6 +16,11 @@ body{
 .no-scroll{
   overflow-y: hidden;
 }
+
+.not-ready{
+  cursor: not-allowed!important;
+  opacity: 0.1!important;
+}
 /* =================== NAVBAR ===================*/
 
 
