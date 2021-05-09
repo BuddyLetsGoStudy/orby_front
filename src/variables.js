@@ -1,4 +1,6 @@
-export const API_DOMAIN = 'http://localhost:8000'
+// export const API_DOMAIN = 'http://localhost:8000'
+export const API_DOMAIN = 'https://api.orby.space'
+
 
 export const AUTH_CONFIG = () => ({
     headers: {
