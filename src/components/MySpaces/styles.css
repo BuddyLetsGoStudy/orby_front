@@ -1,15 +1,27 @@
+.myspaces{
+    width: 1126px;
+    margin: auto;
+}
 .myspaces-cont{
-   display: flex;
-   flex-wrap: wrap;
-   width: 1126px;
-   margin: auto;
-   justify-content: space-between;
-   margin-top: 35px;
+    /* display: flex;
+    flex-wrap: wrap; */
+
+    /* justify-content: space-between; */
+    margin-top: 35px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: -60px;
 }
 
 .myspaces-block{
-    width: 335.51px;
+    width: 395px;
     margin-bottom: 55px;
+    box-sizing: border-box;
+    padding-left: 60px;
 }
 
 .myspaces-block-card{
