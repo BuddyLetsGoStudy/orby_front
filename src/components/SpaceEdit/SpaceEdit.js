@@ -29,7 +29,7 @@ class SpaceEdit extends Component {
     componentDidMount() {
         this.props.loadSpace(this.props.match.params.spaceid)
             .then(space => {
-                this.setState({space: {name: space.name, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
+                this.setState({space: {name: space.name, published: space.published, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
                 this.manageUI)
             })
     }
