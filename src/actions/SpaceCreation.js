@@ -116,7 +116,7 @@ export const loadSpace = id => async dispatch => {
 export const loadMySpaces = () => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
-      const res = await axios.get(`${API_DOMAIN}/spaces/?author=${1}`, AUTH_JSON_CONFIG());
+      const res = await axios.get(`${API_DOMAIN}/spaces/?author=${store.getState().Auth.id}`, AUTH_JSON_CONFIG());
       console.log('res', res)
       dispatch({
         type: "SPACES_GET",
