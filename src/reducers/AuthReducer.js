@@ -4,6 +4,7 @@ const DefaultState = {
     username: '',
     email: '',
     token: localStorage.getItem('token'),
+    id: 0,
     error: ''
 };
   
@@ -32,14 +33,15 @@ const AuthReducer = (state = DefaultState, action) => {
         case "LOGIN_USER_SUCCESS":
         case "REG_USER_SUCCESS":
         case "USER_LOADED":
-            localStorage.setItem('token', action.payload.token[0] === 'b' ? action.payload.token.substring(1, action.payload.token.length - 1) : action.payload.token)
+            localStorage.setItem('token', action.payload.token[0] === 'b' ? action.payload.token.substring(1, action.payload.token.length - 1).replace("'", '') : action.payload.token.replace("'", ''))
             return {
                 ...state,
                 loading: false,
                 token: action.payload.token,
                 username: action.payload.username,
                 email: action.payload.email,
-                showAuthModal: false
+                showAuthModal: false, 
+                id: action.payload.id
             }
 
         case "LOGIN_USER_ERROR":
@@ -58,6 +60,7 @@ const AuthReducer = (state = DefaultState, action) => {
                 username: '',
                 email: '',
                 token: '',
+                id: ''
             }
             
         default:
