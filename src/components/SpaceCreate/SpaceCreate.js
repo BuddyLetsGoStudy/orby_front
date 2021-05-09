@@ -29,12 +29,18 @@ class SpaceCreate extends Component {
         !this.props.editpage && this.props.dispatch({type: "SPACE_EDIT_SUCCESS"})
     }
 
+    componentWillUnmount() {
+        this.props.dispatch({type: "SPACE_CLOSE"})
+    }
+
 
     render() {
         const { redirectID } = this.state;
         const { step, edit } = this.props;
         if (redirectID && edit) {
-            console.log('GAVNOOOO')
+            console.log('GAVNOOOO', edit)
+            // window.history.pushState({}, null, `/edit/${redirectID}`);
+            // return(<Redirect to={`/edit/${redirectID}`} />)
             return(<SpaceEdit match={{params:{spaceid: edit}}}/>)
         } else {
             return (

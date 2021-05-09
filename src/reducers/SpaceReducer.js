@@ -50,7 +50,7 @@ const SpaceReducer = (state = DefaultState, action) => {
                 },
                 uploadedSpace: action.payload,
                 step: 'artobjects',
-                edit: action.payload.id,
+                edit: state.edit,
                 loading: false
             }
         case "SPACE_CREATE_ERROR":

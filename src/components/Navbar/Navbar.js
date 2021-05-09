@@ -22,12 +22,12 @@ const Navbar = () => {
                     <div className={'navbar-icons-search'}/>
                 </div>
                 <div className={'navbar-ul'}>
-                    <div className={'navbar-ul-li'}>
+                    <Link to="/create" className={'navbar-ul-li navbar-ul-li-create'}>
                         <div className={'navbar-ul-li-plus'}></div>
-                        <Link to="/create" className={'navbar-ul-li-text'}>
+                        <div className={'navbar-ul-li-text'}>
                             Create a space
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
                     {
                         authState.token ?
                         <>

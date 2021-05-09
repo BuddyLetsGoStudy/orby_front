@@ -78,6 +78,12 @@
     line-height: 22px;
     text-decoration: none;
     color: #555555;
+    text-decoration: none;
+  }
+
+  .navbar-ul-li-create{
+    margin-right: 55px;
+    text-decoration: none;
   }
   
   .navbar-ul-li-plus{
