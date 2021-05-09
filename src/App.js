@@ -6,15 +6,17 @@ import MySpaces from './components/MySpaces/MySpaces';
 
 import Navbar from './components/Navbar/Navbar';
 import AuthModal from './components/Auth/AuthModal';
+import PrivateRoute from './common/PrivateRoute';
+
 
 
 const App = () => (
   <Fragment>
     <Navbar />
     <Switch>
-        <Route path={"/edit/:spaceid"} component={SpaceEdit} />
-        <Route path={"/create"} exact component={SpaceCreate} />
-        <Route path={"/myspaces"} exact component={MySpaces} />
+        <PrivateRoute path={"/edit/:spaceid"} component={SpaceEdit} />
+        <PrivateRoute path={"/create"} exact component={SpaceCreate} />
+        <PrivateRoute path={"/myspaces"} exact component={MySpaces} />
         <Redirect to={"/"} />
     </Switch>
     <AuthModal />
