@@ -4,7 +4,6 @@ const DefaultState = {
     username: '',
     email: '',
     token: localStorage.getItem('token'),
-    id: 0,
     error: ''
 };
   
@@ -41,7 +40,6 @@ const AuthReducer = (state = DefaultState, action) => {
                 username: action.payload.username,
                 email: action.payload.email,
                 showAuthModal: false, 
-                id: action.payload.id
             }
 
         case "LOGIN_USER_ERROR":
@@ -60,7 +58,6 @@ const AuthReducer = (state = DefaultState, action) => {
                 username: '',
                 email: '',
                 token: '',
-                id: ''
             }
             
         default:

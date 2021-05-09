@@ -2,6 +2,7 @@ import axios from "axios"
 import { API_DOMAIN, AUTH_CONFIG, AUTH_JSON_CONFIG, AUTH_FORM_CONFIG } from "../variables"
 import store from '../store';
 import _ from 'lodash';
+import jwt_decode from "jwt-decode";
 
 export const createSpace = (id) => async dispatch => {
   return new Promise(async (resolve, reject) => {
@@ -116,7 +117,8 @@ export const loadSpace = id => async dispatch => {
 export const loadMySpaces = () => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
-      const res = await axios.get(`${API_DOMAIN}/spaces/?author=${store.getState().Auth.id}`, AUTH_JSON_CONFIG());
+      
+      const res = await axios.get(`${API_DOMAIN}/spaces/?author=${jwt_decode(store.getState().Auth.token).id}`, AUTH_JSON_CONFIG());
       console.log('res', res)
       dispatch({
         type: "SPACES_GET",
