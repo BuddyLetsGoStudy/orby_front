@@ -46,10 +46,15 @@ export const createSpace = (id) => async dispatch => {
         const { name, description, geo, date, positions, artobjects } = store.getState().Space.space
         let { avatar } = store.getState().Space.space;
         if (avatar[0] !== 'h') {
-          const bodyava = new FormData();
-          bodyava.append("upload", avatar)
+          const bodyava = new FormData();          
+          const res = await fetch(avatar)
+          const blob = await res.blob()
+
+          const file = new File([blob], "File",{ type: "image/png" })
+          bodyava.append("upload", file)
           const avatarRes = await axios.post(`${API_DOMAIN}/spacesavatars/`, bodyava, AUTH_FORM_CONFIG());
           avatar = avatarRes.data.upload
+          
         }
 
         const body = {

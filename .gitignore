@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-variables.js
+/src/variables.js
 # production
 /build
 
