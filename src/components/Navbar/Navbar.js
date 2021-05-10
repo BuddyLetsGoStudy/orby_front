@@ -38,7 +38,7 @@ const Navbar = () => {
                             </Link>
                         </div>
                         <div className={'navbar-ul-li'}>
-                            <Link to="/edit/profile" className={'navbar-ul-li-text navbar-ul-li-avatar'} style={{backgroundImage: `url('${API_DOMAIN}${authState.avatar}')`}} />
+                            <Link to="/edit/profile" className={'navbar-ul-li-text navbar-ul-li-avatar'} style={authState.avatar ? {backgroundImage: `url('${authState.avatar}')`} : {}} />
                         </div>
                         </>
                         :
