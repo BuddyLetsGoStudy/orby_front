@@ -4,7 +4,8 @@ const DefaultState = {
     username: '',
     email: '',
     token: localStorage.getItem('token'),
-    error: ''
+    error: '',
+    avatar: '',
 };
   
 const AuthReducer = (state = DefaultState, action) => {
@@ -39,6 +40,7 @@ const AuthReducer = (state = DefaultState, action) => {
                 token: action.payload.token,
                 username: action.payload.username,
                 email: action.payload.email,
+                avatar: action.payload.avatar,
                 showAuthModal: false, 
             }
 
@@ -58,6 +60,7 @@ const AuthReducer = (state = DefaultState, action) => {
                 username: '',
                 email: '',
                 token: '',
+                avatar: ''
             }
             
         default:

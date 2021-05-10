@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { ShowAuthModal, LoadUser } from "../../actions/AuthActions";
 import { Link } from 'react-router-dom';
+import { API_DOMAIN } from "../../variables"
 import './styles.css'
 
 const Navbar = () => {
@@ -37,9 +38,7 @@ const Navbar = () => {
                             </Link>
                         </div>
                         <div className={'navbar-ul-li'}>
-                            <div className={'navbar-ul-li-text'} onClick={() => dispatch({ type: 'LOGOUT_USER' })}>
-                                {authState.username}
-                            </div>
+                            <Link to="/edit/profile" className={'navbar-ul-li-text navbar-ul-li-avatar'} style={{backgroundImage: `url('${API_DOMAIN}${authState.avatar}')`}} />
                         </div>
                         </>
                         :

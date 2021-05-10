@@ -63,6 +63,10 @@ export const LoadUser = () => async dispatch => {
             type: "USER_LOADED",
             payload: res.data,
         })
+        dispatch({
+            type: "PROFILE_LOADED",
+            payload: res.data,
+        })
     } catch (e) {
         console.log(e)
         dispatch({

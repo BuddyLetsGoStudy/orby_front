@@ -93,3 +93,11 @@
     height: 27.74px;
     margin-right: 7.45px;
   }
+  
+.navbar-ul-li-avatar{
+  background: #F4F6FD;
+  width: 46px;
+  height: 46px;
+  border-radius: 50px;
+  background-size: cover;
+}
