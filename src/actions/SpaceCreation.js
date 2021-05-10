@@ -1,5 +1,5 @@
 import axios from "axios"
-import { API_DOMAIN, AUTH_CONFIG, AUTH_JSON_CONFIG, AUTH_FORM_CONFIG } from "../variables"
+import { API_DOMAIN, AUTH_CONFIG, AUTH_JSON_CONFIG, AUTH_FORM_CONFIG, GUEST_CONFIG } from "../variables"
 import store from '../store';
 import _ from 'lodash';
 import jwt_decode from "jwt-decode";
@@ -126,7 +126,7 @@ export const loadMySpaces = () => async dispatch => {
       const res = await axios.get(`${API_DOMAIN}/spaces/?author=${jwt_decode(store.getState().Auth.token).id}`, AUTH_JSON_CONFIG());
       console.log('res', res)
       dispatch({
-        type: "SPACES_GET",
+        type: "MYSPACES_GET",
         payload: res.data,
       })
       resolve(res.data)
@@ -152,8 +152,24 @@ export const publishMySpaces = (id, published = true) => async dispatch => {
       updSpaces.find(space => space.id === updID).published = res.data.published;
       console.log(updSpaces.find(space => space.id === updID).published, 'udated field')
       dispatch({
-        type: "SPACES_GET",
+        type: "MYSPACES_GET",
         payload: updSpaces,
+      })
+      resolve(res.data)
+    } catch (e) {
+      reject()
+    }
+  })
+};
+
+export const loadAllSpaces = () => async dispatch => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios.get(`${API_DOMAIN}/spaces/`, GUEST_CONFIG);
+      console.log('res', res)
+      dispatch({
+        type: "ALLSPACES_GET",
+        payload: _.filter(res.data, {published: true}),
       })
       resolve(res.data)
     } catch (e) {

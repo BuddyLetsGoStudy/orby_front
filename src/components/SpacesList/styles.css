@@ -1,0 +1,75 @@
+.spaceslist{
+    width: 1180px;
+    margin: auto;
+}
+.spaceslist-cont{
+    margin-top: 35px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: -18px;
+}
+
+.spaceslist-block{
+    width: 299px;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    padding-left: 18px;
+}
+
+.spaceslist-block-card{
+    height: 194px;
+    background: grey;
+    box-shadow: 0px 32px 60px rgba(84, 95, 122, 0.08);
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    display: block;
+}
+
+.spaceslist-block-card-avatar{
+    position: absolute;
+    filter: drop-shadow(0px 0px 11px rgba(0, 0, 0, 0.11));
+    top: 10px;
+    left: 10px;
+    width: 46px;
+    height: 46px;
+    background-color: white;
+    border-radius: 50px;
+    background-size: cover;
+}
+
+.spaceslist-block-card-bottom{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 58px;
+    border-bottom-left-radius: 19px;
+    border-bottom-right-radius: 19px;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 10px;
+    background-image: url('../MySpaces/assets/img/arrow.svg');
+    background-size: 7px 12px;
+    background-repeat: no-repeat;
+    background-position: top 20px right 10px;
+}
+
+.spaceslist-block-card-title{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #3F414E;
+}
+
+.spaceslist-block-card-geo{
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    color: #272727;
+}
+

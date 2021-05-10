@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Switch, Route, NavLink, Redirect } from "react-router-dom";
+import SpacesList from './components/SpacesList/SpacesList';
 import SpaceCreate from './components/SpaceCreate/SpaceCreate';
 import SpaceEdit from './components/SpaceEdit/SpaceEdit';
 import MySpaces from './components/MySpaces/MySpaces';
@@ -14,6 +15,7 @@ const App = () => (
   <Fragment>
     <Navbar />
     <Switch>
+        <Route path={"/"} exact component={SpacesList}/>
         <PrivateRoute path={"/edit/:spaceid"} component={SpaceEdit} />
         <PrivateRoute path={"/create"} exact component={SpaceCreate} />
         <PrivateRoute path={"/myspaces"} exact component={MySpaces} />

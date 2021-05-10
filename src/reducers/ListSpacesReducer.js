@@ -2,9 +2,9 @@ const DefaultState = {
     spaces: []
 }
 
-const ProfileReducer = (state = DefaultState, action) => {
+const ListSpacesReducer = (state = DefaultState, action) => {
     switch (action.type) {
-        case "MYSPACES_GET":
+        case "ALLSPACES_GET":
             return {
                 ...state,
                 spaces: action.payload
@@ -14,4 +14,4 @@ const ProfileReducer = (state = DefaultState, action) => {
     }
 }
 
-export default ProfileReducer
+export default ListSpacesReducer
