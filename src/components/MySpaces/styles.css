@@ -1,3 +1,17 @@
+.myspaces:after{
+    opacity: 0;
+    content: url('../SpaceEdit/assets/img/switch-on.svg') ;
+    width: 0;
+    height: 0;
+}  
+
+.myspaces::before{
+    opacity: 0;
+    content: url('../SpaceEdit/assets/img/switch-off.svg') ;
+    width: 0;
+    height: 0;
+}  
+
 .myspaces{
     width: 1126px;
     margin: auto;
