@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import { ArtobjectUploadAndUpdate, deleteArtobject } from '../../../../../actions/Artobjects'
 import './styles.css'
-
+import imageCompression from 'browser-image-compression';
 class AddArtobject extends Component {
     state = {
         file: '',
@@ -19,7 +19,8 @@ class AddArtobject extends Component {
         artobject: {},
         create: true,
         submit: false, 
-        error: false
+        error: false,
+        compressing: false
     }
 
     imageToBase64 = (url, callback) => {
@@ -50,24 +51,26 @@ class AddArtobject extends Component {
         }
     }
 
-    imageChange = e => {
+    imageChange = async e => {
         e.preventDefault();
-
+        this.setState({compressing: true})
         let reader = new FileReader();
-        let file = e.target.files[0];
-        
+        let file = await imageCompression(e.target.files[0], { maxSizeMB: 9, maxWidthOrHeight: 1024 })
+        this.setState({compressing: false})
+
         reader.onloadend = () => {
             const image = new Image();
             image.src = reader.result;
             console.log(image.src, file);
           
-            image.onload = e => {
+            image.onload = async e => {
                 const { height, width } = e.srcElement;
                 console.log(height, width);
 
                 const proportionOne = height / width;
                 const proportionTwo = width / height;
                 console.log(proportionOne, proportionTwo)
+
                 this.setState({
                     file: file,
                     upload: reader.result,
@@ -147,7 +150,7 @@ class AddArtobject extends Component {
 
     render() {
         const { onClose, positionID } = this.props;
-        const { name, description, artist, width, height, upload, date, create, submit, error } = this.state;
+        const { name, description, artist, width, height, upload, date, create, submit, error, compressing } = this.state;
         return (
             <div className={'create-popup background-transparent'}>
                 <div className={'create-popup-cont'}>
@@ -158,7 +161,7 @@ class AddArtobject extends Component {
                     <div className={'create-popup-body-add'}>
                         <div className={`create-popup-add-file ${submit && !upload ? 'input-error' : ''}`} style={{backgroundImage: upload ? `url('${upload}')` : ''}}>
                             {
-                                !upload &&
+                                !upload && !compressing &&
                                 <div className={'create-popup-add-file-text'}>
                                     Drag & drop your artwork here
                                     <div>
@@ -166,6 +169,7 @@ class AddArtobject extends Component {
                                     </div>
                                 </div>
                             }
+                            <div className={'create-popup-add-file-loader'} style={{opacity: compressing ? 1 : 0}}/>
                             <input type="file" className={'create-popup-add-file-input'} onChange={this.imageChange} name="upload" accept="image/*, .glb"></input>
                         </div>
                         <div className={'create-popup-add-inputs'}>

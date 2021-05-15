@@ -164,6 +164,33 @@
     margin-top: 0!important;
     margin-bottom: 10px!important;
 }
+.create-popup-add-file-loader{
+    background-size: cover;
+    /* background-image: url('./assets/img/loader.svg'); */
+    background-image: url('./assets/img/fuck.gif');
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    /* animation: .5s cubic-bezier(.45,.05,.55,.95) 1s infinite alternate artobjectLoading */
+}
+
+@keyframes artobjectLoading {
+    from {
+        width: 50px;
+        height: 50px;
+        top: calc(50% - 25px);
+        left: calc(50% - 25px);
+    }
+  
+    to {
+        width: 30px;
+        height: 30px;
+        top: calc(50% - 15px);
+        left: calc(50% - 15px);
+    }
+  }
 
 @media screen and (max-height: 900px){
     .create-popup-header{

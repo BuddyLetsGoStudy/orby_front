@@ -3,6 +3,7 @@ import { API_DOMAIN, AUTH_CONFIG, AUTH_JSON_CONFIG, AUTH_FORM_CONFIG, GUEST_CONF
 import store from '../store';
 import _ from 'lodash';
 import jwt_decode from "jwt-decode";
+import imageCompression from 'browser-image-compression';
 
 export const createSpace = (id) => async dispatch => {
   return new Promise(async (resolve, reject) => {
@@ -14,19 +15,14 @@ export const createSpace = (id) => async dispatch => {
       if (!store.getState().Space.edit) {
         const { name, description, geo, date, avatarRaw, positions, artobjects } = store.getState().Space.space
         console.log(artobjects, artobjects.map(el => (parseInt(el.id, 10))))
+        let avatarURL = API_DOMAIN + '/media/avatars/spacedefault.png';
         if (avatarRaw) {
           const bodyava = new FormData();
-          bodyava.append("upload", avatarRaw)
+
+          const compressedAvatar = await imageCompression(avatarRaw, { maxSizeMB: 9, maxWidthOrHeight: 150 })
+          bodyava.append("upload", compressedAvatar)
           const avatarRes = await axios.post(`${API_DOMAIN}/spacesavatars/`, bodyava, AUTH_FORM_CONFIG());
-          const body = {
-            name,
-            description,
-            artobjects: artobjects.map(el => (parseInt(el.id, 10))),
-            geo: `${geo[0]},${geo[1]}`,
-            date,
-            options: JSON.stringify({positions: positions}),
-            avatar: avatarRes.data.upload
-          }
+          avatarURL = avatarRes.data.upload;
         }
 
         const body = {
@@ -36,7 +32,7 @@ export const createSpace = (id) => async dispatch => {
           geo: `${geo[0]},${geo[1]}`,
           date,
           options: JSON.stringify({positions: positions}),
-          avatar: API_DOMAIN + '/media/avatars/spacedefault.png'
+          avatar: avatarURL
         }
       
        
@@ -64,10 +60,10 @@ export const createSpace = (id) => async dispatch => {
           const blob = await res.blob()
 
           const file = new File([blob], "File",{ type: "image/png" })
-          bodyava.append("upload", file)
+          const compressedAvatar = await imageCompression(file, { maxSizeMB: 9, maxWidthOrHeight: 150 })
+          bodyava.append("upload", compressedAvatar)
           const avatarRes = await axios.post(`${API_DOMAIN}/spacesavatars/`, bodyava, AUTH_FORM_CONFIG());
           avatar = avatarRes.data.upload
-          
         }
 
         const body = {
