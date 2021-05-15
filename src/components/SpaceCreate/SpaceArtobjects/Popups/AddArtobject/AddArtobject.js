@@ -55,7 +55,7 @@ class AddArtobject extends Component {
         e.preventDefault();
         this.setState({compressing: true})
         let reader = new FileReader();
-        let file = await imageCompression(e.target.files[0], { maxSizeMB: 9, maxWidthOrHeight: 1024 })
+        let file = await imageCompression(e.target.files[0], { maxSizeMB: 9})
         this.setState({compressing: false})
 
         reader.onloadend = () => {
