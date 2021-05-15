@@ -166,14 +166,15 @@
 }
 .create-popup-add-file-loader{
     background-size: cover;
-    /* background-image: url('./assets/img/loader.svg'); */
-    background-image: url('./assets/img/fuck.gif');
+    background-image: url('./assets/img/loader.svg');
+    /* background-image: url('./assets/img/fuck.gif'); */
     width: 50px;
     height: 50px;
     position: absolute;
     top: calc(50% - 25px);
+    transition: .2s;
     left: calc(50% - 25px);
-    /* animation: .5s cubic-bezier(.45,.05,.55,.95) 1s infinite alternate artobjectLoading */
+    animation: .5s cubic-bezier(.45,.05,.55,.95) 1s infinite alternate artobjectLoading
 }
 
 @keyframes artobjectLoading {
