@@ -11,10 +11,10 @@ export const ArtobjectUploadAndUpdate = (artobject, id) => async dispatch => {
             });
     
             const res = id ? await axios.patch(`${API_DOMAIN}/artobjects/${id}/`, artobject, AUTH_CONFIG()) : await axios.post(`${API_DOMAIN}/artobjects/`, artobject, AUTH_CONFIG()) 
-            id && dispatch({
-                type: "UPDATE_SPACE",
-                payload: {field: "artobjects", value: _.remove(store.getState().Space.artobjects, {id})},
-            })
+            // id && dispatch({
+            //     type: "UPDATE_SPACE",
+            //     payload: {field: "artobjects", value: _.remove(store.getState().Space.artobjects, {id})},
+            // })
             dispatch({
                 type: "ARTOBJECT_UPLOAD_SUCCESS",
                 payload: res.data,

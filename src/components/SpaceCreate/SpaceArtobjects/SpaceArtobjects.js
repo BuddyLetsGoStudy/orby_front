@@ -38,10 +38,14 @@ class SpaceArtobjects extends Component {
 
     artobjectAdded = (positionID, artobject) => {
         const { id, upload } = artobject;
-        console.log(this.props.space.artobjects, id);
+        const { artobjects } = this.props.space;
+        console.log(artobjects, id);
         this.displayArtobject(positionID, upload)
 
-        this.props.dispatch({type: 'UPDATE_SPACE', payload: {field: 'artobjects', value: [...this.props.space.artobjects, artobject]}})
+        const findIndex = artobjects.findIndex(a => a.id === id)
+        findIndex !== -1 && artobjects.splice(findIndex , 1)
+        this.props.dispatch({type: 'UPDATE_SPACE', payload: {field: 'artobjects', value: [...artobjects, artobject]}})
+
         console.log([...this.props.space.artobjects, artobject])
         let newPositions = this.props.space.positions
         newPositions[positionID - 1] = id
