@@ -45,10 +45,28 @@
     font-size: 17px;
     line-height: 24px;
     outline: none;
+    transition: .2s;
 }
 
 .auth-modal-input::placeholder{
     color: #B5B5B5;
+}
+
+.auth-modal-error-msg{
+    transition: .2s;
+    height: 0;
+    opacity: 0;
+    color: #FF9F9F;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+}
+
+.auth-modal-error-msg-visible{
+    height: 19px;
+    opacity: 1;
+    margin-bottom: -10px;
+    margin-top: 10px;
 }
 
 .auth-modal-confirm{
@@ -122,6 +140,6 @@
 }
 
 .auth-modal-input-pswd-eye-open{
-    background-image: url('./assets/img/eye.svg');
-    
+    background-image: url('./assets/img/eye.svg');   
 }
+

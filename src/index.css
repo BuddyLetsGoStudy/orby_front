@@ -5,6 +5,7 @@
   font-family: 'Inter', sans-serif;
 }
 
+
 body{
   background-color: #F5F7FE;
 }
@@ -21,6 +22,18 @@ body{
   cursor: not-allowed!important;
   opacity: 0.1!important;
 }
+.input-error{
+  border-color: #FF9F9F!important;
+}
+.input-error::placeholder{
+  color: #FF9F9F!important;
+}
+
+.button-disabled{
+  background: linear-gradient(90deg, #EBEBEB 0%, #BBBBBB 100%)!important;
+  cursor: default!important;
+}
+
 /* =================== NAVBAR ===================*/
 
 
@@ -28,6 +41,7 @@ body{
   max-width: 1180px;
   margin: auto;
 }
+
 
 
 

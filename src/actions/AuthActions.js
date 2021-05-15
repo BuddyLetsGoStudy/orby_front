@@ -18,6 +18,10 @@ export const LoginUser = (email, password) => async dispatch => {
             type: "LOGIN_USER_SUCCESS",
             payload: res.data,
         })
+        dispatch({
+            type: "PROFILE_LOADED",
+            payload: res.data,
+        })
     } catch (e) {
         console.log(e)
       dispatch({
@@ -38,15 +42,21 @@ export const RegUser = (email, username, password) => async dispatch => {
         const res = await axios.post(`${API_DOMAIN}/api/users/`, body, GUEST_CONFIG)
         console.log(res.data)
         dispatch({
+            type: "PROFILE_LOADED",
+            payload: res.data,
+        })
+        dispatch({
             type: "REG_USER_SUCCESS",
             payload: res.data,
         })
 
     } catch (e) {
-        console.log(e)
+        console.log('shit')
+
+        console.log(e.response.data, 'fuckckk')
       dispatch({
         type: "REG_USER_ERROR",
-        payload: e
+        payload: e.response.data
       })
     }
   };

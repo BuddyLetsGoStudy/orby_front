@@ -19,6 +19,7 @@ const AuthReducer = (state = DefaultState, action) => {
         case "CLOSE_AUTHMODAL":
             return {
                 ...state,
+                error: false,
                 showAuthModal: false
             };
 
@@ -41,6 +42,7 @@ const AuthReducer = (state = DefaultState, action) => {
                 username: action.payload.username,
                 email: action.payload.email,
                 avatar: action.payload.avatar,
+                error: false,
                 showAuthModal: false, 
             }
 
@@ -60,7 +62,8 @@ const AuthReducer = (state = DefaultState, action) => {
                 username: '',
                 email: '',
                 token: '',
-                avatar: ''
+                avatar: '',
+                error: false,
             }
             
         default:

@@ -17,7 +17,9 @@ class AddArtobject extends Component {
         proportionOne: '',
         proportionTwo: '',
         artobject: {},
-        create: true
+        create: true,
+        submit: false, 
+        error: false
     }
 
     imageToBase64 = (url, callback) => {
@@ -78,27 +80,32 @@ class AddArtobject extends Component {
     }
 
     submitArtobject = () => {
+        this.setState({submit: true})
         const { name, file, description, artist, date, width, height, create, artobjectID, upload } = this.state;
-        const options = { width, height, artist, date };
+        if (name && upload && artist && date && width && height) {
+            const options = { width, height, artist, date };
 
-        const formData = new FormData();
-
-        formData.append("name", name)
-        formData.append("description", description)
-        file && formData.append("upload", file)
-        formData.append("category", 1)
-        formData.append("options", JSON.stringify(options))
-        for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
+            const formData = new FormData();
+    
+            formData.append("name", name)
+            formData.append("description", description)
+            file && formData.append("upload", file)
+            formData.append("category", 1)
+            formData.append("options", JSON.stringify(options))
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+    
+            this.props.ArtobjectUploadAndUpdate(formData, create ? false : artobjectID)
+                .then(artobject => {
+                    console.log(artobject, 'che blyat')
+                    this.props.onCreated(this.props.positionID, artobject)
+                    this.props.onClose()
+                })
+                .catch(e => console.log('я ненавижу женщин', e))
+        } else {
+            this.setState({error: true})
         }
-
-        this.props.ArtobjectUploadAndUpdate(formData, create ? false : artobjectID)
-            .then(artobject => {
-                console.log(artobject, 'che blyat')
-                this.props.onCreated(this.props.positionID, artobject)
-                this.props.onClose()
-            })
-            .catch(e => console.log('я ненавижу женщин', e))
     }
     // submitArtobject = () => {
     //     const { name, file, description, artist, date, width, height, create, artobjectID, upload } = this.state;
@@ -140,7 +147,7 @@ class AddArtobject extends Component {
 
     render() {
         const { onClose, positionID } = this.props;
-        const { name, description, artist, width, height, upload, date, create } = this.state;
+        const { name, description, artist, width, height, upload, date, create, submit, error } = this.state;
         return (
             <div className={'create-popup background-transparent'}>
                 <div className={'create-popup-cont'}>
@@ -149,7 +156,7 @@ class AddArtobject extends Component {
                         <div className={'create-popup-header-close'} onClick={onClose}></div>
                     </div>
                     <div className={'create-popup-body-add'}>
-                        <div className={'create-popup-add-file'} style={{backgroundImage: upload ? `url('${upload}')` : ''}}>
+                        <div className={`create-popup-add-file ${submit && !upload ? 'input-error' : ''}`} style={{backgroundImage: upload ? `url('${upload}')` : ''}}>
                             {
                                 !upload &&
                                 <div className={'create-popup-add-file-text'}>
@@ -164,27 +171,28 @@ class AddArtobject extends Component {
                         <div className={'create-popup-add-inputs'}>
                             <div className={'create-popup-add-input-cont'}>
                                 <div className={'create-popup-add-input-text'}>Artwork name</div>
-                                <input type="text" className={'create-popup-add-input'} placeholder={'Type artwork name'} name={'name'} onChange={this.updState} value={name}></input>
+                                <input type="text" className={`create-popup-add-input ${submit && !name ? 'input-error' : ''}`} placeholder={'Type artwork name'} name={'name'} onChange={this.updState} value={name}></input>
                             </div>
                             <div className={'create-popup-add-input-cont'}>
                                 <div className={'create-popup-add-input-text'}>Artist</div>
-                                <input type="text" className={'create-popup-add-input'} placeholder={'Type Artist name'} name={'artist'} onChange={this.updState} value={artist}></input>
+                                <input type="text" className={`create-popup-add-input ${submit && !artist ? 'input-error' : ''}`} placeholder={'Type Artist name'} name={'artist'} onChange={this.updState} value={artist}></input>
                             </div>
                             <div className={'create-popup-add-input-cont '}>
                                 <div className={'create-popup-add-input-text'}>Size</div>
                                 <div className={'create-popup-add-input-short-cont'}>
-                                    <input type="text" className={'create-popup-add-input create-popup-add-input-short'} placeholder={'Width (cm)'} name={'width'} onChange={this.updState} value={width}></input>
-                                    <div className={'create-popup-add-input-short-separator'}>X</div>
-                                    <input type="text" className={'create-popup-add-input create-popup-add-input-short'} placeholder={'Height (cm)'} name={'height'} onChange={this.updState} value={height}></input>
+                                    <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !width ? 'input-error' : ''}`} placeholder={'Width (cm)'} name={'width'} onChange={this.updState} value={width}></input>
+                                    {/* <div className={'create-popup-add-input-short-separator'}>X</div> */}
+                                    <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !height ? 'input-error' : ''}`} placeholder={'Height (cm)'} name={'height'} onChange={this.updState} value={height}></input>
                                 </div>
                             </div>
                             <div className={'create-popup-add-input-cont'}>
                                 <div className={'create-popup-add-input-text'}>Date of creation</div>
-                                <input type="text" className={'create-popup-add-input'} placeholder={'Type when work was created'} name={'date'} onChange={this.updState} value={date}></input>
+                                <input type="text" className={`create-popup-add-input ${submit && !date ? 'input-error' : ''}`} placeholder={'Type when work was created'} name={'date'} onChange={this.updState} value={date}></input>
                             </div>
                             <textarea className={'create-popup-add-textarea'} placeholder='Add artwork description&#10;Tell a little story about this work' name={'description'} onChange={this.updState} value={description}></textarea>
                         </div>
                     </div>
+                    <div className={`auth-modal-error-msg ${error ? 'auth-modal-error-msg-visible create-popup-error-msg' : ''}`}>You must upload a picture (jpg or png), and fill all fields to continue</div>
                     <div className={'create-popup-btn-cont'}>
                         {!create && <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.deleteArtobject}>Delete artwork</div>}
                         <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.submitArtobject}>OK</div>

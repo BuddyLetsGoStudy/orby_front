@@ -20,6 +20,13 @@ const MySpaces = () => {
         <div className={'myspaces'}>
             <div className={'myspaces-cont'}>
                 {
+                    !profileState.spaces[0] ?
+                        <div className={'myspaces-none'}>
+                            <div className={'myspaces-none-title'}>You don’t have any spaces yet. It’s time to create some! 🙂</div>
+                            <Link to={'/create'} className={'myspaces-none-plus'}/>
+                            <div className={'myspaces-none-text'}>Click here to Create a new space</div>
+                        </div>
+                    :
                     profileState.spaces.map(space => (
                         <div className={'myspaces-block'}>
                             <Link to={`/edit/${space.id}`} className={'myspaces-block-card'} style={{backgroundImage: `url('${space.artobjects[0] && space.artobjects[0].upload}')`}}>

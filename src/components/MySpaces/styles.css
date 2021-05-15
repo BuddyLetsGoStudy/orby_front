@@ -114,3 +114,43 @@
     align-items: center;
 }
 
+.myspaces-none{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.myspaces-none-title{
+    color: #8F8F8F;
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 25px;
+    width: 205px;
+}
+
+.myspaces-none-plus{
+    width: 103.51px;
+    height: 103.51px;
+    background-color: #D9E0F8;
+    border-radius: 100%;
+    background-size: 43px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('./assets/img/plus.svg');
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.myspaces-none-plus:hover{
+    background-color: #A9B7E0;
+}
+
+.myspaces-none-text{
+    font-size: 12px;
+    line-height: 17px;
+    text-align: center;
+    color: #A4AED0;
+    width: 113px;
+}

@@ -14,10 +14,21 @@ export const createSpace = (id) => async dispatch => {
       if (!store.getState().Space.edit) {
         const { name, description, geo, date, avatarRaw, positions, artobjects } = store.getState().Space.space
         console.log(artobjects, artobjects.map(el => (parseInt(el.id, 10))))
-        const bodyava = new FormData();
-        bodyava.append("upload", avatarRaw)
-        const avatarRes = await axios.post(`${API_DOMAIN}/spacesavatars/`, bodyava, AUTH_FORM_CONFIG());
-  
+        if (avatarRaw) {
+          const bodyava = new FormData();
+          bodyava.append("upload", avatarRaw)
+          const avatarRes = await axios.post(`${API_DOMAIN}/spacesavatars/`, bodyava, AUTH_FORM_CONFIG());
+          const body = {
+            name,
+            description,
+            artobjects: artobjects.map(el => (parseInt(el.id, 10))),
+            geo: `${geo[0]},${geo[1]}`,
+            date,
+            options: JSON.stringify({positions: positions}),
+            avatar: avatarRes.data.upload
+          }
+        }
+
         const body = {
           name,
           description,
@@ -25,8 +36,10 @@ export const createSpace = (id) => async dispatch => {
           geo: `${geo[0]},${geo[1]}`,
           date,
           options: JSON.stringify({positions: positions}),
-          avatar: avatarRes.data.upload
+          avatar: API_DOMAIN + '/media/avatars/spacedefault.png'
         }
+      
+       
         // body.append("name", name)
         // body.append("description", description)
         // body.append("avatar", avatarRaw)

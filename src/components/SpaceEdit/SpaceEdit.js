@@ -36,14 +36,19 @@ class SpaceEdit extends Component {
 
     manageUI = () => {
         const { positions, artobjects } = this.state.space;
-        console.log(positions,'fdgfhj')
-        positions.forEach((id, i) => {
-            if(id !== 0){
-                const artobject = _.find(artobjects, {id});
-                document.getElementById(i + 1).style.backgroundImage = `url('${artobject.upload}')`
-                document.getElementById(i + 1).classList.add('edit-card-row-wall-artobject-full')
-            }
-        })
+        if (_.isEmpty(artobjects)) {
+            this.props.deleteSpace(this.props.match.params.spaceid)
+            .then(() => this.setState({deleted: true})) // ГАВНО
+        } else {
+            console.log(positions,'fdgfhj')
+            positions.forEach((id, i) => {
+                if(id !== 0){
+                    const artobject = _.find(artobjects, {id});
+                    document.getElementById(i + 1).style.backgroundImage = `url('${artobject.upload}')`
+                    document.getElementById(i + 1).classList.add('edit-card-row-wall-artobject-full')
+                }
+            })
+        }
     }
 
     editStart = type => {

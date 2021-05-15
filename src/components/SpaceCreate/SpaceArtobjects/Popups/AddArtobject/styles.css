@@ -125,7 +125,8 @@
 }
 
 .create-popup-add-input-short{
-    width: 101px;
+    width: 130px;
+    margin-right: 20px;
 }
 
 .create-popup-add-input-short-cont{
@@ -157,6 +158,11 @@
 }
 .create-popup-btn-cont > :nth-child(2){
     margin-left: 25px;
+}
+
+.create-popup-error-msg{
+    margin-top: 0!important;
+    margin-bottom: 10px!important;
 }
 
 @media screen and (max-height: 900px){

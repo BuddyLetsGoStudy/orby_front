@@ -20,7 +20,7 @@ const AuthModal = () => {
     const submitLoginForm = () => {
         const email = document.getElementsByName('email')[0].value
         const password = document.getElementsByName('password')[0].value
-        dispatch(LoginUser(email, password))
+        email && password && dispatch(LoginUser(email, password))
     }
 
     const submitRegForm = () => {
@@ -28,7 +28,7 @@ const AuthModal = () => {
         const password = document.getElementsByName('password')[0].value
         const username = document.getElementsByName('login')[0].value
         console.log(email,password,username)
-        dispatch(RegUser(email, username, password))
+        email && username && password && dispatch(RegUser(email, username, password))
     }
 
     if (authState.showAuthModal) {
@@ -39,9 +39,10 @@ const AuthModal = () => {
                         modalType === 'login' ?
                             <>
                             <div className={'auth-modal-title-reg'}>Log in</div>
-                            <input type='email' className={'auth-modal-input'} name={'email'} placeholder="E-mail address"/>
+                            <div className={`auth-modal-error-msg ${authState.error ? 'auth-modal-error-msg-visible' : ''}`}>Incorrect username, or wrong password</div>
+                            <input type='email' className={`auth-modal-input ${authState.error ? 'input-error' : ''}`} name={'email'} placeholder="E-mail address"/>
                             <div className={'auth-modal-input-pswd-cont'}>
-                                <input type={showPswd ? 'text' : 'password'} className={'auth-modal-input'} name={'password'} placeholder="Password"/>
+                                <input type={showPswd ? 'text' : 'password'} className={`auth-modal-input ${authState.error ? 'input-error' : ''}`} name={'password'} placeholder="Password"/>
                                 <div className={`auth-modal-input-pswd-eye ${showPswd ? 'auth-modal-input-pswd-eye-open' : ''}`} onClick={togglePassword}/>
                             </div>
                             <div className={'auth-modal-confirm'} onClick={submitLoginForm}>Log In</div>
@@ -53,10 +54,13 @@ const AuthModal = () => {
                         :
                             <>
                             <div className={'auth-modal-title-reg'}>Create new account</div>
-                            <input type='email' className={'auth-modal-input'} name={'email'} placeholder="E-mail address"/>
-                            <input type='text' className={'auth-modal-input'} name={'login'} placeholder="Name or nickname"/>
+                            <div className={`auth-modal-error-msg ${authState.error.email ? 'auth-modal-error-msg-visible' : ''}`}>{authState.error.email ? authState.error.email : ''}</div>
+                            <input type='email' className={`auth-modal-input ${authState.error.email ? 'input-error' : ''}`} name={'email'} placeholder="E-mail address"/>
+                            <div className={`auth-modal-error-msg ${authState.error.username ? 'auth-modal-error-msg-visible' : ''}`}>{authState.error.username ? authState.error.username : ''}</div>
+                            <input type='text' className={`auth-modal-input ${authState.error.username ? 'input-error' : ''}`} name={'login'} placeholder="Name or nickname"/>
+                            <div className={`auth-modal-error-msg ${authState.error.password ? 'auth-modal-error-msg-visible' : ''}`}>{authState.error.password ? authState.error.password : ''}</div>
                             <div className={'auth-modal-input-pswd-cont'}>
-                                <input type={showPswd ? 'text' : 'password'} className={'auth-modal-input'} name={'password'} placeholder="Password"/>
+                                <input type={showPswd ? 'text' : 'password'} className={`auth-modal-input ${authState.error.password ? 'input-error' : ''}`} name={'password'} placeholder="Password"/>
                                 <div className={`auth-modal-input-pswd-eye ${showPswd ? 'auth-modal-input-pswd-eye-open' : ''}`} onClick={togglePassword}/>
                             </div>
                             <div className={'auth-modal-confirm auth-modal-confirm-reg'} onClick={submitRegForm}>Lets get started</div>
