@@ -18,13 +18,13 @@ const SpacesList = () => {
                 {
                     listSpacesState.spaces.map(space => (
                         <div className={'spaceslist-block'}>
-                            <Link to={`https://view.orby.space/${space.id}`} className={'spaceslist-block-card'} style={{backgroundImage: `url('${space.artobjects[0] && space.artobjects[0].upload}')`}}>
+                            <a href={`https://view.orby.space/${space.id}`} className={'spaceslist-block-card'} style={{backgroundImage: `url('${space.artobjects[0] && space.artobjects[0].upload}')`}}>
                                 <div className={'spaceslist-block-card-avatar'} style={{backgroundImage: `url('${space.avatar}')`}}/>
                                 <div className={'spaceslist-block-card-bottom'}>
                                     <div className={'spaceslist-block-card-title'}>{space.name}</div>
                                     <div className={'spaceslist-block-card-geo'}>Moscow, Russia</div>
                                 </div>
-                            </Link>
+                            </a>
                         </div>
                     ))
                 }
