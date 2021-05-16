@@ -88,7 +88,7 @@ class AddArtobject extends Component {
     changeSize = e => {
         const { proportionOne, proportionTwo } = this.state;
        
-        if (e.target.value === ''){
+        if (e.target.value === '' || (!proportionOne && !proportionTwo)){
             this.setState({ 
                 width: '',
                 height: ''
