@@ -95,6 +95,8 @@ class AddArtobject extends Component {
             }) 
             return null
         }
+
+        if (isNaN(e.target.value)) return null
       
         if (e.target.name === 'height') {
             const height = e.target.value;  
