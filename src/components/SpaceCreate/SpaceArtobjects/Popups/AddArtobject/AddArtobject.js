@@ -75,7 +75,9 @@ class AddArtobject extends Component {
                     file: file,
                     upload: reader.result,
                     proportionOne,
-                    proportionTwo
+                    proportionTwo,
+                    height: '',
+                    width: ''
                 })
             }
         }
