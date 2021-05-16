@@ -82,6 +82,38 @@ class AddArtobject extends Component {
         reader.readAsDataURL(file);
     }
 
+
+    changeSize = e => {
+        const { proportionOne, proportionTwo } = this.state;
+       
+        if (e.target.value === ''){
+            this.setState({ 
+                width: '',
+                height: ''
+            }) 
+            return null
+        }
+      
+        if (e.target.name === 'height') {
+            const height = e.target.value;  
+
+            this.setState({ 
+                width: Math.round(height * proportionTwo * 10) / 10,
+                height: Math.round(height * 10) / 10
+            })
+        } else {
+            const width = e.target.value;
+            console.log('changedSize', width * proportionOne);
+            // widthElem.value = width;
+            // heightElem.value = width * proportionOne
+            this.setState({ 
+                width: Math.round(width * 10) / 10,
+                height: Math.round(width * proportionOne * 10) / 10
+            })
+        }
+        
+    }
+
     submitArtobject = () => {
         this.setState({submit: true})
         const { name, file, description, artist, date, width, height, create, artobjectID, upload } = this.state;
@@ -184,9 +216,9 @@ class AddArtobject extends Component {
                             <div className={'create-popup-add-input-cont '}>
                                 <div className={'create-popup-add-input-text'}>Size</div>
                                 <div className={'create-popup-add-input-short-cont'}>
-                                    <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !width ? 'input-error' : ''}`} placeholder={'Width (cm)'} name={'width'} onChange={this.updState} value={width}></input>
+                                    <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !width ? 'input-error' : ''}`} placeholder={'Width (cm)'} name={'width'} onChange={this.changeSize} value={width} ref={ref => this.widthElem = ref}></input>
                                     {/* <div className={'create-popup-add-input-short-separator'}>X</div> */}
-                                    <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !height ? 'input-error' : ''}`} placeholder={'Height (cm)'} name={'height'} onChange={this.updState} value={height}></input>
+                                    <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !height ? 'input-error' : ''}`} placeholder={'Height (cm)'} name={'height'} onChange={this.changeSize} value={height} ref={ref => this.heightElem = ref}></input>
                                 </div>
                             </div>
                             <div className={'create-popup-add-input-cont'}>
