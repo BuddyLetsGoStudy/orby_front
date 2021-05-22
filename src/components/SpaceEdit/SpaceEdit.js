@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom"
 import _ from 'lodash'
 import './styles.css'
 import SpaceCreate from '../SpaceCreate/SpaceCreate'
+import ThreeDPreview from '../SpaceCreate/SpaceArtobjects/Popups/AddArtobject/ThreeDPreview/ThreeDPreview'
 
 
 class SpaceEdit extends Component {
@@ -64,7 +65,7 @@ class SpaceEdit extends Component {
 
     render() {
         const { space, edit, deleted } = this.state
-        const { published, geo, name, description, date, avatar } = space;
+        const { published, geo, name, description, date, avatar, artobjects, positions } = space;
         if (deleted) {
             return <Redirect to="/myspaces"/>
         }
@@ -98,13 +99,23 @@ class SpaceEdit extends Component {
                                         <div className="edit-card-row-wall-artobject" id='1'/>
                                         <div className="edit-card-row-wall-artobject" id='2'/>
                                         <div className="edit-card-row-wall-artobject" id='3'/>
-                                        <div className="edit-card-row-wall-artobject-3d" id='13'/>
+                                        <div className="edit-card-row-wall-artobject-3d" id='13'>
+                                            {
+                                                positions[12] !== 0 &&
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[12]}).upload} size={'micro'} animate={false}/>
+                                            }
+                                        </div>
                                     </div>
                                     <div className="edit-card-row-wall">
                                         <div className="edit-card-row-wall-artobject" id='4'/>
                                         <div className="edit-card-row-wall-artobject" id='5'/>
                                         <div className="edit-card-row-wall-artobject" id='6'/>
-                                        <div className="edit-card-row-wall-artobject-3d" id='14'/>
+                                        <div className="edit-card-row-wall-artobject-3d" id='14'>
+                                            {
+                                                positions[13] !== 0 &&
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[13]}).upload} size={'micro'} animate={false}/>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
 
@@ -112,13 +123,23 @@ class SpaceEdit extends Component {
 
                                 <div className="edit-card-row">
                                     <div className="edit-card-row-wall">
-                                        <div className="edit-card-row-wall-artobject-3d" id='16'/>
+                                        <div className="edit-card-row-wall-artobject-3d" id='16'>
+                                            {
+                                                positions[15] !== 0 &&
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[15]}).upload} size={'micro'} animate={false}/>
+                                            }
+                                        </div>
                                         <div className="edit-card-row-wall-artobject" id='10'/>
                                         <div className="edit-card-row-wall-artobject" id='11'/>
                                         <div className="edit-card-row-wall-artobject" id='12'/>
                                     </div>
                                     <div className="edit-card-row-wall">
-                                        <div className="edit-card-row-wall-artobject-3d" id='15'/>
+                                        <div className="edit-card-row-wall-artobject-3d" id='15'>
+                                            {
+                                                positions[14] !== 0 &&
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[14]}).upload} size={'micro'} animate={false}/>
+                                            }
+                                        </div>
                                         <div className="edit-card-row-wall-artobject" id='7'/>
                                         <div className="edit-card-row-wall-artobject" id='8'/>
                                         <div className="edit-card-row-wall-artobject" id='9'/>

@@ -6,7 +6,7 @@ const DefaultState = {
         geo: [0, 0],
         date: '',
         avatar: '',
-        positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         artobjects: [],
         avatarRaw: ''
     },

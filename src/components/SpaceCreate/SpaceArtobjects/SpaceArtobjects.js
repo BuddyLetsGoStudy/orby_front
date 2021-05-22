@@ -34,13 +34,13 @@ class SpaceArtobjects extends Component {
     hoverArtobject = e => this.setState({hoveredArtobject: parseInt(e.target.id, 10)})
     unhoverArtobject = () => this.setState({hoveredArtobject: 0})
 
-    addArtobject = e => this.setState({showAddArtobject: true, clickedPosition: e.target.id})
+    addArtobject = e => this.setState({showAddArtobject: true, clickedPosition: e.currentTarget.id})
 
     artobjectAdded = (positionID, artobject) => {
-        const { id, upload } = artobject;
+        const { id, upload, category } = artobject;
         const { artobjects } = this.props.space;
         console.log(artobjects, id);
-        this.displayArtobject(positionID, upload)
+        this.displayArtobject(positionID, upload, category == 2 && true)
 
         const findIndex = artobjects.findIndex(a => a.id === id)
         findIndex !== -1 && artobjects.splice(findIndex , 1)
@@ -54,12 +54,14 @@ class SpaceArtobjects extends Component {
 
     artobjectDeleted = positionID => this.displayArtobject(positionID)
 
-    displayArtobject = (id, url=false) => {
+    displayArtobject = (id, url=false, threeD=false) => {
         const artobjCont = document.getElementById(`${id}`)
         const artobjWallCont =  document.getElementById(`d${id}`)
-        artobjCont.style.backgroundImage = url ? `url('${url}')` : ``
-        artobjWallCont.style.backgroundImage = url ? `url('${url}')` : ``
+        artobjCont.style.backgroundImage = url ? `url('${threeD ? 'baka' : url}')` : ``
+        artobjWallCont.style.backgroundImage = url ? `url('${threeD ? 'baka' : url}')` : ``
         url ? artobjCont.classList.add('artobject-added') : artobjCont.classList.remove('artobject-added')
+
+       
     }
 
     onSubmit = () => _.isEmpty(this.props.space.artobjects) ? null : this.props.onSubmit()

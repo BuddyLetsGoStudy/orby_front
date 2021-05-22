@@ -5,6 +5,7 @@ import SpaceCreate from './components/SpaceCreate/SpaceCreate';
 import SpaceEdit from './components/SpaceEdit/SpaceEdit';
 import MySpaces from './components/MySpaces/MySpaces';
 import EditProfile from './components/EditProfile/EditProfile';
+import Space from './components/Space/Space';
 
 import Navbar from './components/Navbar/Navbar';
 import AuthModal from './components/Auth/AuthModal';
@@ -19,6 +20,7 @@ const App = () => (
         <Route path={"/"} exact component={SpacesList}/>
         <PrivateRoute path={"/edit/profile"} exact component={EditProfile} />
         <PrivateRoute path={"/edit/:spaceid"} component={SpaceEdit} />
+        <Route path={"/space/:spaceid"} component={Space} />
         <PrivateRoute path={"/create"} exact component={SpaceCreate} />
         <PrivateRoute path={"/myspaces"} exact component={MySpaces} />
 

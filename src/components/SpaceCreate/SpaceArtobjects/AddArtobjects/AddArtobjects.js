@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import _ from 'lodash'
+import ThreeDPreview from '../Popups/AddArtobject/ThreeDPreview/ThreeDPreview'
+
 import './styles.css'
 
-export default class AddArtobjects extends Component {
+class AddArtobjects extends Component {
     render() {
-        const { num, hoveredWall, hoveredArtobject, hoverWall, unhoverWall, hoverArtobject, unhoverArtobject, addArtobject } = this.props;
+        const { num, hoveredWall, hoveredArtobject, hoverWall, unhoverWall, hoverArtobject, unhoverArtobject, addArtobject, space } = this.props;
+        const { positions, artobjects } = space;
         return (
             <div className={'create-add-artobjects'}>
                 <div className={num > 2 ? 'create-add-artobjects-order' : ''}>
@@ -21,9 +26,21 @@ export default class AddArtobjects extends Component {
                 </div>
                 <div className={num > 2 ? 'create-add-artobjects-order-3d' : ''}>
                     <div className={'create-add-artobjects-title create-add-artobjects-title-3d'}>3D object {num}</div>
-                    <div className={'create-add-artobjects-add-3d'} id={12 + num} onMouseOver={hoverArtobject} onMouseOut={unhoverArtobject} onClick={addArtobject}></div>
+                    <div className={'create-add-artobjects-add-3d'} id={12 + num} onMouseOver={hoverArtobject} onMouseOut={unhoverArtobject} onClick={addArtobject}>
+                        {
+                            positions[12 + num - 1] !== 0 &&
+                            <ThreeDPreview url={_.find(artobjects, {id: positions[12 + num - 1]}).upload} size={'small'} animate={false}/>
+                        }
+                    </div>
                 </div>
             </div>
         )
     }
 }
+
+
+const mapStateToProps = state => ({
+    space: state.Space.space,
+})
+
+export default connect(mapStateToProps, null)(AddArtobjects);

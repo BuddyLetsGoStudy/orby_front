@@ -1,9 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import { ArtobjectUploadAndUpdate, deleteArtobject } from '../../../../../actions/Artobjects'
 import './styles.css'
 import imageCompression from 'browser-image-compression';
+import { Canvas, useLoader } from "react-three-fiber";
+import * as THREE from "three";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import ThreeDPreview from './ThreeDPreview/ThreeDPreview'
+
+function Asset({ url }) {
+    const gltf = useLoader(GLTFLoader, url)
+    return <primitive object={gltf.scene} />
+  }
+
 class AddArtobject extends Component {
     state = {
         file: '',
@@ -14,13 +24,16 @@ class AddArtobject extends Component {
         date: '',
         width: '',
         height: '',
+        length: '',
         proportionOne: '',
         proportionTwo: '',
         artobject: {},
         create: true,
         submit: false, 
         error: false,
-        compressing: false
+        compressing: false,
+        threeD: false,
+        threeDChanged: false
     }
 
     imageToBase64 = (url, callback) => {
@@ -40,15 +53,70 @@ class AddArtobject extends Component {
     componentDidMount(){
         // document.body.classList.add('no-scroll');
         const { positionID, positions, artobjects } = this.props;
+        console.log(positionID, positionID < 13)
         const artobjectID = positions[positionID - 1]
-        if (artobjectID !== 0) {
+        if (artobjectID !== 0 && positionID < 13) {
+            console.log('shit')
             const artobject = _.find(artobjects, {id: artobjectID})
             const { name, description, upload, options } = artobject;
             
             this.imageToBase64(upload, base64img => {
                 this.setState({...JSON.parse(options), upload: base64img, name, description, create: false, artobjectID, file: false})
             })
+        } else if(artobjectID !== 0) {
+            console.log('fuck')
+            const artobject = _.find(artobjects, {id: artobjectID})
+            const { name, description, upload, options } = artobject;
+            this.setState({...JSON.parse(options), upload, name, description, create: false, artobjectID, file: false, threeD: true})
         }
+
+        positionID > 12 && this.setState({threeD: true})
+
+       
+    }
+
+    blobToBase64 = blob => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        return new Promise(resolve => {
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+        });
+      };
+
+    threeDChange = async e => {
+        e.preventDefault();
+        let file = e.target.files[0]
+        this.setState({file: file, error: false})
+   
+        const formData = new FormData();
+    
+        formData.append("name", 1)
+        formData.append("description", 1)
+        formData.append("upload", file)
+        formData.append("category", 1)
+        formData.append("options", JSON.stringify(1))
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        this.props.ArtobjectUploadAndUpdate(formData, false)
+            .then(artobject => {
+                console.log(artobject.upload, 'che suka')
+                this.setState({upload: artobject.upload, artobjectID: artobject.id, threeDChanged: true, file: ''})
+
+                // this.props.onCreated(this.props.positionID, artobject)
+                // this.props.onClose()
+            })
+            .catch(e => console.log('я ненавижу женщин', e))
+
+
+    }
+
+    threeDUploadError = () => {
+        this.props.deleteArtobject(this.state.artobjectID)
+        this.setState({error: true, errorMsg: 'Something wrong with your 3D object!', upload: '', artobjectID: '', threeDChanged: false})
     }
 
     imageChange = async e => {
@@ -86,8 +154,13 @@ class AddArtobject extends Component {
 
 
     changeSize = e => {
-        const { proportionOne, proportionTwo } = this.state;
+        const { proportionOne, proportionTwo, threeD } = this.state;
        
+        if (threeD) {
+            this.setState({[e.target.name]: e.target.value})
+            return null
+        }
+
         if (e.target.value === '' || (!proportionOne && !proportionTwo)){
             this.setState({ 
                 width: '',
@@ -115,64 +188,38 @@ class AddArtobject extends Component {
                 height: Math.round(width * proportionOne * 10) / 10
             })
         }
-        
     }
 
     submitArtobject = () => {
         this.setState({submit: true})
-        const { name, file, description, artist, date, width, height, create, artobjectID, upload } = this.state;
+        const { name, file, description, artist, date, width, height, length, create, artobjectID, upload, threeD, threeDChanged } = this.state;
         if (name && upload && artist && date && width && height) {
-            const options = { width, height, artist, date };
+            const options = { width, height, artist, date, length };
 
             const formData = new FormData();
     
             formData.append("name", name)
             formData.append("description", description)
-            file && formData.append("upload", file)
-            formData.append("category", 1)
+            !threeDChanged && file && formData.append("upload", file)
+            formData.append("category", threeD ? 2 : 1)
             formData.append("options", JSON.stringify(options))
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
     
-            this.props.ArtobjectUploadAndUpdate(formData, create ? false : artobjectID)
+            this.props.ArtobjectUploadAndUpdate(formData, create ? threeDChanged ? artobjectID : false : artobjectID)
                 .then(artobject => {
                     console.log(artobject, 'che blyat')
                     this.props.onCreated(this.props.positionID, artobject)
                     this.props.onClose()
+
                 })
                 .catch(e => console.log('я ненавижу женщин', e))
         } else {
-            this.setState({error: true})
+            this.setState({error: true, errorMsg: 'You must upload a picture (jpg or png), and fill all fields to continue'})
         }
     }
-    // submitArtobject = () => {
-    //     const { name, file, description, artist, date, width, height, create, artobjectID, upload } = this.state;
-    //     const options = { width, height, artist, date };
 
-    //     const formData = new FormData();
-
-    //     formData.append("name", name)
-    //     formData.append("description", description)
-    //     fetch(upload)
-    //     .then(res => res.blob())
-    //     .then(blob => {
-    //         file ? formData.append("upload", file) : formData.append("upload", new File([blob], "File name",{ type: "image/png" }))
-    //         formData.append("category", 1)
-    //         formData.append("options", JSON.stringify(options))
-    //         for (var pair of formData.entries()) {
-    //             console.log(pair[0]+ ', ' + pair[1]); 
-    //         }
-    
-    //         this.props.ArtobjectUploadAndUpdate(formData, create ? false : artobjectID)
-    //             .then(artobject => {
-    //                 console.log(artobject, 'che blyat')
-    //                 this.props.onCreated(this.props.positionID, artobject)
-    //                 this.props.onClose()
-    //             })
-    //             .catch(e => console.log('я ненавижу женщин', e))
-    //     })
-    // }
     deleteArtobject = () => {
         this.props.deleteArtobject(this.state.artobjectID)
             .then(() => {
@@ -186,7 +233,7 @@ class AddArtobject extends Component {
 
     render() {
         const { onClose, positionID } = this.props;
-        const { name, description, artist, width, height, upload, date, create, submit, error, compressing } = this.state;
+        const { name, description, artist, width, height, length, upload, date, create, submit, error, errorMsg, compressing, threeD, file } = this.state;
         return (
             <div className={'create-popup background-transparent'}>
                 <div className={'create-popup-cont'}>
@@ -205,8 +252,17 @@ class AddArtobject extends Component {
                                     </div>
                                 </div>
                             }
+                            {
+                                upload && threeD && 
+                                <ThreeDPreview url={upload} onError={this.threeDUploadError} size={'big'} animate={true} />
+                            }
                             <div className={'create-popup-add-file-loader'} style={{opacity: compressing ? 1 : 0}}/>
-                            <input type="file" className={'create-popup-add-file-input'} onChange={this.imageChange} name="upload" accept="image/*, .glb"></input>
+                            {
+                                threeD ? 
+                                <input type="file" className={'create-popup-add-file-input'} onChange={this.threeDChange} name="upload" accept=".glb, .gltf, .obj"></input>
+                                :
+                                <input type="file" className={'create-popup-add-file-input'} onChange={this.imageChange} name="upload" accept="image/*"></input>
+                            }
                         </div>
                         <div className={'create-popup-add-inputs'}>
                             <div className={'create-popup-add-input-cont'}>
@@ -223,6 +279,7 @@ class AddArtobject extends Component {
                                     <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !width ? 'input-error' : ''}`} placeholder={'Width (cm)'} name={'width'} onChange={this.changeSize} value={width} ref={ref => this.widthElem = ref}></input>
                                     {/* <div className={'create-popup-add-input-short-separator'}>X</div> */}
                                     <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !height ? 'input-error' : ''}`} placeholder={'Height (cm)'} name={'height'} onChange={this.changeSize} value={height} ref={ref => this.heightElem = ref}></input>
+                                    { threeD && <input type="text" className={`create-popup-add-input create-popup-add-input-short ${submit && !length ? 'input-error' : ''}`} placeholder={'Length (cm)'} name={'length'} onChange={this.changeSize} value={length}></input> }
                                 </div>
                             </div>
                             <div className={'create-popup-add-input-cont'}>
@@ -232,7 +289,7 @@ class AddArtobject extends Component {
                             <textarea className={'create-popup-add-textarea'} placeholder='Add artwork description&#10;Tell a little story about this work' name={'description'} onChange={this.updState} value={description}></textarea>
                         </div>
                     </div>
-                    <div className={`auth-modal-error-msg ${error ? 'auth-modal-error-msg-visible create-popup-error-msg' : ''}`}>You must upload a picture (jpg or png), and fill all fields to continue</div>
+                    <div className={`auth-modal-error-msg ${error ? 'auth-modal-error-msg-visible create-popup-error-msg' : ''}`}>{errorMsg}</div>
                     <div className={'create-popup-btn-cont'}>
                         {!create && <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.deleteArtobject}>Delete artwork</div>}
                         <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.submitArtobject}>OK</div>

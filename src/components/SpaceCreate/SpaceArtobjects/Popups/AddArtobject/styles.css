@@ -131,10 +131,15 @@
 
 .create-popup-add-input-short-cont{
     display: flex;
+    flex-wrap: wrap;
+    width: 280px;
 }
 
-.create-popup-add-input-short-cont > :last-child{
+.create-popup-add-input-short-cont > :nth-child(2){
     margin-right: 0;
+}
+.create-popup-add-input-short-cont > :nth-child(3){
+    margin-top: 5px;
 }
 
 .create-popup-add-input-short-separator{
@@ -176,6 +181,37 @@
     left: calc(50% - 25px);
     animation: .5s cubic-bezier(.45,.05,.55,.95) 1s infinite alternate artobjectLoading
 }
+
+.add-artobject-popup-3d-preview-big{
+    width: 384px;
+    height: 218px;
+}
+
+.add-artobject-popup-3d-preview-big > canvas{
+    border-radius: 20px;
+}
+
+
+.add-artobject-popup-3d-preview-small{
+    width: 76.8px;
+    height: 50.89px;
+    border-radius: 8px;
+}
+
+.add-artobject-popup-3d-preview-smaller{
+    width: 50px;
+    height: 50.89px;
+    border-radius: 8px;
+}
+.add-artobject-popup-3d-preview-micro{
+    width: 29px;
+    height: 19px;
+    border-radius: 3px;
+}
+
+
+
+
 
 @keyframes artobjectLoading {
     from {
