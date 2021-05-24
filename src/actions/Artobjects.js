@@ -39,20 +39,20 @@ export const deleteArtobject = (id) => async dispatch => {
     return new Promise(async (resolve, reject) => {
         try {
             const res = await axios.delete(`${API_DOMAIN}/artobjects/${id}/`, AUTH_CONFIG())
-            console.log(store.getState().Space.space.artobjects, {id})
-            console.log(_.remove(store.getState().Space.space.artobjects, {id}), "SHIT")
-            console.log(_.filter(store.getState().Space.space.artobjects, el => (el !== id)))
-            dispatch({
-                type: "UPDATE_SPACE",
-                payload: {field: "artobjects", value: _.filter(store.getState().Space.space.artobjects, el => (el !== id))},
-            })
+
             const newPositions = store.getState().Space.space.positions
             newPositions[store.getState().Space.space.positions.indexOf(id)] = 0
-            console.log(newPositions, 'NEWPOSITIONS SUKA')
+            console.log(_.filter(store.getState().Space.space.artobjects, el => (el.id !== id)), newPositions, 'FUCUCCUCUUCU')
             dispatch({
                 type: "UPDATE_SPACE",
                 payload: {field: "positions", value: newPositions},
             })
+            dispatch({
+                type: "UPDATE_SPACE",
+                payload: {field: "artobjects", value: _.filter(store.getState().Space.space.artobjects, el => (el.id !== id))},
+            })
+         
+          
             resolve()
         } catch(e) {
             console.log(e)

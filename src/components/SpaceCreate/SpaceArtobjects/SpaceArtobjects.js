@@ -19,11 +19,21 @@ class SpaceArtobjects extends Component {
         clickedPosition: 0
     }
     
-    componentDidMount(){
+    componentDidMount() {
         const { artobjects, positions } = this.props.space;
         positions.forEach((id, i) => {
             id !== 0 && this.displayArtobject(i + 1, _.find(artobjects, {id}).upload)
         })
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log('UODATED ==============', prevProps.edit, this.props.edit)
+        if(this.props.edit !== prevProps.edit) {
+            const { artobjects, positions } = this.props.space;
+            positions.forEach((id, i) => {
+                this.displayArtobject(i + 1, id !== 0 && _.find(artobjects, {id}).upload)
+            })
+        }
     }
 
     closePopup = () => this.setState({showWelcome: false, showAddArtobject: false})

@@ -238,7 +238,8 @@ class AddArtobject extends Component {
             <div className={'create-popup background-transparent'}>
                 <div className={'create-popup-cont'}>
                     <div className={'create-popup-header'}>
-                        Add artwork
+                        { create ? 'Add artwork' : 'Edit artwork' }
+                        
                         <div className={'create-popup-header-close'} onClick={onClose}></div>
                     </div>
                     <div className={'create-popup-body-add'}>

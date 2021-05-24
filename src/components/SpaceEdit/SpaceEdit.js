@@ -30,6 +30,7 @@ class SpaceEdit extends Component {
     componentDidMount() {
         this.props.loadSpace(this.props.match.params.spaceid)
             .then(space => {
+                console.log(space)
                 this.setState({space: {name: space.name, published: space.published, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
                 this.manageUI)
             })
@@ -51,6 +52,10 @@ class SpaceEdit extends Component {
             })
         }
     }
+    componentWillUnmount() {
+        this.props.dispatch({type: "SPACE_CLOSE"})
+    }
+
 
     editStart = type => {
         this.setState({edit: type})
@@ -102,7 +107,7 @@ class SpaceEdit extends Component {
                                         <div className="edit-card-row-wall-artobject-3d" id='13'>
                                             {
                                                 positions[12] !== 0 &&
-                                                <ThreeDPreview url={_.find(artobjects, {id: positions[12]}).upload} size={'micro'} animate={false}/>
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[12]})?.upload} size={'micro'} animate={false}/>
                                             }
                                         </div>
                                     </div>
@@ -113,7 +118,7 @@ class SpaceEdit extends Component {
                                         <div className="edit-card-row-wall-artobject-3d" id='14'>
                                             {
                                                 positions[13] !== 0 &&
-                                                <ThreeDPreview url={_.find(artobjects, {id: positions[13]}).upload} size={'micro'} animate={false}/>
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[13]})?.upload} size={'micro'} animate={false}/>
                                             }
                                         </div>
                                     </div>
@@ -126,7 +131,7 @@ class SpaceEdit extends Component {
                                         <div className="edit-card-row-wall-artobject-3d" id='16'>
                                             {
                                                 positions[15] !== 0 &&
-                                                <ThreeDPreview url={_.find(artobjects, {id: positions[15]}).upload} size={'micro'} animate={false}/>
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[15]})?.upload} size={'micro'} animate={false}/>
                                             }
                                         </div>
                                         <div className="edit-card-row-wall-artobject" id='10'/>
@@ -137,7 +142,7 @@ class SpaceEdit extends Component {
                                         <div className="edit-card-row-wall-artobject-3d" id='15'>
                                             {
                                                 positions[14] !== 0 &&
-                                                <ThreeDPreview url={_.find(artobjects, {id: positions[14]}).upload} size={'micro'} animate={false}/>
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[14]})?.upload} size={'micro'} animate={false}/>
                                             }
                                         </div>
                                         <div className="edit-card-row-wall-artobject" id='7'/>
