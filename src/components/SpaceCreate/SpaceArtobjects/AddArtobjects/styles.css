@@ -18,6 +18,11 @@
     margin-bottom: 12.5px;
     margin-left: 13.5px;
 }
+@media screen and (max-height: 900px){
+    .create-add-artobjects-title{
+        margin-bottom: 3px;
+    }
+}
 
 .create-add-artobjects-cont{
     display: flex;
@@ -57,6 +62,12 @@
 
 .create-add-artobjects-title-3d{
     margin-bottom: 30.3px;
+}
+
+@media screen and (max-height: 900px){
+    .create-add-artobjects-title-3d{
+        margin-bottom: 21px;
+    }
 }
 
 .create-add-artobjects-add-3d{

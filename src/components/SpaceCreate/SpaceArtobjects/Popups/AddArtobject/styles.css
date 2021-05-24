@@ -16,6 +16,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
 }
 
 .create-popup-add-file{
@@ -30,6 +31,22 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+
+}
+
+.create-popup-add-file-3d{
+    background-image: url('./assets/img/cube.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    width: 308.75px;
+    height: 268.77px;
+    border-radius: 0;
+}
+
+.create-popup-add-file-3d penis {
+    font-size: 12px;
 }
 
 .create-popup-add-file-input{
@@ -183,8 +200,9 @@
 }
 
 .add-artobject-popup-3d-preview-big{
-    width: 384px;
-    height: 218px;
+    height: 239.27px;
+    margin-top: 0!important;
+    width: 273.13px;
 }
 
 .add-artobject-popup-3d-preview-big > canvas{
@@ -238,7 +256,7 @@
       top: 29px;
     }
     .create-popup-cont{
-      margin: 20px auto 0 auto;
+      margin: 5px auto 0 auto;
       padding-bottom: 30px;
     }
     .create-popup-body-add{
@@ -247,6 +265,17 @@
     .create-popup-add-file{
       height: 203.27px;
       width: 361.13px;
+    }
+    .create-popup-add-file-3d{
+        height: 239.27px;
+        width: 273.13px;
+    }
+    .create-popup-add-file-3d > :first-child{
+        margin-top: 70px;
+    }
+    .add-artobject-popup-3d-preview-big{
+        height: 239.27px;
+        width: 273.13px;
     }
     .create-popup-add-file-text{
       margin-top: 57px;

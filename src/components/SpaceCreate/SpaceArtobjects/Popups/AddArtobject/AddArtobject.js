@@ -238,18 +238,18 @@ class AddArtobject extends Component {
             <div className={'create-popup background-transparent'}>
                 <div className={'create-popup-cont'}>
                     <div className={'create-popup-header'}>
-                        { create ? 'Add artwork' : 'Edit artwork' }
+                        { `${create ? 'Add' : 'Edit'} ${threeD ? '3D object' : 'artwork'}`}
                         
                         <div className={'create-popup-header-close'} onClick={onClose}></div>
                     </div>
                     <div className={'create-popup-body-add'}>
-                        <div className={`create-popup-add-file ${submit && !upload ? 'input-error' : ''}`} style={{backgroundImage: upload ? `url('${upload}')` : ''}}>
+                        <div className={`create-popup-add-file ${threeD ? 'create-popup-add-file-3d' : ''}  ${submit && !upload ? 'input-error' : ''}`} style={{backgroundImage: upload && !threeD ? `url('${upload}')` : ''}}>
                             {
                                 !upload && !compressing &&
                                 <div className={'create-popup-add-file-text'}>
-                                    Drag & drop your artwork here
+                                    {`Drag & drop your ${ threeD ? '3D model' : 'artwork' } here`}
                                     <div>
-                                    or <span>Choose</span> from computer
+                                    or <span>Choose</span> from computer<br></br> {threeD && <penis>.glb .gltf or .obj</penis>}
                                     </div>
                                 </div>
                             }
