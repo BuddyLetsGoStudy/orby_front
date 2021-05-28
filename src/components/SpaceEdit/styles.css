@@ -9,11 +9,23 @@
     height: calc(100vh - 150px);
     position: relative;
 }
+@media screen and (max-height: 900px){
+    .edit-cont{
+        height: calc(100vh - 90px);
+
+    }
+}
 
 .edit-cards-cont{
     display: flex;
     justify-content: center;
     margin-top: 75px;
+}
+
+@media screen and (max-height: 900px){
+    .edit-cards-cont{
+        margin-top: 15px;
+    }
 }
 
 .edit-cards-cont > :first-child{
@@ -218,6 +230,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+@media screen and (max-height: 900px){
+    .edit-buttons-cont{
+        margin-top: 25px;
+    }
 }
 
 .edit-buttons-cont > div{

@@ -44,6 +44,9 @@
     height: 268.77px;
     border-radius: 0;
 }
+.create-popup-add-file-3d > :first-child{
+    margin-top: 85px;
+}
 
 .create-popup-add-file-3d penis {
     font-size: 12px;
@@ -200,9 +203,9 @@
 }
 
 .add-artobject-popup-3d-preview-big{
-    height: 239.27px;
     margin-top: 0!important;
-    width: 273.13px;
+    width: 307px;
+    height: 267px;
 }
 
 .add-artobject-popup-3d-preview-big > canvas{
@@ -249,18 +252,26 @@
 
 @media screen and (max-height: 900px){
     .create-popup-header{
-      height: 80px;
-      padding: 27.5px 0;
+      /* height: 80px;
+      padding: 27.5px 0; */
+      height: 70px;
+      font-size: 19px;
+      padding: 23.5px 0;
     }
     .create-popup-header-close{
-      top: 29px;
+      top: 24px;
     }
     .create-popup-cont{
       margin: 5px auto 0 auto;
-      padding-bottom: 30px;
+      /* padding-bottom: 30px; */
+      padding-bottom: 20px;
     }
     .create-popup-body-add{
       padding: 25px 43px 0 43px;
+    }
+
+    .create-popup-add-input-cont{
+        margin-top: 15px;
     }
     .create-popup-add-file{
       height: 203.27px;
@@ -281,10 +292,11 @@
       margin-top: 57px;
     }
     .create-popup-add-inputs{
-      margin-top: 15px;
+      margin-top: 10px;
     }
     .create-popup-add-textarea{
-      height: 65px;
+      margin-top: 15px;
+        height: 45px;
     }
     .create-popup-mrg-top{
       margin-top: 5px;

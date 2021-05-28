@@ -18,7 +18,8 @@ export default class ThreeDPreview extends Component {
         this.renderer.setSize(width, height);
         this.mount.appendChild(this.renderer.domElement);
         this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-        this.camera.position.z = 15;
+        this.camera.position.z = this.props.size === 'big' ? 19 : 17;
+
         this.camera.position.y = 3;
 
         var lights = [];
