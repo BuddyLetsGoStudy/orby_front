@@ -12,7 +12,9 @@ import './styles.css'
 
 class SpaceArtobjects extends Component {
     state = {
-        showWelcome: false,
+        showWelcome: true,
+        show2DHint: true,
+        show3DHint: true,
         showAddArtobject: false,
         hoveredWall: 0,
         hoveredArtobject: 0,
@@ -20,10 +22,12 @@ class SpaceArtobjects extends Component {
     }
     
     componentDidMount() {
-        const { artobjects, positions } = this.props.space;
+        const { space, hints } = this.props;
+        const { artobjects, positions } = space;
         positions.forEach((id, i) => {
             id !== 0 && this.displayArtobject(i + 1, _.find(artobjects, {id}).upload)
         })
+        hints && this.setState({hoveredWall: 1, hoveredArtobject: 1})
     }
 
     componentDidUpdate(prevProps) {
@@ -38,6 +42,8 @@ class SpaceArtobjects extends Component {
 
     closePopup = () => this.setState({showWelcome: false, showAddArtobject: false})
 
+    closeHint = e =>  this.setState({[e.target ? e.target.id : e]: false, hoveredWall: 0})
+
     hoverWall = e => this.setState({hoveredWall: parseInt(e.currentTarget.id[2], 10) || parseInt(e.currentTarget.id[1], 10)})
     unhoverWall = () => this.setState({hoveredWall: 0})
 
@@ -50,6 +56,7 @@ class SpaceArtobjects extends Component {
         const { id, upload, category } = artobject;
         const { artobjects } = this.props.space;
         console.log(artobjects, id);
+        this.closeHint(category == 1 ? 'show2DHint' : 'show3DHint')
         this.displayArtobject(positionID, upload, category == 2 && true)
 
         const findIndex = artobjects.findIndex(a => a.id === id)
@@ -70,22 +77,20 @@ class SpaceArtobjects extends Component {
         artobjCont.style.backgroundImage = url ? `url('${threeD ? 'baka' : url}')` : ``
         artobjWallCont.style.backgroundImage = url ? `url('${threeD ? 'baka' : url}')` : ``
         url ? artobjCont.classList.add('artobject-added') : artobjCont.classList.remove('artobject-added')
-
-       
     }
 
     onSubmit = () => _.isEmpty(this.props.space.artobjects) ? null : this.props.onSubmit()
 
     render() {
-        const { showWelcome, showAddArtobject, hoveredWall, hoveredArtobject, clickedPosition } = this.state;
-        const { edit, space } = this.props;
+        const { showWelcome, showAddArtobject, hoveredWall, hoveredArtobject, clickedPosition, show2DHint, show3DHint } = this.state;
+        const { edit, space, hints } = this.props;
         const { artobjects } = space;
 
         return (
             <div className={`body-cont`}>
                 <div className={'create-cont'}>
                     <div className={'create-cont-top'}>
-                        <AddArtobjects num={1} hoveredWall={hoveredWall} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject}/>
+                        <AddArtobjects num={1} hoveredWall={hoveredWall} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject} show2D={show2DHint} show3D={show3DHint} hoveredArtobject={hoveredArtobject} closeHint={this.closeHint}/>
                         <AddArtobjects num={2} hoveredWall={hoveredWall} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject}/>
                     </div>
                     <div className={'space-create-wall-cont'}>
@@ -103,7 +108,7 @@ class SpaceArtobjects extends Component {
                     <div className={'create-btn-preview not-ready'}>Preview 3D gallery</div>
                     <div className={`create-btn-submit ${_.isEmpty(artobjects) ? '' : 'create-btn-submit-active'}`} onClick={this.onSubmit}>{edit ? 'Save' : 'Create a space'}</div>
                 </div>
-                { showWelcome && <Welcome onClose={this.closePopup} /> }
+                { hints && showWelcome && <Welcome onClose={this.closePopup} /> }
                 { showAddArtobject && <AddArtobject onClose={this.closePopup} onCreated={this.artobjectAdded} onDeleted={this.artobjectDeleted} positionID={clickedPosition} /> }
             </div>
         )
@@ -115,7 +120,8 @@ class SpaceArtobjects extends Component {
 const mapStateToProps = state => ({
     loading: state.Space.loading,
     space: state.Space.space,
-    edit: state.Space.edit
+    edit: state.Space.edit,
+    hints: state.Auth.hints,
 })
 
 export default connect(mapStateToProps, null)(SpaceArtobjects);

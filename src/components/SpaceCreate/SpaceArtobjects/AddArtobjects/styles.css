@@ -32,7 +32,7 @@
     box-sizing: border-box;
     padding: 17.73px 13.65px;
     transition: .2s;
-
+    position: relative;
 }
 
 .create-add-artobjects-cont:hover{
@@ -57,6 +57,10 @@
 }
 
 .create-add-artobjects-add:hover{
+    background-image: url('./assets/img/rect-dashed-hover.svg');
+}
+
+.create-add-artobjects-add-hovered{
     background-image: url('./assets/img/rect-dashed-hover.svg');
 }
 
@@ -87,6 +91,10 @@
     transition: .2s;
 }
 
+.create-add-artobjects-3d-cont{
+    position: relative;
+}
+
 .create-add-artobjects-add-3d:hover{
     background-image: url('./assets/img/qube-dashed-hover.svg');
 }
@@ -104,4 +112,49 @@
     margin-left: 0;
 }
 
+.create-add-artobjects-hint{
+    position: absolute;
+    background: #FFFEFA;
+    box-shadow: 0px 32px 60px rgba(84, 95, 122, 0.08);
+    border-radius: 45px;
+    width: 248.22px;
+    height:46.29px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #3F414E;
+    box-sizing: border-box;
+    padding: 12.4px 0 12.4px 23px;
+    bottom: -55px;
+    left: -45px;
+    z-index: 1;
+}
+
+.create-add-artobjects-hint::before{
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: -20px;
+    left: 87px;
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #FFFEFA;
+}
+
+.create-add-artobjects-hint-2d{
+    width:236.22px;
+}
+
+.create-add-artobjects-hint-close{
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    right: 16.5px;
+    top: 17.5px;
+    background-image: url('./assets/img/cross.svg');
+    background-size: cover;
+    cursor: pointer;
+}
 

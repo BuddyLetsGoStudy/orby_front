@@ -4,6 +4,7 @@ const DefaultState = {
     username: '',
     email: '',
     token: localStorage.getItem('token'),
+    hints: localStorage.getItem('hints'),
     error: '',
     avatar: '',
 };
@@ -30,7 +31,7 @@ const AuthReducer = (state = DefaultState, action) => {
                 ...state,
                 loading: true
             }
-           
+
         case "LOGIN_USER_SUCCESS":
         case "REG_USER_SUCCESS":
         case "USER_LOADED":
@@ -66,6 +67,18 @@ const AuthReducer = (state = DefaultState, action) => {
                 error: false,
             }
             
+        case "HINTS_ON": 
+            localStorage.setItem('hints', true)
+            return {
+                ...state,
+                hints: true
+            }
+        case "HINTS_OFF": 
+            localStorage.removeItem('hints');
+            return {
+                ...state,
+                hints: false
+            }
         default:
             return state
     }

@@ -49,6 +49,7 @@ export const RegUser = (email, username, password) => async dispatch => {
             type: "REG_USER_SUCCESS",
             payload: res.data,
         })
+        dispatch({type: "HINTS_ON"})
 
     } catch (e) {
         console.log('shit')

@@ -91,6 +91,7 @@
   max-width: 620px;
   margin: auto;
   justify-content: center;
+  z-index: -1;
 }
 
 
