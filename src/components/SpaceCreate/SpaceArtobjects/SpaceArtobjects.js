@@ -42,7 +42,7 @@ class SpaceArtobjects extends Component {
 
     closePopup = () => this.setState({showWelcome: false, showAddArtobject: false})
 
-    closeHint = e =>  this.setState({[e.target ? e.target.id : e]: false, hoveredWall: 0})
+    closeHint = e =>  this.setState({[e.target ? e.target.id : e]: false, hoveredWall: 0, hoveredArtobject: 0})
 
     hoverWall = e => this.setState({hoveredWall: parseInt(e.currentTarget.id[2], 10) || parseInt(e.currentTarget.id[1], 10)})
     unhoverWall = () => this.setState({hoveredWall: 0})
