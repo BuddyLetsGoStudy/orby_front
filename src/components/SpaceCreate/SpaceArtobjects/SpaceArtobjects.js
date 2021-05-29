@@ -6,6 +6,7 @@ import AddArtobjects from './AddArtobjects/AddArtobjects'
 import Welcome from './Popups/Welcome/Welcome'
 import AddArtobject from './Popups/AddArtobject/AddArtobject'
 import Wall from './Wall/Wall'
+import Button from '../../Button/Button'
 
 import './styles.css'
 
@@ -81,6 +82,8 @@ class SpaceArtobjects extends Component {
 
     onSubmit = () => _.isEmpty(this.props.space.artobjects) ? null : this.props.onSubmit()
 
+    previewSpace = () => console.log('nice')
+
     render() {
         const { showWelcome, showAddArtobject, hoveredWall, hoveredArtobject, clickedPosition, show2DHint, show3DHint } = this.state;
         const { edit, space, hints } = this.props;
@@ -105,8 +108,10 @@ class SpaceArtobjects extends Component {
                     </div>
                 </div>
                 <div className={'create-btn-cont'}>
-                    <div className={'create-btn-preview not-ready'}>Preview 3D gallery</div>
-                    <div className={`create-btn-submit ${_.isEmpty(artobjects) ? '' : 'create-btn-submit-active'}`} onClick={this.onSubmit}>{edit ? 'Save' : 'Create a space'}</div>
+                    <Button onClick={this.previewSpace} text={'Preview 3D gallery'}fontSize={'16px'}/>
+                    {/* <div className={'create-btn-preview not-ready'}></div> */}
+                    <Button onClick={this.onSubmit} color={_.isEmpty(artobjects) ? 'grey' : 'violet'} text={edit ? 'Save' : 'Create a space'} margin={'0 0 0 25px'} fontSize={'16px'} arrow={true}/>
+                    {/* <div className={`create-btn-submit ${_.isEmpty(artobjects) ? '' : 'create-btn-submit-active'}`} onClick={this.onSubmit}>{edit ? 'Save' : 'Create a space'}</div> */}
                 </div>
                 { hints && showWelcome && <Welcome onClose={this.closePopup} /> }
                 { showAddArtobject && <AddArtobject onClose={this.closePopup} onCreated={this.artobjectAdded} onDeleted={this.artobjectDeleted} positionID={clickedPosition} /> }

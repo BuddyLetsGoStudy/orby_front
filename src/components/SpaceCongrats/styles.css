@@ -1,0 +1,21 @@
+.space-congrats{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(270deg, rgba(184, 255, 213, 0.9) 1.57%, rgba(198, 255, 221, 0.9) 7.72%, rgba(255, 229, 160, 0.9) 49.03%, rgba(255, 175, 194, 0.9) 91.28%, rgba(255, 157, 181, 0.9) 100%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.space-congrats-body{
+    background: #FFFFFF;
+    box-shadow: 0px 0px 19px rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    width: 550.97px;
+    height: 465.84px;
+}

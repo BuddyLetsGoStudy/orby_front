@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Button from '../../../../Button/Button'
 import './styles.css'
 
 const Welcome = props => {
@@ -11,23 +12,23 @@ const Welcome = props => {
                 <div className={'create-popup-header'}>Get started</div>
                 <div className={'create-popup-body'}>
                     <div className={'create-popup-body-step-1'}>
-                        <div className={'create-popup-body-step-text'}>1. Fill the walls with your artworks</div>
+                        <div className={'create-popup-body-step-text'}><span>1</span> Fill the walls with your artworks</div>
                         <div className={'create-popup-body-step-1-img'}></div>
                     </div>
                     <div className={'create-popup-body-step-2'}>
-                        <div className={'create-popup-body-step-text'}>2. Add 3D objects</div>
+                        <div className={'create-popup-body-step-text'}><span>2</span> Add 3D objects</div>
                         <div className={'create-popup-body-step-2-img'}></div>
                     </div>
                     <div className={'create-popup-body-step-3'}>
-                        <div className={'create-popup-body-step-text'}>3. Edit, manage your works between walls</div>
+                        <div className={'create-popup-body-step-text'}><span>3</span> Edit, manage your works between walls</div>
                         <div className={'create-popup-body-step-3-img'}></div>
                     </div>
                     <div className={'create-popup-body-step-4'}>
-                        <div className={'create-popup-body-step-text'}>4. Preview your gallery in 3D</div>
+                        <div className={'create-popup-body-step-text'}><span>4</span> Preview your gallery in 3D</div>
                         <div className={'create-popup-body-step-4-img'}></div>
                     </div>
                 </div>
-                <div className={'create-popup-btn-ok'} onClick={props.onClose}>Got it</div>
+                <Button onClick={props.onClose} text={'Got it'} margin={'50px auto 0 auto'}/>
             </div>
         </div>
     );

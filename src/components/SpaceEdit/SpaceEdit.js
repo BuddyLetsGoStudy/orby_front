@@ -6,7 +6,7 @@ import _ from 'lodash'
 import './styles.css'
 import SpaceCreate from '../SpaceCreate/SpaceCreate'
 import ThreeDPreview from '../SpaceCreate/SpaceArtobjects/Popups/AddArtobject/ThreeDPreview/ThreeDPreview'
-
+import SpaceCongrats from '../SpaceCongrats/SpaceCongrats'
 
 class SpaceEdit extends Component {
     state = {
@@ -20,10 +20,14 @@ class SpaceEdit extends Component {
             artobjects: []
         },
        edit: false,
-       deleted: false
+       deleted: false,
+       showHint: false,
+       showCongrats: true
     }
 
     publish = e => {
+        const { hints } = this.props;
+        hints && 
         this.setState(prevState => ({space:{...prevState.space, published: prevState.space.published ? false : true}}), () => this.props.publishSpace(this.props.match.params.spaceid, this.state.space.published))
     }
 
@@ -34,6 +38,7 @@ class SpaceEdit extends Component {
                 this.setState({space: {name: space.name, published: space.published, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
                 this.manageUI)
             })
+        this.props.hints && this.setState({showHint: true})
     }
 
     manageUI = () => {
@@ -68,8 +73,11 @@ class SpaceEdit extends Component {
             .then(() => this.setState({deleted: true}))
     }
 
+    closeHint = () => this.setState({showHint: false})
+
     render() {
-        const { space, edit, deleted } = this.state
+        const { hints } = this.props;
+        const { space, edit, deleted, showHint, showCongrats } = this.state
         const { published, geo, name, description, date, avatar, artobjects, positions } = space;
         if (deleted) {
             return <Redirect to="/myspaces"/>
@@ -78,6 +86,7 @@ class SpaceEdit extends Component {
             return <SpaceCreate step={edit} editpage={true} />
         } else {
             return (
+                <>
                 <div className={'edit-cont'}>
                     <div className={'edit-cards-cont'}>
                         <div className={'edit-card'} onClick={() => this.editStart('meta')}>
@@ -162,12 +171,28 @@ class SpaceEdit extends Component {
                         <div className="edit-publish-marble"/>
                         <div className="edit-publish-text">Publish</div>
                         <div className={`edit-publish-switch ${ published ? 'edit-publish-switch-on' : ''}`} onClick={this.publish}/>
+                        {
+                            showHint &&  
+                            <div className={"edit-publish-hint"}>
+                                <div className={"edit-publish-hint-text"}>{ hints ? <>You are almost done! Turn this switch ON, to make your space visible to others <sub>🙂</sub></> : <>You cant publish your space, because you don’t have any objects in your gallery <sub>☹️</sub> Add one, or more objects, and try again</>}</div>
+                                <div className={"edit-publish-hint-close"} onClick={this.closeHint}/>
+                            </div>
+                        }
+                       
                     </div>
                 </div>
+                {/* { hints && showHint && <div className={'screen-fade'}/>} */}
+                { showCongrats && <SpaceCongrats /> }
+                </>
             )
         }
     }
 }
+
+
+const mapStateToProps = state => ({
+    hints: state.Auth.hints,
+})
 
 const mapDispatchToProps = dispatch => ({
     loadSpace: id => dispatch(loadSpace(id)),
@@ -176,4 +201,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch               
  })
 
-export default connect(null, mapDispatchToProps)(SpaceEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(SpaceEdit);
