@@ -2,18 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { loadMySpaces, publishMySpaces } from "../../actions/SpaceCreation";
 import { Link } from 'react-router-dom';
+import SpaceCongrats from '../SpaceCongrats/SpaceCongrats'
 import './styles.css'
 
 const MySpaces = () => {
     const dispatch = useDispatch();
     const profileState = useSelector(state => state.Profile);
+    const authState = useSelector(state => state.Auth);
+    const [ showCongrats, setShowCongrats ] = useState(false);
+
 
     useEffect(() => {
         dispatch(loadMySpaces())
     }, [])
 
     const publish = (id, published) => {
+        authState.hints && setShowCongrats(true)
         dispatch(publishMySpaces(id, published ? false : true))
+    }
+
+    const closeCongrats = () => {
+        setShowCongrats(false)
+        dispatch({type: "HINTS_OFF"})
     }
 
     return (
@@ -45,10 +55,8 @@ const MySpaces = () => {
                         </div>
                     ))
                 }
-            
-
-                
             </div>
+            { showCongrats && <SpaceCongrats onClick={closeCongrats} />}
         </div>
     )
 }
