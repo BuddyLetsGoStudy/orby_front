@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { CloseAuthModal, LoginUser, RegUser } from "../../actions/AuthActions";
+import Button from '../Button/Button'
 import './styles.css'
 
 
@@ -45,7 +46,7 @@ const AuthModal = () => {
                                 <input type={showPswd ? 'text' : 'password'} className={`auth-modal-input ${authState.error ? 'input-error' : ''}`} name={'password'} placeholder="Password"/>
                                 <div className={`auth-modal-input-pswd-eye ${showPswd ? 'auth-modal-input-pswd-eye-open' : ''}`} onClick={togglePassword}/>
                             </div>
-                            <div className={'auth-modal-confirm'} onClick={submitLoginForm}>Log In</div>
+                            <Button onClick={submitLoginForm} size={'medium'} text={'Log in'} fontSize={'16px'} margin={'30px 0 0 0'}/>
                             <div className={'auth-modal-register'} onClick={() => setModalType('registration')}>
                                 DONT HAVE AN ACCOUNT? 
                                 <span> SIGN UP</span>
@@ -63,7 +64,8 @@ const AuthModal = () => {
                                 <input type={showPswd ? 'text' : 'password'} className={`auth-modal-input ${authState.error.password ? 'input-error' : ''}`} name={'password'} placeholder="Password"/>
                                 <div className={`auth-modal-input-pswd-eye ${showPswd ? 'auth-modal-input-pswd-eye-open' : ''}`} onClick={togglePassword}/>
                             </div>
-                            <div className={'auth-modal-confirm auth-modal-confirm-reg'} onClick={submitRegForm}>Lets get started</div>
+                            <Button onClick={submitRegForm} size={'medium'} text={'Lets get started'} fontSize={'16px'} margin={'30px 0 60px 0'}/>
+
                             </>
                     }
     
