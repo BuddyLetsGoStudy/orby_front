@@ -18,6 +18,7 @@ export const LoginUser = (email, password) => async dispatch => {
             type: "LOGIN_USER_SUCCESS",
             payload: res.data,
         })
+        dispatch({type: 'HINTS_OFF'})
         dispatch({
             type: "PROFILE_LOADED",
             payload: res.data,

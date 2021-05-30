@@ -8,6 +8,8 @@ import { Canvas, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ThreeDPreview from './ThreeDPreview/ThreeDPreview'
+import Button from '../../../../Button/Button'
+
 
 function Asset({ url }) {
     const gltf = useLoader(GLTFLoader, url)
@@ -292,8 +294,8 @@ class AddArtobject extends Component {
                     </div>
                     <div className={`auth-modal-error-msg ${error ? 'auth-modal-error-msg-visible create-popup-error-msg' : ''}`}>{errorMsg}</div>
                     <div className={'create-popup-btn-cont'}>
-                        {!create && <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.deleteArtobject}>Delete artwork</div>}
-                        <div className={'create-popup-btn-ok create-popup-mrg-top'} onClick={this.submitArtobject}>OK</div>
+                        {!create && <Button onClick={this.deleteArtobject} text={'Delete artwork'} margin={'0 25px 0 0'}/>}
+                        <Button onClick={this.submitArtobject} text={'OK'}/>
                     </div>
                 </div>
             </div>

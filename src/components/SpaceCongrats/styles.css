@@ -18,4 +18,99 @@
     border-radius: 30px;
     width: 550.97px;
     height: 465.84px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.space-congrats-body-title{
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 30px;
+    color: #3F414E;
+    margin-top: 40px;
+}
+
+.space-congrats-body-earth{
+    width: 148px;
+    height: 148px;
+    background-image: url('./assets/img/globe.svg');
+    background-size: cover;
+    margin-top: 23px;
+}
+
+.space-congrats-body-text{
+    font-size: 17px;
+    line-height: 26px;
+    text-align: center;
+    color: #3F414E;
+    margin-top: 21px;
+}
+
+.space-congrats-body-share-text{
+    font-size: 15px;
+    line-height: 143%;
+    color: #191920;
+    margin-top: 40px;
+}
+
+.space-congrats-body-share-text > sub{
+    font-size: 25px;
+}
+
+.space-congrats-body-share-cont{
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+}
+
+.space-congrats-body-share-cont > a{
+    display: block;
+    background-size: cover;
+    margin-right: 40px;
+}
+
+.space-congrats-body-share-cont > :last-child{
+    margin-right: 0;
+}
+
+.space-congrats-body-share-ig{
+    background-image: url('./assets/img/ig.svg');
+    width: 23.5px;
+    height: 23.5px;
+}
+
+.space-congrats-body-share-fb{
+    background-image: url('./assets/img/fb.svg');
+    height: 23.5px;
+    width: 15px;
+}
+
+.space-congrats-body-share-vk{
+    background-image: url('./assets/img/ig.svg');
+    width: 23.5px;
+    height: 23.5px;
+}
+
+.space-congrats-body-flickers-left{
+    position: absolute;
+    background-image: url('./assets/img/flicker.svg');
+    background-size: cover;
+    width: 149px;
+    height: 200px;
+    top: -25px;
+    left: -30px;
+}
+
+.space-congrats-body-flickers-right{
+    position: absolute;
+    background-image: url('./assets/img/flicker.svg');
+    background-size: cover;
+    width: 149px;
+    height: 200px;
+    top: -25px;
+    right: -35px;
+    transform: rotate(-75deg);
 }

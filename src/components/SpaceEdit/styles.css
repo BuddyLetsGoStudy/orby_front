@@ -302,17 +302,33 @@
 }
 
 .edit-publish-switch{
+    cursor: pointer;
     width: 58.12px;
     height: 34.64px;
-    cursor: pointer;
-    background-size: cover;
-    background-image: url('./assets/img/switch-off.svg');
+    background: #D5D5D5;
+    border-radius: 120px;
+    position: relative;
+    transition: .2s;
 }
-
+.edit-publish-switch::after{
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    top: 2.9px;
+    left: 4.5px;
+    transition: .2s;
+}
 .edit-publish-switch-on{
-    background-image: url('./assets/img/switch-on.svg');
+    background: #34C759;
 }
 
+.edit-publish-switch-on::after{
+    transform: translateX(22.5px);
+}
 
 .edit-publish-hint{
     background: #FFFEFA;

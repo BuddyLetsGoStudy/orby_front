@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateProfile } from "../../actions/Profile";
+import Button from '../Button/Button'
 import { Link } from 'react-router-dom';
 import { API_DOMAIN } from "../../variables"
 import './styles.css'
@@ -78,7 +79,7 @@ const EditProfile = () => {
                 </div>
             </div>
             <div className={`edit-profile-success ${success ? 'edit-profile-success-visible' : ''}`}>✅ Profile updated</div>
-            <div className={`edit-profile-confirm-button ${!changed ? 'button-disabled' : ''}`} onClick={() => changed && dispatch(UpdateProfile())}>Update profile</div>
+            <Button onClick={() => changed && dispatch(UpdateProfile())} color={!changed ? 'grey' : 'blue'} text={'Save'} margin={'30px 0 0 0'}/>
         </div>
     )
 }

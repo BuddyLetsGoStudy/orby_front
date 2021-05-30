@@ -7,6 +7,7 @@ import './styles.css'
 import SpaceCreate from '../SpaceCreate/SpaceCreate'
 import ThreeDPreview from '../SpaceCreate/SpaceArtobjects/Popups/AddArtobject/ThreeDPreview/ThreeDPreview'
 import SpaceCongrats from '../SpaceCongrats/SpaceCongrats'
+import Button from '../Button/Button'
 
 class SpaceEdit extends Component {
     state = {
@@ -22,13 +23,13 @@ class SpaceEdit extends Component {
        edit: false,
        deleted: false,
        showHint: false,
-       showCongrats: true
+       showCongrats: false,
+       redirectToMySpaces: false
     }
 
     publish = e => {
         const { hints } = this.props;
-        hints && 
-        this.setState(prevState => ({space:{...prevState.space, published: prevState.space.published ? false : true}}), () => this.props.publishSpace(this.props.match.params.spaceid, this.state.space.published))
+        this.setState(prevState => ({space:{...prevState.space, published: prevState.space.published ? false : true}, showHint: false, showCongrats: hints ? true : false}), () => this.props.publishSpace(this.props.match.params.spaceid, this.state.space.published))
     }
 
     componentDidMount() {
@@ -75,11 +76,16 @@ class SpaceEdit extends Component {
 
     closeHint = () => this.setState({showHint: false})
 
+    redirectToMySpaces = () => {
+        this.props.hintsOff()
+        this.setState({redirectToMySpaces: true})
+    }
+
     render() {
         const { hints } = this.props;
-        const { space, edit, deleted, showHint, showCongrats } = this.state
+        const { space, edit, deleted, showHint, showCongrats, redirectToMySpaces } = this.state
         const { published, geo, name, description, date, avatar, artobjects, positions } = space;
-        if (deleted) {
+        if (deleted || redirectToMySpaces) {
             return <Redirect to="/myspaces"/>
         }
         if (edit) {
@@ -163,14 +169,16 @@ class SpaceEdit extends Component {
                         </div>
                     </div>
                     <div className="edit-buttons-cont">
-                        <div className="edit-button-2d not-ready">Preview 2D</div>
-                        <div className="edit-button-3d not-ready">Preview 3D gallery</div>
-                        <div className="edit-button-delete" onClick={this.deleteSpace}>Delete space</div>
+                        <Button size={'small'} text={'Preview 2D'} fontSize={'15px'} margin={'0 25px 0 0'}/>
+                        <Button text={'Preview 3D gallery'} fontSize={'16px'} margin={'0 25px 0 0'}/>
+                        <Button onClick={this.deleteSpace} size={'small'} color={'violet'} text={'Delete space'} fontSize={'15px'} />
                     </div>
                     <div className="edit-publish-cont">
                         <div className="edit-publish-marble"/>
                         <div className="edit-publish-text">Publish</div>
                         <div className={`edit-publish-switch ${ published ? 'edit-publish-switch-on' : ''}`} onClick={this.publish}/>
+                        {/* <div className={`edit-publish-switch`} onClick={this.publish}></div> */}
+
                         {
                             showHint &&  
                             <div className={"edit-publish-hint"}>
@@ -181,8 +189,8 @@ class SpaceEdit extends Component {
                        
                     </div>
                 </div>
-                {/* { hints && showHint && <div className={'screen-fade'}/>} */}
-                { showCongrats && <SpaceCongrats /> }
+                { hints && showHint && <div className={'screen-fade'}/>}
+                { showCongrats && <SpaceCongrats onClick={this.redirectToMySpaces}/> }
                 </>
             )
         }
@@ -198,6 +206,7 @@ const mapDispatchToProps = dispatch => ({
     loadSpace: id => dispatch(loadSpace(id)),
     deleteSpace: id => dispatch(deleteSpace(id)),
     publishSpace: (id, param) => dispatch(publishSpace(id, param)),
+    hintsOff: () => dispatch({type: 'HINTS_OFF'}),
     dispatch               
  })
 

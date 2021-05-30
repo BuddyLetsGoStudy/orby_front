@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
-
+import Button from '../../Button/Button'
 
 import './styles.css'
 
@@ -79,7 +79,8 @@ class SpaceMeta extends Component {
                     </YMaps>
                 </div>
                 <div className={`auth-modal-error-msg ${error && (!name || !date || geo[0] === 0) ? 'auth-modal-error-msg-visible space-meta-error' : ''}`}>{` ${!name || !date || geo[0] === 0 ? 'You must' : ''} ${ !name || !date ? `fill all the required fields ${geo[0] === 0 ? 'and' : ''}` : ''} ${geo[0] === 0 ? 'set gallery location to continue' : ''}`}</div>
-                <div className={`create-meta-button ${!date || !name || geo[0] === 0 ? 'button-disabled' : ''}`} onClick={this.submit}>{edit ? 'Save' : 'Next'}</div>
+                {/* <div className={`create-meta-button ${!date || !name || geo[0] === 0 ? 'button-disabled' : ''}`} onClick={this.submit}>{edit ? 'Save' : 'Next'}</div> */}
+                <Button onClick={this.submit} text={edit ? 'Save' : 'Next'} size={'medium'} color={!date || !name || geo[0] === 0 ? 'grey' : 'violet'} margin={'30px auto 0 auto'} fontSize={'16px'} arrow={true}/>
             </div>
         )
     }
