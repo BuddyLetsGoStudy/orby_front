@@ -230,8 +230,22 @@
     border-radius: 3px;
 }
 
+.create-popup-add-file-3d-error{
+    background-image: url('./assets/img/cubre-red.svg');
+}
 
-
+.create-popup-add-file-preview{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+}
 
 
 @keyframes artobjectLoading {

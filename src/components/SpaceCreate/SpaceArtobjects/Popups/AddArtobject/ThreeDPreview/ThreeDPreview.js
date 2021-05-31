@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import * as THREE from "three";
+import { AnimatePresence, motion } from "framer-motion"
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
 // import GLTFLoader from 'three-gltf-loader';
 
 export default class ThreeDPreview extends Component {
+    state = {
+      isLoaded: false
+    }
 
     componentDidMount(){
         this.fileType = this.props.url.split('.').pop();
@@ -50,6 +54,7 @@ export default class ThreeDPreview extends Component {
 // http://localhost:8000/media/artobjects/BoomBox.glb
 // http://localhost:8000/media/artobjects/633e19d910b22ffc299e2e986ba46606.obj
     componentDidUpdate(prevProps){
+      // console.log(prevProps, this.props)
       if(prevProps.url !== this.props.url) {
         this.scene.remove(this.upload)
         this.fileType = this.props.url.split('.').pop();
@@ -63,6 +68,7 @@ export default class ThreeDPreview extends Component {
         loader.load(
             this.props.url,
             upload => {
+                this.setState({isLoaded: true})
                 this.upload = this.fileType === 'obj' ? upload : upload.scene
 
                 var bbox = new THREE.Box3().setFromObject(this.upload);
@@ -104,6 +110,7 @@ export default class ThreeDPreview extends Component {
         cancelAnimationFrame(this.frameId);
       };
       animate = () => {
+        // console.log(this.props.animate)
         if (this.upload && this.props.animate) this.upload.rotation.y += 0.01;
 
         if (this.freedomMesh) this.freedomMesh.rotation.y += 0.01;
@@ -116,9 +123,13 @@ export default class ThreeDPreview extends Component {
       };
     
       render() {
+        const { isLoaded } = this.state;
         return (
-          <div
-            // style={{ width: "386px", height: "218px" }}
+          <motion.div
+            layout
+            initial={{ opacity: 0, scale: 0.1 }}
+            animate={isLoaded && {opacity: 1, scale: 1}}
+            transition={{ ease: "easeOut", duration: 0.2 }}
             className={`add-artobject-popup-3d-preview-${this.props.size}`}
             ref={mount => {
               this.mount = mount;

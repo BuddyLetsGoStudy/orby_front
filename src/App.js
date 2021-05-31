@@ -1,5 +1,8 @@
 import React, { Fragment } from 'react';
-import { Switch, Route, NavLink, Redirect } from "react-router-dom";
+import { Switch, Route, NavLink, Redirect, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion"
+
 import SpacesList from './components/SpacesList/SpacesList';
 import SpaceCreate from './components/SpaceCreate/SpaceCreate';
 import SpaceEdit from './components/SpaceEdit/SpaceEdit';
@@ -12,24 +15,32 @@ import AuthModal from './components/Auth/AuthModal';
 import PrivateRoute from './common/PrivateRoute';
 
 
+const App = () => {
+  const location = useLocation();
+  const authState = useSelector(state => state.Auth)
 
-const App = () => (
-  <Fragment>
-    <Navbar />
-    <Switch>
-        <Route path={"/"} exact component={SpacesList}/>
-        <PrivateRoute path={"/edit/profile"} exact component={EditProfile} />
-        <PrivateRoute path={"/edit/:spaceid"} component={SpaceEdit} />
-        <Route path={"/space/:spaceid"} component={Space} />
-        <PrivateRoute path={"/create"} exact component={SpaceCreate} />
-        <PrivateRoute path={"/myspaces"} exact component={MySpaces} />
+  return (
+    <>
+      <Navbar />
+      <AnimatePresence exitBeforeEnter>
+        <Switch location={location} key={location.pathname}>
+            <Route path={"/"} exact component={SpacesList}/>
+            <PrivateRoute path={"/edit/profile"} exact component={EditProfile} />
+            <PrivateRoute path={"/edit/:spaceid"} component={SpaceEdit} />
+            <Route path={"/space/:spaceid"} component={Space} />
+            <PrivateRoute path={"/create"} exact component={SpaceCreate} />
+            <PrivateRoute path={"/myspaces"} exact component={MySpaces} />
 
-        <Redirect to={"/"} />
-    </Switch>
-    <AuthModal />
-  </Fragment>
+            <Redirect to={"/"} />
+        </Switch>
+      </AnimatePresence>
 
-)
+      <AnimatePresence exitBeforeEnter>
+        { authState.showAuthModal && <AuthModal /> }
+      </AnimatePresence>
+    </>
+  )
+}
     
 
 export default App;

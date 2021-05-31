@@ -1,5 +1,6 @@
 import React, { Component, Suspense } from 'react'
 import { connect } from 'react-redux'
+import { AnimatePresence, motion } from "framer-motion"
 import _ from 'lodash'
 import { ArtobjectUploadAndUpdate, deleteArtobject } from '../../../../../actions/Artobjects'
 import './styles.css'
@@ -218,7 +219,7 @@ class AddArtobject extends Component {
                 })
                 .catch(e => console.log('я ненавижу женщин', e))
         } else {
-            this.setState({error: true, errorMsg: 'You must upload a picture (jpg or png), and fill all fields to continue'})
+            this.setState({error: true, errorMsg: 'You must upload an artobject, and fill all fields to continue'})
         }
     }
 
@@ -234,10 +235,10 @@ class AddArtobject extends Component {
     updState = e => this.setState({[e.target.name]: e.target.value})
 
     render() {
-        const { onClose, positionID } = this.props;
+        const { onClose, positionID} = this.props;
         const { name, description, artist, width, height, length, upload, date, create, submit, error, errorMsg, compressing, threeD, file } = this.state;
         return (
-            <div className={'create-popup background-transparent'}>
+            <motion.div className={'create-popup background-transparent'} initial={{opacity: 0, scale: 0.1, translateY: '-20vh'}} animate={{opacity: 1, scale: 1, translateY: '0vh'}} exit={{opacity: 0, scale: 0.1, translateY: '-20vh'}} transition={{ ease: "easeOut", duration: 0.15 }}>
                 <div className={'create-popup-cont'}>
                     <div className={'create-popup-header'}>
                         { `${create ? 'Add' : 'Edit'} ${threeD ? '3D object' : 'artwork'}`}
@@ -245,7 +246,12 @@ class AddArtobject extends Component {
                         <div className={'create-popup-header-close'} onClick={onClose}></div>
                     </div>
                     <div className={'create-popup-body-add'}>
-                        <div className={`create-popup-add-file ${threeD ? 'create-popup-add-file-3d' : ''}  ${submit && !upload ? 'input-error' : ''}`} style={{backgroundImage: upload && !threeD ? `url('${upload}')` : ''}}>
+                        <div className={`create-popup-add-file ${threeD ? 'create-popup-add-file-3d' : ''}  ${submit && !upload ? 'input-error' : ''}  ${submit && !upload && threeD ? 'create-popup-add-file-3d-error' : ''} `}>
+                
+                            { upload && !threeD && 
+                                <motion.div className={'create-popup-add-file-preview'} style={{backgroundImage: `url('${upload}')`}} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ ease: "easeOut", duration: 0.5 }}/>
+                            }
+                        
                             {
                                 !upload && !compressing &&
                                 <div className={'create-popup-add-file-text'}>
@@ -298,7 +304,7 @@ class AddArtobject extends Component {
                         <Button onClick={this.submitArtobject} text={'OK'}/>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         )
     }
 }

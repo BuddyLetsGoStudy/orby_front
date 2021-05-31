@@ -3,6 +3,10 @@
     content: url('./assets/img/rect-dashed-hover.svg') url('./assets/img/qube-dashed-hover.svg');
     width: 0;
     height: 0;
+    visibility:hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
 }   
 
 .create-add-artobjects{

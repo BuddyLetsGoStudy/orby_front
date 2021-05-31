@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateProfile } from "../../actions/Profile";
+import { AnimatePresence, motion } from "framer-motion"
 import Button from '../Button/Button'
 import { Link } from 'react-router-dom';
-import { API_DOMAIN } from "../../variables"
+import { API_DOMAIN, pageAnimation} from "../../variables"
 import './styles.css'
 
 const EditProfile = () => {
@@ -36,7 +37,7 @@ const EditProfile = () => {
 
     const { email, username, avatar, avatarRaw, errors, newPassword, newPasswordConfirm, success, changed } = editProfileState
     return (
-        <div className={'edit-profile'}>
+        <motion.div className={'edit-profile'}{...pageAnimation}>
             <div className={'edit-profile-title'}>Edit profile</div>
             <div className={'edit-profile-cont'}>
                 <div className={'edit-profile-avatar'} style={{backgroundImage: avatar ? `url('${avatarRaw ? '' : API_DOMAIN}${avatar}')` : ''}}>
@@ -80,7 +81,7 @@ const EditProfile = () => {
             </div>
             <div className={`edit-profile-success ${success ? 'edit-profile-success-visible' : ''}`}>✅ Profile updated</div>
             <Button onClick={() => changed && dispatch(UpdateProfile())} color={!changed ? 'grey' : 'blue'} text={'Save'} margin={'30px 0 0 0'}/>
-        </div>
+        </motion.div>
     )
 }
 

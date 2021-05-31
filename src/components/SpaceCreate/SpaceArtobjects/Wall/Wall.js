@@ -18,7 +18,7 @@ class Wall extends Component {
                 <div className={`space-create-cube space-create-cube-${num} ${hoveredArtobject === 12 + num ? 'space-create-cube-hover' : ''}`} id={`d${12 + num}`}>
                     {
                         positions[12 + num - 1] !== 0 &&
-                        <ThreeDPreview url={_.find(artobjects, {id: positions[12 + num - 1]}).upload} size={'smaller'} animate={false}/>
+                        <ThreeDPreview url={_.find(artobjects, {id: positions[12 + num - 1]}).upload} size={'smaller'} animate={hoveredArtobject === 12 + num ? true : false}/>
                     }
                 </div>
             </div>

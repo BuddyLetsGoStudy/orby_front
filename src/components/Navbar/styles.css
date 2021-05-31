@@ -4,6 +4,7 @@
     background-color: white;
     position: relative;
     z-index: 5px;
+    overflow-x: hidden;
   }
   
   .navbar-cont{
@@ -72,6 +73,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    white-space: nowrap;
   }
   
   .navbar-ul-li-text{
@@ -105,3 +107,15 @@
   background-image: url('./assets/img/default-avatar.svg');
 }
 
+.navbar-ul-cont-animation{
+  display: flex;
+}
+
+.navbar-ul-li-myspaces{
+  margin-right: 55px;
+
+}
+
+.navbar-ul-li-myspaces > a{
+min-width: 93px;
+}

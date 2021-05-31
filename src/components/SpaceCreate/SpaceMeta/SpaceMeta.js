@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { AnimatePresence, motion } from "framer-motion"
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
+import { pageAnimation } from '../../../variables'
 import Button from '../../Button/Button'
-
 import './styles.css'
+
 
 class SpaceMeta extends Component {
     state = {
@@ -44,7 +46,7 @@ class SpaceMeta extends Component {
         const { avatar, geo, name, date, description } = space;
         const { submit, error } = this.state;
         return (
-            <div className={'create-meta-cont'}>
+            <motion.div className={'create-meta-cont'} {...pageAnimation}>
                 <div className={'create-meta-avatar'} style={{backgroundImage: avatar ? `url('${avatar}')` : ''}}>
                     {
                         !avatar &&
@@ -81,7 +83,7 @@ class SpaceMeta extends Component {
                 <div className={`auth-modal-error-msg ${error && (!name || !date || geo[0] === 0) ? 'auth-modal-error-msg-visible space-meta-error' : ''}`}>{` ${!name || !date || geo[0] === 0 ? 'You must' : ''} ${ !name || !date ? `fill all the required fields ${geo[0] === 0 ? 'and' : ''}` : ''} ${geo[0] === 0 ? 'set gallery location to continue' : ''}`}</div>
                 {/* <div className={`create-meta-button ${!date || !name || geo[0] === 0 ? 'button-disabled' : ''}`} onClick={this.submit}>{edit ? 'Save' : 'Next'}</div> */}
                 <Button onClick={this.submit} text={edit ? 'Save' : 'Next'} size={'medium'} color={!date || !name || geo[0] === 0 ? 'grey' : 'violet'} margin={'30px auto 0 auto'} fontSize={'16px'} arrow={true}/>
-            </div>
+            </motion.div>
         )
     }
 }

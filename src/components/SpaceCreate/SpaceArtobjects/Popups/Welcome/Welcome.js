@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { AnimatePresence, motion } from "framer-motion"
 import Button from '../../../../Button/Button'
 import './styles.css'
 
@@ -7,8 +8,8 @@ const Welcome = props => {
     useEffect(() => document.body.classList.add('no-scroll'), [])
 
     return(
-        <div className={'create-popup'}>
-            <div className={'create-popup-cont'}>
+        <motion.div className={'create-popup'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{ ease: "easeOut", duration: 0.15}}>
+            <motion.div className={'create-popup-cont'} initial={{opacity: 0, scale: 0.1, translateY: '-20vh'}} animate={{opacity: 1, scale: 1, translateY: '0vh'}} exit={{opacity: 0, scale: 0.1, translateY: '-20vh'}} transition={{ ease: "easeOut", duration: 0.3 }}>
                 <div className={'create-popup-header'}>Get started</div>
                 <div className={'create-popup-body'}>
                     <div className={'create-popup-body-step-1'}>
@@ -29,8 +30,8 @@ const Welcome = props => {
                     </div>
                 </div>
                 <Button onClick={props.onClose} text={'Got it'} margin={'50px auto 0 auto'}/>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

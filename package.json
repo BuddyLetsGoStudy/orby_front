@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "browser-image-compression": "^1.0.14",
     "css-loader": "^5.1.2",
+    "framer-motion": "^4.1.17",
     "fs-extra": "^10.0.0",
     "gltf-pipeline": "^3.0.2",
     "jwt-decode": "^3.1.2",

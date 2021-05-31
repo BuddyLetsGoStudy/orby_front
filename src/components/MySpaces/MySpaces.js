@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion"
+import { pageAnimation } from '../../variables'
 import { loadMySpaces, publishMySpaces } from "../../actions/SpaceCreation";
 import { Link } from 'react-router-dom';
 import SpaceCongrats from '../SpaceCongrats/SpaceCongrats'
@@ -27,7 +29,7 @@ const MySpaces = () => {
     }
 
     return (
-        <div className={'myspaces'}>
+        <motion.div className={'myspaces'} {...pageAnimation}>
             <div className={'myspaces-cont'}>
                 {
                     !profileState.spaces[0] ?
@@ -57,7 +59,7 @@ const MySpaces = () => {
                 }
             </div>
             { showCongrats && <SpaceCongrats onClick={closeCongrats} />}
-        </div>
+        </motion.div>
     )
 }
 

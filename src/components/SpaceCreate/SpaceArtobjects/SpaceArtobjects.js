@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-
+import { AnimatePresence, motion } from "framer-motion"
+import { pageAnimation } from '../../../variables'
 import AddArtobjects from './AddArtobjects/AddArtobjects'
 import Welcome from './Popups/Welcome/Welcome'
 import AddArtobject from './Popups/AddArtobject/AddArtobject'
@@ -13,9 +14,9 @@ import './styles.css'
 
 class SpaceArtobjects extends Component {
     state = {
-        showWelcome: true,
-        show2DHint: true,
-        show3DHint: true,
+        showWelcome: false,
+        show2DHint: false,
+        show3DHint: false,
         showAddArtobject: false,
         hoveredWall: 0,
         hoveredArtobject: 0,
@@ -28,7 +29,7 @@ class SpaceArtobjects extends Component {
         positions.forEach((id, i) => {
             id !== 0 && this.displayArtobject(i + 1, _.find(artobjects, {id}).upload)
         })
-        hints && this.setState({hoveredWall: 1, hoveredArtobject: 1})
+        hints && setTimeout(() => this.setState({showWelcome: true}), 1001)
     }
 
     componentDidUpdate(prevProps) {
@@ -41,15 +42,28 @@ class SpaceArtobjects extends Component {
         }
     }
 
-    closePopup = () => this.setState({showWelcome: false, showAddArtobject: false})
+    closePopup = () => this.setState({showAddArtobject: false})
+
+    closeWelcome = () => {
+        setTimeout(() => this.setState({show2DHint: true, hoveredWall: 1, hoveredArtobject: 1}), 500)
+        setTimeout(() => this.setState({show3DHint: true}), 1500)
+
+        this.setState({showWelcome: false})
+    }
 
     closeHint = e =>  this.setState({[e.target ? e.target.id : e]: false, hoveredWall: 0, hoveredArtobject: 0})
 
     hoverWall = e => this.setState({hoveredWall: parseInt(e.currentTarget.id[2], 10) || parseInt(e.currentTarget.id[1], 10)})
     unhoverWall = () => this.setState({hoveredWall: 0})
 
-    hoverArtobject = e => this.setState({hoveredArtobject: parseInt(e.target.id, 10)})
-    unhoverArtobject = () => this.setState({hoveredArtobject: 0})
+    hoverArtobject = e => {
+        console.log('hovered:', e.currentTarget.id)
+        this.setState({hoveredArtobject: parseInt(e.currentTarget.id, 10)})
+    }
+    unhoverArtobject = () => { 
+        console.log('unhovered')
+        this.setState({hoveredArtobject: 0})
+    }
 
     addArtobject = e => this.setState({showAddArtobject: true, clickedPosition: e.currentTarget.id})
 
@@ -88,13 +102,13 @@ class SpaceArtobjects extends Component {
         const { showWelcome, showAddArtobject, hoveredWall, hoveredArtobject, clickedPosition, show2DHint, show3DHint } = this.state;
         const { edit, space, hints } = this.props;
         const { artobjects } = space;
-
+ 
         return (
-            <div className={`body-cont`}>
+            <motion.div className={`body-cont`} {...pageAnimation}>
                 <div className={'create-cont'}>
                     <div className={'create-cont-top'}>
                         <AddArtobjects num={1} hoveredWall={hoveredWall} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject} show2D={show2DHint} show3D={show3DHint} hoveredArtobject={hoveredArtobject} closeHint={this.closeHint}/>
-                        <AddArtobjects num={2} hoveredWall={hoveredWall} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject}/>
+                        <AddArtobjects num={2} hoveredWall={hoveredWall} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject} hoveredArtobject={hoveredArtobject}/>
                     </div>
                     <div className={'space-create-wall-cont'}>
                         <Wall num={1} hoveredWall={hoveredWall} hoveredArtobject={hoveredArtobject} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall}/>
@@ -103,19 +117,18 @@ class SpaceArtobjects extends Component {
                         <Wall num={3} hoveredWall={hoveredWall} hoveredArtobject={hoveredArtobject} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall}/>
                     </div>
                     <div className={'create-cont-bottom'}>
-                        <AddArtobjects num={4} hoveredWall={hoveredWall} hoveredArtobject={hoveredArtobject} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject}/>
-                        <AddArtobjects num={3} hoveredWall={hoveredWall} hoveredArtobject={hoveredArtobject} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject}/>
+                        <AddArtobjects num={4} hoveredWall={hoveredWall} hoveredArtobject={hoveredArtobject} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject} hoveredArtobject={hoveredArtobject}/>
+                        <AddArtobjects num={3} hoveredWall={hoveredWall} hoveredArtobject={hoveredArtobject} hoverWall={this.hoverWall} unhoverWall={this.unhoverWall} hoverArtobject={this.hoverArtobject} unhoverArtobject={this.unhoverArtobject} addArtobject={this.addArtobject} hoveredArtobject={hoveredArtobject}/>
                     </div>
                 </div>
                 <div className={'create-btn-cont'}>
                     <Button onClick={this.previewSpace} text={'Preview 3D gallery'}fontSize={'16px'}/>
-                    {/* <div className={'create-btn-preview not-ready'}></div> */}
                     <Button onClick={this.onSubmit} color={_.isEmpty(artobjects) ? 'grey' : 'violet'} text={edit ? 'Save' : 'Create a space'} margin={'0 0 0 25px'} fontSize={'16px'} arrow={true}/>
-                    {/* <div className={`create-btn-submit ${_.isEmpty(artobjects) ? '' : 'create-btn-submit-active'}`} onClick={this.onSubmit}>{edit ? 'Save' : 'Create a space'}</div> */}
                 </div>
-                { hints && showWelcome && <Welcome onClose={this.closePopup} /> }
-                { showAddArtobject && <AddArtobject onClose={this.closePopup} onCreated={this.artobjectAdded} onDeleted={this.artobjectDeleted} positionID={clickedPosition} /> }
-            </div>
+                <AnimatePresence exitBeforeEnter>{ hints && showWelcome && <Welcome onClose={this.closeWelcome} /> }</AnimatePresence>
+                <AnimatePresence exitBeforeEnter>{ showAddArtobject && <AddArtobject showAddArtobject={showAddArtobject} onClose={this.closePopup} onCreated={this.artobjectAdded} onDeleted={this.artobjectDeleted} positionID={clickedPosition} /> } </AnimatePresence>
+            </motion.div>
+          
         )
     }
 }

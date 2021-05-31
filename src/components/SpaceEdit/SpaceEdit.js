@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { loadSpace, deleteSpace, publishSpace } from '../../actions/SpaceCreation'
 import { connect } from 'react-redux'
 import { Redirect } from "react-router-dom"
+import { AnimatePresence, motion } from "framer-motion"
+import { pageAnimation } from '../../variables'
 import _ from 'lodash'
 import './styles.css'
 import SpaceCreate from '../SpaceCreate/SpaceCreate'
@@ -39,7 +41,7 @@ class SpaceEdit extends Component {
                 this.setState({space: {name: space.name, published: space.published, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
                 this.manageUI)
             })
-        this.props.hints && this.setState({showHint: true})
+        this.props.hints && setTimeout(() => this.setState({showHint: true}), 1000)
     }
 
     manageUI = () => {
@@ -92,7 +94,7 @@ class SpaceEdit extends Component {
             return <SpaceCreate step={edit} editpage={true} />
         } else {
             return (
-                <>
+                <motion.div {...pageAnimation} >
                 <div className={'edit-cont'}>
                     <div className={'edit-cards-cont'}>
                         <div className={'edit-card'} onClick={() => this.editStart('meta')}>
@@ -178,20 +180,22 @@ class SpaceEdit extends Component {
                         <div className="edit-publish-text">Publish</div>
                         <div className={`edit-publish-switch ${ published ? 'edit-publish-switch-on' : ''}`} onClick={this.publish}/>
                         {/* <div className={`edit-publish-switch`} onClick={this.publish}></div> */}
-
-                        {
-                            showHint &&  
-                            <div className={"edit-publish-hint"}>
-                                <div className={"edit-publish-hint-text"}>{ hints ? <>You are almost done! Turn this switch ON, to make your space visible to others <sub>🙂</sub></> : <>You cant publish your space, because you don’t have any objects in your gallery <sub>☹️</sub> Add one, or more objects, and try again</>}</div>
-                                <div className={"edit-publish-hint-close"} onClick={this.closeHint}/>
-                            </div>
-                        }
-                       
+                        <AnimatePresence exitBeforeEnter>
+                            {
+                                showHint &&  
+                                <motion.div className={"edit-publish-hint"} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+                                    <div className={"edit-publish-hint-text"}>{ hints ? <>You are almost done! Turn this switch ON, to make your space visible to others <sub>🙂</sub></> : <>You cant publish your space, because you don’t have any objects in your gallery <sub>☹️</sub> Add one, or more objects, and try again</>}</div>
+                                    <div className={"edit-publish-hint-close"} onClick={this.closeHint}/>
+                                </motion.div>
+                            }
+                       </AnimatePresence>
                     </div>
                 </div>
-                { hints && showHint && <div className={'screen-fade'}/>}
+                <AnimatePresence exitBeforeEnter>
+                { hints && showHint && <motion.div className={'screen-fade'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}/>}
+                </AnimatePresence>
                 { showCongrats && <SpaceCongrats onClick={this.redirectToMySpaces}/> }
-                </>
+                </motion.div>
             )
         }
     }

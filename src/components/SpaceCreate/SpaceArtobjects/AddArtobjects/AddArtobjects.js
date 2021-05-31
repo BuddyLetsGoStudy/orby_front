@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { AnimatePresence, motion } from "framer-motion"
 import _ from 'lodash'
 import ThreeDPreview from '../Popups/AddArtobject/ThreeDPreview/ThreeDPreview'
 
@@ -22,13 +23,15 @@ class AddArtobjects extends Component {
                         <div className={`create-add-artobjects-add ${num === 1 && hints && show2D && hoveredArtobject === 1 && 'create-add-artobjects-add-hovered'}`} id={1 + 3 * (num - 1)} onMouseOver={hoverArtobject} onMouseOut={unhoverArtobject} onClick={addArtobject}></div>
                         <div className={'create-add-artobjects-add'} id={2 + 3 * (num - 1)} onMouseOver={hoverArtobject} onMouseOut={unhoverArtobject} onClick={addArtobject}></div>
                         <div className={'create-add-artobjects-add'} id={3 + 3 * (num - 1)} onMouseOver={hoverArtobject} onMouseOut={unhoverArtobject} onClick={addArtobject}></div>
-                        {
-                            num === 1 && hints && show2D &&
-                            <div className={'create-add-artobjects-hint create-add-artobjects-hint-2d'}>
-                                Click here to add artwork
-                                <div className={'create-add-artobjects-hint-close'} id={'show2DHint'} onClick={closeHint} />
-                            </div>
-                        }
+                        <AnimatePresence exitBeforeEnter>
+                            {
+                                num === 1 && hints && show2D &&
+                                <motion.div className={'create-add-artobjects-hint create-add-artobjects-hint-2d'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+                                    Click here to add artwork
+                                    <div className={'create-add-artobjects-hint-close'} id={'show2DHint'} onClick={closeHint} />
+                                </motion.div>
+                            }
+                        </AnimatePresence>
                     </div>
                 </div>
                 <div className={`create-add-artobjects-3d-cont ${num > 2 ? 'create-add-artobjects-order-3d' : ''}`}>
@@ -39,13 +42,15 @@ class AddArtobjects extends Component {
                             <ThreeDPreview url={_.find(artobjects, {id: positions[12 + num - 1]}).upload} size={'small'} animate={false}/>
                         }
                     </div>
-                    {
-                        num === 1 && hints && show3D &&
-                        <div className={'create-add-artobjects-hint'}>
-                            Click here to add 3D object
-                            <div className={'create-add-artobjects-hint-close'} id={'show3DHint'} onClick={closeHint}/>
-                        </div>
-                    }
+                    <AnimatePresence exitBeforeEnter>
+                        {
+                            num === 1 && hints && show3D &&
+                            <motion.div className={'create-add-artobjects-hint'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+                                Click here to add 3D object
+                                <div className={'create-add-artobjects-hint-close'} id={'show3DHint'} onClick={closeHint}/>
+                            </motion.div>
+                        }
+                    </AnimatePresence>
                 </div>
             </div>
         )

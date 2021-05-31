@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { AnimatePresence, motion } from "framer-motion"
 import SpaceArtobjects from './SpaceArtobjects/SpaceArtobjects'
 import { createSpace } from '../../actions/SpaceCreation'
 import { Redirect } from "react-router-dom";
@@ -44,16 +45,18 @@ class SpaceCreate extends Component {
             return(<SpaceEdit match={{params:{spaceid: edit}}}/>)
         } else {
             return (
+                // <AnimatePresence exitBeforeEnter={true}>
                 <>
-                    {
-                        redirectID ? 
-                            <Redirect to={`/edit/${redirectID}`} />
-                        : step === 'artobjects' ?
-                            <SpaceArtobjects onSubmit={this.nextStep} />
-                        :
-                            <SpaceMeta onSubmit={this.createSpace} />
-                    }
-                </>
+                        {
+                            redirectID ? 
+                                <Redirect to={`/edit/${redirectID}`} />
+                            : step === 'artobjects' ?
+                                <SpaceArtobjects onSubmit={this.nextStep} />
+                            :
+                                <SpaceMeta onSubmit={this.createSpace} />
+                        }
+                    </>
+                // </AnimatePresence>
             )
         }
         

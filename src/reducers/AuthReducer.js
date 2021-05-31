@@ -62,7 +62,7 @@ const AuthReducer = (state = DefaultState, action) => {
                 ...state,
                 username: '',
                 email: '',
-                token: '',
+                token: null,
                 avatar: '',
                 error: false,
             }

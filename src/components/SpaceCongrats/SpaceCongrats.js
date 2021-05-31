@@ -1,9 +1,18 @@
 import React, { useEffect } from 'react'
+import { AnimatePresence, motion } from "framer-motion"
 import Button from '../Button/Button'
 import './styles.css'
 
+// initial={{opacity: 0, scale: 0.1, translateY: '-20vh'}} animate={{opacity: 1, scale: 1, translateY: '0vh'}} exit={{opacity: 0, scale: 0.1, translateY: '-20vh'}} transition={{ ease: "easeOut", duration: 0.15 }}
+const flickersAnimation = {
+    initial: {opacity: 0, x: '-100px', y: '50px'},
+    animate: {opacity: 1, x: '0', y: '0'},
+    exit: {opacity: 0},
+    transition: {delay: 1, duration: 0.5}
+}
+
 const SpaceCongrats = props => (
-    <div className={'space-congrats'}>
+    <motion.div className={'space-congrats'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
         <div className={'space-congrats-body'}>
             <div className={'space-congrats-body-title'}>Congratulations!</div>
             <div className={'space-congrats-body-earth'}/>
@@ -14,11 +23,11 @@ const SpaceCongrats = props => (
                 <a className={'space-congrats-body-share-fb'} href="#"/> 
                 <a className={'space-congrats-body-share-vk'} href="#"/> 
             </div>
-            <div className={'space-congrats-body-flickers-left'} />
-            <div className={'space-congrats-body-flickers-right'} />
+            <motion.div className={'space-congrats-body-flickers-left'} initial={{opacity: 0, x: '-100px', y: '50px'}} animate={{opacity: 1, x: '0', y: '0'}} exit={{opacity: 0}} transition={{delay: 1, duration: 0.5}}/>
+            <motion.div className={'space-congrats-body-flickers-right'} initial={{opacity: 0, x: '100px', y: '50px', rotate: '-75deg'}} animate={{opacity: 1, x: '0', y: '0'}} exit={{opacity: 0}} transition={{delay: 1, duration: 0.5}}/>
         </div>
         <Button onClick={props.onClick} text={'Thanks!'} margin={'30px 0 0 0'}/>
-    </div>
+    </motion.div>
 );
 
 export default SpaceCongrats

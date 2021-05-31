@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion"
+import { pageAnimation } from '../../variables'
 import { loadAllSpaces } from "../../actions/SpaceCreation";
 import { Link } from 'react-router-dom';
 import './styles.css'
@@ -13,7 +15,7 @@ const SpacesList = () => {
     }, [])
 
     return (
-        <div className={'spaceslist'}>
+        <motion.div className={'spaceslist'} {...pageAnimation}>
             <div className={'spaceslist-cont'}>
                 {
                     listSpacesState.spaces.map(space => (
@@ -33,7 +35,7 @@ const SpacesList = () => {
 
                 
             </div>
-        </div>
+        </motion.div>
     )
 }
 
