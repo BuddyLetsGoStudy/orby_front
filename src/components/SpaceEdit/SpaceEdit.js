@@ -88,7 +88,7 @@ class SpaceEdit extends Component {
         const { space, edit, deleted, showHint, showCongrats, redirectToMySpaces } = this.state
         const { published, geo, name, description, date, avatar, artobjects, positions } = space;
         if (deleted || redirectToMySpaces) {
-            return <Redirect to="/myspaces"/>
+            return  <AnimatePresence exitBeforeEnter><Redirect to="/myspaces"/></AnimatePresence>
         }
         if (edit) {
             return <SpaceCreate step={edit} editpage={true} />

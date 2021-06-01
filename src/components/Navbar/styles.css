@@ -20,13 +20,74 @@
     background-size: cover;
     width: 155px;
     height: 50.54px;
-    margin-right: auto;
+  }
+
+  .navbar-search-input-cont{
+    width: 372px;
+    height: 47px;
+    margin-left: 45px;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .navbar-search-input-bg{
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #F2F2F2;
+    border-radius: 200px;
+    top: 0;
+    left: 0;
+    transition: .3s;
+  }
+
+  .navbar-search-input{
+    width: 360px;
+    height: 37px;
+    background-color: #F2F2F2;
+    border-radius: 200px;
+    border: 1px solid #f2f2f2;
+    box-sizing: border-box;
+    padding: 6.5px 0px 6.5px 46px;
+    font-size: 15px;
+    outline: none;
+    line-height: 24px;
+    position: relative;
+    background-image: url('./assets/img/search.svg');
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 15.5px 10px;
+    transition: .2s;
+    margin-left: 5.5px;
+    z-index: 11;
+  }
+  
+
+  .navbar-search-input::placeholder{
+    color: #AEB2BE;
+    transition: .2s;
+
+  }
+
+  .navbar-search-input:focus{
+    border-color: #555555;
+    background-color: white
+  }
+
+  .navbar-search-input:focus ~ .navbar-search-input-bg{
+    opacity: 1;
+  }
+
+  .navbar-search-input:focus::placeholder{
+    color: #555555;
   }
   
   .navbar-icons{
     display: flex;
     align-items: center;
-    margin-right: 65px;
+    margin-right: 50px;
   }
   
   .navbar-icons-globus{
@@ -34,7 +95,7 @@
     background-size: cover;
     width: 26.4px;
     height: 26.4px;
-    margin-right: 60px;
+    margin-right: 50px;
     cursor: pointer;
   
   }
@@ -44,7 +105,6 @@
     background-size: cover;
     width: 23.76px;
     height: 23.76px;
-    margin-right: 60px;
     cursor: pointer;
   }
   
@@ -62,11 +122,11 @@
   }
   
   .navbar-ul > div{
-    margin-right: 55px;
+    margin-right: 50px;
   }
   
   .navbar-ul > :last-child{
-    margin-right: 55px;
+    margin-right: 0px;
   }
   
   .navbar-ul-li{
@@ -86,7 +146,7 @@
   }
 
   .navbar-ul-li-create{
-    margin-right: 55px;
+    margin-right: 50px;
     text-decoration: none;
   }
   
@@ -109,10 +169,11 @@
 
 .navbar-ul-cont-animation{
   display: flex;
+  margin-left: auto;
 }
 
 .navbar-ul-li-myspaces{
-  margin-right: 55px;
+  margin-right: 50px;
 
 }
 

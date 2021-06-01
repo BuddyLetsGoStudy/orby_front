@@ -30,12 +30,19 @@
     display: block;
 }
 
+
+
 .spaceslist-block-card-bg{
-    background-size: cover;
+    transition: .5s;
+    background-size: 105%;
     background-position: center;
     border-radius: 20px;
     width: 100%;
     height: 100%;
+}
+
+.spaceslist-block-card:hover > .spaceslist-block-card-bg{
+    background-size: 100%;
 }
 
 .spaceslist-block-card-avatar{

@@ -34,7 +34,9 @@ const AuthModal = () => {
     }
 
     return(
-        <motion.div  className={'auth-modal'} initial={{opacity: 0, scale: 0.1, translateY: '-20vh'}} animate={{opacity: 1, scale: 1, translateY: '0vh'}} exit={{opacity: 0, scale: 0.1, translateY: '-20vh'}} transition={{ ease: "easeOut", duration: 0.15 }}>
+        // <motion.div  className={'auth-modal'} initial={{opacity: 0, scale: 0.1, translateY: '-20vh'}} animate={{opacity: 1, scale: 1, translateY: '0vh'}} exit={{opacity: 0, scale: 0.1, translateY: '-20vh'}} transition={{ ease: "easeOut", duration: 0.15 }}>
+        <motion.div  className={'auth-modal'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{ ease: "easeOut", duration: 0.15 }}>
+
             <div className={'auth-modal-cont'}>
                 {
                     modalType === 'login' ?
