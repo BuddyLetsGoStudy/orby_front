@@ -1,0 +1,29 @@
+.search-page-header-bg{
+    background: #ffffff;
+    width: 100%;
+}
+.search-page-header{
+    max-width: 1180px;
+    margin: auto;
+    height: 107px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search-page-header-title{
+    font-size: 20px;
+    line-height: 24px;
+    color: #8F8F8F;
+}
+
+.search-page-header-title > span{
+    color: #272727;
+}
+
+.search-page-header-amount{
+    font-size: 15px;
+    line-height: 18px;
+    color: #555555;
+    margin-top: 15px;
+}

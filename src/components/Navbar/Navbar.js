@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { ShowAuthModal, LoadUser } from "../../actions/AuthActions";
 import { AnimatePresence, motion } from "framer-motion"
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { API_DOMAIN } from "../../variables"
 import './styles.css'
 
@@ -15,7 +15,9 @@ const pageAnimation = {
 
 const Navbar = () => {
     const dispatch = useDispatch();
+    const history = useHistory()
     const authState = useSelector(state => state.Auth);
+    const searchState = useSelector(state => state.Search);
     
     useEffect(() => {
         console.log('pedik')
@@ -24,16 +26,17 @@ const Navbar = () => {
 
     const submitSearch = e => {
         e.preventDefault()
-        console.log('fucker')
+        history.push(`/search/${e.target[0].value}`)
     }
 
-    console.log('FUUFGIOEIUGJIRGUIOEI======================', authState.token)
+    const searchChanged = e => dispatch({type: 'SEARCH_QUERY_CHANGE', payload: e.target.value})
+
     return (
         <div className={'navbar'}>
             <div className={'navbar-cont'}>
                 <Link to="/" className={'navbar-logo'}/>
                 <form className={'navbar-search-input-cont'} onSubmit={submitSearch}>
-                    <input type="text" className={'navbar-search-input'} placeholder={'Search by creator, galleries, collection'}/>
+                    <input type="text" className={'navbar-search-input'} placeholder={'Search by creator, galleries, collection'} name={'search'} value={searchState.query} onChange={searchChanged}/>
                     <div className={'navbar-search-input-bg'}/>
                 </form>
                 <AnimatePresence exitBeforeEnter>

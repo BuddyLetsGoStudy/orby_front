@@ -5,7 +5,7 @@ import SpaceReducer from './SpaceReducer'
 import ProfileReducer from './ProfileReducer'
 import ListSpacesReducer from './ListSpacesReducer'
 import EditProfileReducer from './EditProfileReducer'
-
+import SearchReducer from './SearchReducer'
 
 
 const rootReducer = combineReducers({
@@ -15,6 +15,8 @@ const rootReducer = combineReducers({
     Profile: ProfileReducer,
     ListSpaces: ListSpacesReducer,
     EditProfile: EditProfileReducer,
+    Search: SearchReducer,
+
 });
 
 export default rootReducer;
