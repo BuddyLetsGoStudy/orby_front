@@ -26,7 +26,7 @@ const Navbar = () => {
 
     const submitSearch = e => {
         e.preventDefault()
-        history.push(`/search/${e.target[0].value}`)
+        e.target[0].value?.trim() && history.push(`/search/${e.target[0].value}`)
     }
 
     const searchChanged = e => dispatch({type: 'SEARCH_QUERY_CHANGE', payload: e.target.value})

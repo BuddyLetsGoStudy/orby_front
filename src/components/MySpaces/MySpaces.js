@@ -16,7 +16,7 @@ const MySpaces = () => {
 
     useEffect(() => {
         dispatch(loadMySpaces())
-    }, [])
+    }, [authState.username])
 
     const publish = (id, published) => {
         authState.hints && setShowCongrats(true)

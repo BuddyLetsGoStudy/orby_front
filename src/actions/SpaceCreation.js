@@ -131,8 +131,11 @@ export const loadSpace = id => async dispatch => {
 export const loadMySpaces = () => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
-      
-      const res = await axios.get(`${API_DOMAIN}/spaces/?author=${jwt_decode(store.getState().Auth.token).id}`, AUTH_JSON_CONFIG());
+      const { username } = store.getState().Auth;
+      if (!username) return 'penis'
+      // const res = await axios.get(`${API_DOMAIN}/spaces/?search=${jwt_decode(store.getState().Auth.token).id}&author_username_only`, AUTH_JSON_CONFIG());
+      const res = await axios.get(`${API_DOMAIN}/spaces/?search=${username}&author_username_only=${true}`, AUTH_JSON_CONFIG());
+
       console.log('res', res)
       dispatch({
         type: "MYSPACES_GET",

@@ -61,7 +61,7 @@
     background-position: 15.5px 10px;
     transition: .2s;
     margin-left: 5.5px;
-    z-index: 11;
+    /* z-index: 11; */
   }
   
 
