@@ -4,8 +4,7 @@ import { Octree } from './Octree';
 import { Capsule } from './Capsule';
 import Stats from './Stats';
 import { AnimatePresence, motion } from "framer-motion"
-import { pageAnimation } from '../../variables'
-
+import { pageAnimation, API_DOMAIN } from '../../variables'
 import './styles.css'
 
 const wallPositions = [
@@ -13,6 +12,21 @@ const wallPositions = [
     [[[1, 30, 90], [-60, 10, 0]], [[1.5, 1.5, 90.5], [-60, 0.75, 0]]],
     [[[90, 30, 1], [0, 10, 60]], [[90.5, 1.5, 1.5], [0, 0.75, 60]]],
     [[[90, 30, 1], [0, 10, -60]], [[90.5, 1.5, 1.5], [0, 0.75, -60]]]
+]
+
+const lightPos = [
+    [[-26, 25, -55], [-26, 10, -59]],
+    [[0, 25, -55], [0, 10, -59]],
+    [[26, 25, -55], [26, 10, -59]],
+    [[55, 25, -26], [59, 10, -26]],
+    [[55, 25, 0], [59, 10, 0]],
+    [[55, 25, 26], [59, 10, 26]],
+    [[26, 25, 55], [26, 10, 59]],
+    [[0, 25, 55], [0, 10, 59]],
+    [[-26, 25, 55], [-26, 10, 59]],
+    [[-55, 25, 26], [-59, 10, 26]],
+    [[-55, 25, 0], [-59, 10, 0]],
+    [[-55, 25, -26], [-59, 10, -26]],
 ]
 
 const artPositions = [
@@ -59,6 +73,7 @@ class Scene extends Component {
         this.genMainLights()
         this.genWalls(4)
         this.genFloor()
+        this.genArtobjects()
 
         this.addListeners()
 
@@ -73,6 +88,103 @@ class Scene extends Component {
         this.start()
     }
 
+    genArtobjects = () => {
+        fetch(`${API_DOMAIN}/spaces/${this.props.match.params.spaceid}/`)
+				.then(response => response.json())
+  				.then(data => {
+					  console.log(data)
+					  const { name, artobjects, options } = data;
+					  const { positions } = JSON.parse(options);
+					  console.log('YEAHHAHHA', name, artobjects, positions)
+					  document.title = `${name} gallery`;
+					
+					  artobjects.map((artobject, i) => {
+						//   setTimeout(() => {
+							const imgUrl = artobject.upload;
+							const fileType = imgUrl.split('.').pop();
+							const artobjectID = artobject.id
+							console.log(artobject);
+							const { category } = artobject;
+							const { width, height, length } = JSON.parse(artobject.options);
+
+							const artPosition = positions.indexOf(artobjectID) 
+							console.log(artPosition, 'FUCUCUUFVHIFU')
+							// category !== 2 && genLight(lightPos[artPosition][0], lightPos[artPosition][1], scene)
+
+							
+							const texture = new THREE.TextureLoader().load(imgUrl)
+							texture.wrapS = THREE.RepeatWrapping
+							texture.wrapT = THREE.RepeatWrapping
+							texture.repeat.set( 1, 1 );
+							let incr = 0.1;
+							if (category === 2 && artPosition > 0) {
+								// let incr = 7;
+								// const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
+								// loader.load(imgUrl, gltf => {
+								// 	let obj = fileType === 'obj' ? gltf : gltf.scene
+								// 	console.log(artPosition - 12, 'UFVIIFDVODI')
+								// 	obj.position.x = threeDPos[artPosition - 11][0];
+								// 	obj.position.y = threeDPos[artPosition - 11][1];
+								// 	obj.position.z = threeDPos[artPosition - 11][2];
+								// 	console.log('POSITIONS NOW BUDDY FYCK', threeDPos[artPosition - 11][0], threeDPos[artPosition - 11][1], threeDPos[artPosition - 11][2])
+								// 	obj.scale.y = height * incr;
+								// 	obj.scale.x = width * incr;
+								// 	obj.scale.z = length * incr;
+								// 	scene.add( obj );
+
+								// }, undefined, function ( error ) {
+								// 	console.error( error );
+
+								// } );
+                                console.log('fukc')
+							} else if (artPosition > 0 && artPositions[artPosition][3] === 1) {
+								let geometry = new THREE.BoxGeometry(0.7, height * incr, width * incr)
+								let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture })
+								// let material = new THREE.MeshBasicMaterial({color: '#fff' })
+
+								let cube = new THREE.Mesh(geometry, material)
+								cube.position.x = artPositions[artPosition][0];
+								cube.position.y = artPositions[artPosition][1];
+								cube.position.z = artPositions[artPosition][2];
+								this.scene.add(cube)
+
+								let geometryRamka = new THREE.BoxGeometry(0.69, height * incr + 0.2, width * incr + 0.2)
+								let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10  } );
+								let ramka = new THREE.Mesh(geometryRamka, materialRamka)
+								ramka.position.x = artPositions[artPosition][0];
+								ramka.position.y = artPositions[artPosition][1];
+								ramka.position.z = artPositions[artPosition][2];
+								ramka.castShadow = true;
+								this.scene.add(ramka)
+							
+							} else if (artPosition > 0){
+								let geometry = new THREE.BoxGeometry(width * incr, height * incr, 0.7)
+								let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture})
+								// let material = new THREE.MeshBasicMaterial({color: '#fff' })
+
+								let cube = new THREE.Mesh(geometry, material)
+								cube.position.x = artPositions[artPosition][0];
+								cube.position.y = artPositions[artPosition][1];
+								cube.position.z = artPositions[artPosition][2];
+								this.scene.add(cube)
+
+								let geometryRamka = new THREE.BoxGeometry(width * incr + 0.2, height * incr + 0.2, 0.69)
+								let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10} );
+								let ramka = new THREE.Mesh(geometryRamka, materialRamka)
+								ramka.position.x = artPositions[artPosition][0];
+								ramka.position.y = artPositions[artPosition][1];
+								ramka.position.z = artPositions[artPosition][2];
+								ramka.castShadow = true;
+								this.scene.add(ramka)
+							
+							}
+						//   }, 3000)
+							
+							
+					})
+				})
+
+    }
 
     genMainLights = () =>{
         const ambientlight = new THREE.AmbientLight( 0xffffff, 0.1 );
