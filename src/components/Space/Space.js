@@ -45,7 +45,8 @@ const threeDPos = [
 
 class Scene extends Component {
     state = {
-        showMenu: true
+        showMenu: true,
+        space: {}
     }
 
     componentDidMount() {
@@ -97,12 +98,14 @@ class Scene extends Component {
         this.start()
     }
 
+    // REFACTOR THIS SHIT
     genArtobjects = () => {
         fetch(`${API_DOMAIN}/spaces/${this.props.match.params.spaceid}/`)
 				.then(response => response.json())
   				.then(data => {
 					  console.log(data)
 					  const { name, artobjects, options } = data;
+                      this.setState({space: data})
 					  const { positions } = JSON.parse(options);
 					  console.log('YEAHHAHHA', name, artobjects, positions)
 					  document.title = `${name} gallery`;
@@ -201,6 +204,7 @@ class Scene extends Component {
 				})
 
     }
+    // SHIT ZONE ENDED
 
     genMainLights = () =>{
         const ambientlight = new THREE.AmbientLight( 0xffffff, 0.1 );
@@ -413,39 +417,42 @@ class Scene extends Component {
     pointerLockChanged = () => !document.pointerLockElement && this.pauseSpace()
 
     render() {
-        const { showMenu } = this.state;
+        const { showMenu, space } = this.state;
         return (
             <motion.div {...pageAnimation}>
-                <div className={'space-view-cont'} ref={(mount) => { this.mount = mount }} />
-                 {
-                    showMenu &&
-                        <div className={'space-view-menu'}>
-                            <div className={'space-view-menu-cont'}>
-                                <div className={'space-view-menu-back'} onClick={this.closeSpace}>Back</div>
-                                <div className={'space-view-menu-body'}>
-                                    <div className={'space-view-menu-avatar'}/>
-                                    <div className={'space-view-menu-title'}>Triumph gallery</div>
-                                    <div className={'space-view-menu-description'}>Triumph Gallery established by Emeliyan Zakharov and Dmitry Khankin in 2006 Triumph gallery works with significant Russian and foreign contemporary artists. The most prominent Russian artists are AES+F, Alexander Brodsky, Alexander Vinogradov, and Vladimir Dubossarsky, Alexey Belyaev-Gintovt, Recycle Group. Triumph Gallery was the first gallery which in 2006 introduced the works of Damien Hirst, one of the most famous contemporary artists, to the Russian audience. A year later the personal show by Triumph Gallery was the first Triumph Gallery established by Emeliyan Zakharov and Dmitry Khankin in 2006 Triumph gallery works with significant Russian and foreign contemporary artists. The most prominent Russian artists are AES+F, Alexander Brodsky, Alexander Vinogradov, and Vladimir Dubossarsky, Alexey Belyaev-Gintovt, Recycle Group. Triumph Gallery was the first gallery which in 2006 introduced the works of Damien Hirst, one of the most famous contemporary artists, to the Russian audience. A year later the personal show by Triumph Gallery was the first </div>
-                                    <div className={'space-view-menu-icons'}>
-                                        <div className={'space-view-menu-icon-cont'}>
-                                            <div className={'space-view-menu-icon-mouse'}/>
-                                            <div className={'space-view-menu-icon-text'}>Move your mouse to look around</div>
+                    <div className={'space-view-cont'} ref={(mount) => { this.mount = mount }} />
+                <AnimatePresence exitBeforeEnter>
+
+                    {
+                        showMenu &&
+                            <motion.div {...pageAnimation} className={'space-view-menu'}>
+                                <div className={'space-view-menu-cont'}>
+                                    <div className={'space-view-menu-back'} onClick={this.closeSpace}>Back</div>
+                                    <div className={'space-view-menu-body'}>
+                                        <div className={'space-view-menu-avatar'} style={{backgroundImage: `url('${space.avatar}')`}}/>
+                                        <div className={'space-view-menu-title'}>{space.name}</div>
+                                        <div className={'space-view-menu-description'}>{space.description}</div>
+                                        <div className={'space-view-menu-icons'}>
+                                            <div className={'space-view-menu-icon-cont'}>
+                                                <div className={'space-view-menu-icon-mouse'}/>
+                                                <div className={'space-view-menu-icon-text'}>Move your mouse to look around</div>
+                                            </div>
+                                            <div className={'space-view-menu-icon-cont'}>
+                                                <div className={'space-view-menu-icon-keys'}/>
+                                                <div className={'space-view-menu-icon-text'}>Use these keys on your keyboard to move around</div>
+                                            </div>
+                                            <div className={'space-view-menu-icon-cont'}>
+                                                <div className={'space-view-menu-icon-esc'}/>
+                                                <div className={'space-view-menu-icon-text'}>Press the ESC key to menu</div>
+                                            </div>
                                         </div>
-                                        <div className={'space-view-menu-icon-cont'}>
-                                            <div className={'space-view-menu-icon-keys'}/>
-                                            <div className={'space-view-menu-icon-text'}>Use these keys on your keyboard to move around</div>
-                                        </div>
-                                        <div className={'space-view-menu-icon-cont'}>
-                                            <div className={'space-view-menu-icon-esc'}/>
-                                            <div className={'space-view-menu-icon-text'}>Press the ESC key to menu</div>
-                                        </div>
+                                        <Button text={'Enter 3D gallery'} onClick={this.enterSpace} />
                                     </div>
-                                    <Button text={'Enter 3D gallery'} onClick={this.enterSpace} />
+                                    <div className={'space-view-menu-share'}></div>
                                 </div>
-                                <div className={'space-view-menu-share'}></div>
-                            </div>
-                        </div>
-                }
+                            </motion.div>
+                    }
+                </AnimatePresence>
             </motion.div>
            
         )
