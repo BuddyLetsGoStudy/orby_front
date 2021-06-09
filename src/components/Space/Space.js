@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { Octree } from './Octree';
 import { Capsule } from './Capsule';
 import Stats from './Stats';
 import { AnimatePresence, motion } from "framer-motion"
 import { pageAnimation, API_DOMAIN } from '../../variables'
+import Button from '../Button/Button'
 import './styles.css'
 
 const wallPositions = [
@@ -36,7 +39,15 @@ const artPositions = [
     [-59.5, 10, 26, 1],[-59.5, 10, 0, 1], [-59.5, 10, -26, 1], // stena 4
 ]
 
+const threeDPos = [
+    [60, 2, 60], [-60, 2, -60], [60, 2, -60], [-60, 2, 60]
+]
+
 class Scene extends Component {
+    state = {
+        showMenu: true
+    }
+
     componentDidMount() {
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
@@ -75,13 +86,11 @@ class Scene extends Component {
         this.genFloor()
         this.genArtobjects()
 
-        this.addListeners()
-
         // DEV
         this.stats = new Stats();
         this.stats.domElement.style.position = 'absolute';
         this.stats.domElement.style.top = '0px';
-        this.mount.appendChild(this.stats.domElement);
+        // this.mount.appendChild(this.stats.domElement);
         // 
 
         this.mount.appendChild(this.renderer.domElement)
@@ -118,24 +127,31 @@ class Scene extends Component {
 							texture.repeat.set( 1, 1 );
 							let incr = 0.1;
 							if (category === 2 && artPosition > 0) {
-								// let incr = 7;
-								// const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
-								// loader.load(imgUrl, gltf => {
-								// 	let obj = fileType === 'obj' ? gltf : gltf.scene
-								// 	console.log(artPosition - 12, 'UFVIIFDVODI')
-								// 	obj.position.x = threeDPos[artPosition - 11][0];
-								// 	obj.position.y = threeDPos[artPosition - 11][1];
-								// 	obj.position.z = threeDPos[artPosition - 11][2];
-								// 	console.log('POSITIONS NOW BUDDY FYCK', threeDPos[artPosition - 11][0], threeDPos[artPosition - 11][1], threeDPos[artPosition - 11][2])
-								// 	obj.scale.y = height * incr;
-								// 	obj.scale.x = width * incr;
-								// 	obj.scale.z = length * incr;
-								// 	scene.add( obj );
+								let incr = 7;
+								const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
+								loader.load(imgUrl, gltf => {
+									let obj = fileType === 'obj' ? gltf : gltf.scene
+									console.log(artPosition - 12, 'UFVIIFDVODI')
+									obj.position.x = threeDPos[artPosition - 12][0];
+									obj.position.y = threeDPos[artPosition - 12][1];
+									obj.position.z = threeDPos[artPosition - 12][2];
+									// console.log('POSITIONS NOW BUDDY FYCK', threeDPos[artPosition - 11][0], threeDPos[artPosition - 11][1], threeDPos[artPosition - 11][2])
 
-								// }, undefined, function ( error ) {
-								// 	console.error( error );
+                                    var bbox = new THREE.Box3().setFromObject(obj);
+                                    var size = bbox.getSize(new THREE.Vector3());
+                                    var maxAxis = Math.max(size.x, size.y, size.z);
+                                    obj.scale.multiplyScalar(15.0 / maxAxis);
 
-								// } );
+                                    
+									// obj.scale.y = height * incr;
+									// obj.scale.x = width * incr;
+									// obj.scale.z = length * incr;
+									this.scene.add( obj );
+
+								}, undefined, function ( error ) {
+									console.error( error );
+
+								} );
                                 console.log('fukc')
 							} else if (artPosition > 0 && artPositions[artPosition][3] === 1) {
 								let geometry = new THREE.BoxGeometry(0.7, height * incr, width * incr)
@@ -265,6 +281,7 @@ class Scene extends Component {
         document.addEventListener('mousedown', this.requestPointerLock);
         document.body.addEventListener('mousemove', this.mouseMoveListener);
         window.addEventListener('resize', this.onWindowResize);
+        document.addEventListener('pointerlockchange', this.pointerLockChanged);
     }
 
     removeListeners = () => {
@@ -325,7 +342,6 @@ class Scene extends Component {
         this.playerDirection.cross(this.camera.up);
 
         return this.playerDirection;
-
     }
 
     controls = deltaTime => {
@@ -337,6 +353,7 @@ class Scene extends Component {
             this.keyStates['KeyD'] && this.playerVelocity.add(this.getSideVector().multiplyScalar(speed * deltaTime));
 
             if (this.keyStates['Space']) this.playerVelocity.y = 15;
+            // this.keyStates['Escape'] && this.pauseSpace()
         }
     }
 
@@ -354,6 +371,7 @@ class Scene extends Component {
     stop = () => {
         this.removeListeners()
         document.exitPointerLock()
+        document.title = "Orby"
         cancelAnimationFrame(this.frameId)
     }
 
@@ -381,13 +399,55 @@ class Scene extends Component {
         this.renderer.render(this.scene, this.camera)
     }
 
+    closeSpace = () => this.props.history.goBack();
+
+    enterSpace = () => {
+        this.setState({showMenu: false}, () => {
+            this.addListeners()
+            this.requestPointerLock()
+        })
+    }
+
+    pauseSpace = () => this.setState({showMenu: true}, () => this.removeListeners())
+
+    pointerLockChanged = () => !document.pointerLockElement && this.pauseSpace()
+
     render() {
+        const { showMenu } = this.state;
         return (
-            <motion.div
-                {...pageAnimation}
-                className={'space-view-cont'}
-                ref={(mount) => { this.mount = mount }}
-            />
+            <motion.div {...pageAnimation}>
+                <div className={'space-view-cont'} ref={(mount) => { this.mount = mount }} />
+                 {
+                    showMenu &&
+                        <div className={'space-view-menu'}>
+                            <div className={'space-view-menu-cont'}>
+                                <div className={'space-view-menu-back'} onClick={this.closeSpace}>Back</div>
+                                <div className={'space-view-menu-body'}>
+                                    <div className={'space-view-menu-avatar'}/>
+                                    <div className={'space-view-menu-title'}>Triumph gallery</div>
+                                    <div className={'space-view-menu-description'}>Triumph Gallery established by Emeliyan Zakharov and Dmitry Khankin in 2006 Triumph gallery works with significant Russian and foreign contemporary artists. The most prominent Russian artists are AES+F, Alexander Brodsky, Alexander Vinogradov, and Vladimir Dubossarsky, Alexey Belyaev-Gintovt, Recycle Group. Triumph Gallery was the first gallery which in 2006 introduced the works of Damien Hirst, one of the most famous contemporary artists, to the Russian audience. A year later the personal show by Triumph Gallery was the first Triumph Gallery established by Emeliyan Zakharov and Dmitry Khankin in 2006 Triumph gallery works with significant Russian and foreign contemporary artists. The most prominent Russian artists are AES+F, Alexander Brodsky, Alexander Vinogradov, and Vladimir Dubossarsky, Alexey Belyaev-Gintovt, Recycle Group. Triumph Gallery was the first gallery which in 2006 introduced the works of Damien Hirst, one of the most famous contemporary artists, to the Russian audience. A year later the personal show by Triumph Gallery was the first </div>
+                                    <div className={'space-view-menu-icons'}>
+                                        <div className={'space-view-menu-icon-cont'}>
+                                            <div className={'space-view-menu-icon-mouse'}/>
+                                            <div className={'space-view-menu-icon-text'}>Move your mouse to look around</div>
+                                        </div>
+                                        <div className={'space-view-menu-icon-cont'}>
+                                            <div className={'space-view-menu-icon-keys'}/>
+                                            <div className={'space-view-menu-icon-text'}>Use these keys on your keyboard to move around</div>
+                                        </div>
+                                        <div className={'space-view-menu-icon-cont'}>
+                                            <div className={'space-view-menu-icon-esc'}/>
+                                            <div className={'space-view-menu-icon-text'}>Press the ESC key to menu</div>
+                                        </div>
+                                    </div>
+                                    <Button text={'Enter 3D gallery'} onClick={this.enterSpace} />
+                                </div>
+                                <div className={'space-view-menu-share'}></div>
+                            </div>
+                        </div>
+                }
+            </motion.div>
+           
         )
     }
 }

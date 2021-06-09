@@ -4,3 +4,117 @@
     position: absolute;
     top: 0;
 }
+
+.space-view-menu{
+    width: 100%;
+    height: calc(100vh);
+    position: absolute;
+    top: 0;
+    background: rgba(25, 25, 32, .8);
+}
+
+.space-view-menu-cont{
+    max-width: 1180px;
+    margin: auto;
+    display: flex;
+    align-items: self-start;
+    justify-content: space-between;
+    margin-top: 70px;
+}
+
+.space-view-menu-back{
+    font-size: 19px;
+    line-height: 23px;
+    color: #C4C4C4;
+    padding-left: 35px;
+    background-image: url('./assets/img/arrow.svg');
+    background-size: 26px 20px;
+    background-position: left;
+    background-repeat: no-repeat;
+    margin-top: 53px;
+    cursor: pointer;
+}
+
+.space-view-menu-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.space-view-menu-avatar{
+    width: 128.95px;
+    height: 128.95px;
+    border: 1px solid #B6B6B6;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 100px;
+}
+
+.space-view-menu-title{
+    font-size: 32px;
+    line-height: 39px;
+    color: #FFFFFF;
+    margin-top: 40px;
+}
+
+.space-view-menu-description{
+    width: 830px;
+    height: 111px;
+    font-size: 15px;
+    line-height: 23px;
+    color: #C4C4C4;
+    overflow-y:scroll;
+    padding-left: 15px;
+    box-sizing: border-box;
+    margin-top: 40px;
+}
+
+.space-view-menu-icons{
+    margin-top: 55px;
+    margin-bottom: 55px;
+    display: flex;
+}
+
+.space-view-menu-icons > div{
+    margin-right: 51px;
+    width: 102px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.space-view-menu-icons > :last-child{
+    margin-right: 0;
+}
+
+.space-view-menu-icon-mouse{
+    background-image: url('./assets/img/mouse.svg');
+    background-size: cover;
+    width: 36.01px;
+    height: 64.24px;
+    margin-bottom: 22.28px;
+}
+
+.space-view-menu-icon-keys{
+    background-image: url('./assets/img/keys.svg');
+    background-size: cover;
+    width: 93.62px;
+    height: 61.36px;
+    margin-bottom: 23.36px;
+}
+
+.space-view-menu-icon-esc{
+    background-image: url('./assets/img/esc.svg');
+    background-size: cover;
+    width: 61.29px;
+    height: 61.29px;
+    margin-bottom: 23px;
+}
+
+.space-view-menu-icon-text{
+    font-size: 12px;
+    line-height: 120%;
+    color: #FFFFFF;
+}
+
