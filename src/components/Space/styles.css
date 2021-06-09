@@ -48,6 +48,8 @@
     background-color: white;
     box-sizing: border-box;
     border-radius: 100px;
+    background-size: cover;
+    background-position: center;
 }
 
 .space-view-menu-title{
