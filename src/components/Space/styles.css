@@ -60,13 +60,13 @@
 }
 
 .space-view-menu-description{
-    width: 830px;
-    height: 111px;
+    max-width: 830px;
+    max-height: 111px;
     font-size: 15px;
     line-height: 23px;
     color: #C4C4C4;
-    overflow-y:scroll;
-    padding-left: 15px;
+    overflow-y: scroll;
+    padding-right: 15px;
     box-sizing: border-box;
     margin-top: 40px;
 }

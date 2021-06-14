@@ -347,7 +347,7 @@ class Scene extends Component {
 
         return this.playerDirection;
     }
-
+    
     controls = deltaTime => {
         const speed = 50;
         if (this.playerOnFloor) {
@@ -403,7 +403,9 @@ class Scene extends Component {
         this.renderer.render(this.scene, this.camera)
     }
 
-    closeSpace = () => this.props.history.goBack();
+    closeSpace = () => {
+        this.props.history.goBack.length ? this.props.history.goBack() :  this.props.history.push('/')
+    };
 
     enterSpace = () => {
         this.setState({showMenu: false}, () => {

@@ -44,9 +44,15 @@ class AddArtobject extends Component {
         xhr.onload = function() {
             var reader = new FileReader();
             reader.onloadend = function() {
+                console.log('fuck', reader.result)
                 callback(reader.result);
             }
             reader.readAsDataURL(xhr.response);
+            console.log('xhr', xhr.width, xhr.response.width)
+            // const { height, width } = xhr.response.srcElement;
+            // console.log(height, width);
+            // const proportionOne = height / width;
+            // const proportionTwo = width / height;
         };
         xhr.open('GET', url);
         xhr.responseType = 'blob';
@@ -77,16 +83,6 @@ class AddArtobject extends Component {
 
        
     }
-
-    blobToBase64 = blob => {
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        return new Promise(resolve => {
-          reader.onloadend = () => {
-            resolve(reader.result);
-          };
-        });
-      };
 
     threeDChange = async e => {
         e.preventDefault();
