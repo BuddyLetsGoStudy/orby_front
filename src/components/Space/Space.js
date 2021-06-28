@@ -120,7 +120,7 @@ class Scene extends Component {
 							const { width, height, length } = JSON.parse(artobject.options);
 
 							const artPosition = positions.indexOf(artobjectID) 
-							console.log(artPosition, 'FUCUCUUFVHIFU')
+							console.log(artPosition, 'FUCUCUUFVHIFU',  artPositions[artPosition][0])
 							// category !== 2 && genLight(lightPos[artPosition][0], lightPos[artPosition][1], scene)
 
 							
@@ -156,7 +156,7 @@ class Scene extends Component {
 
 								} );
                                 console.log('fukc')
-							} else if (artPosition > 0 && artPositions[artPosition][3] === 1) {
+							} else if (artPosition >= 0 && artPositions[artPosition][3] === 1) {
 								let geometry = new THREE.BoxGeometry(0.7, height * incr, width * incr)
 								let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture })
 								// let material = new THREE.MeshBasicMaterial({color: '#fff' })
@@ -176,7 +176,7 @@ class Scene extends Component {
 								ramka.castShadow = true;
 								this.scene.add(ramka)
 							
-							} else if (artPosition > 0){
+							} else if (artPosition >= 0){
 								let geometry = new THREE.BoxGeometry(width * incr, height * incr, 0.7)
 								let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture})
 								// let material = new THREE.MeshBasicMaterial({color: '#fff' })
