@@ -9,6 +9,7 @@
     position: absolute;
     top: 75px;
     left: 0;
+    z-index: 13;
 }
 
 .auth-modal-cont{

@@ -206,7 +206,7 @@ class Scene extends Component {
     }
     // SHIT ZONE ENDED
 
-    genMainLights = () =>{
+    genMainLights = () => {
         const ambientlight = new THREE.AmbientLight( 0xffffff, 0.1 );
         this.scene.add( ambientlight );
 
@@ -422,14 +422,14 @@ class Scene extends Component {
         const { showMenu, space } = this.state;
         return (
             <motion.div {...pageAnimation}>
-                    <div className={'space-view-cont'} ref={(mount) => { this.mount = mount }} />
+                <div className={`space-view-cont ${!showMenu ? 'space-view-cont-active' : ''}`} ref={(mount) => { this.mount = mount }} />
                 <AnimatePresence exitBeforeEnter>
 
                     {
-                        showMenu &&
+                        showMenu ?
                             <motion.div {...pageAnimation} className={'space-view-menu'}>
                                 <div className={'space-view-menu-cont'}>
-                                    <div className={'space-view-menu-back'} onClick={this.closeSpace}>Back</div>
+                                    <div className={'space-view-menu-back'} onClick={this.closeSpace}>Exit 3D gallery</div>
                                     <div className={'space-view-menu-body'}>
                                         <div className={'space-view-menu-avatar'} style={{backgroundImage: `url('${space.avatar}')`}}/>
                                         <div className={'space-view-menu-title'}>{space.name}</div>
@@ -441,7 +441,7 @@ class Scene extends Component {
                                             </div>
                                             <div className={'space-view-menu-icon-cont'}>
                                                 <div className={'space-view-menu-icon-keys'}/>
-                                                <div className={'space-view-menu-icon-text'}>Use these keys on your keyboard to move around</div>
+                                                <div className={'space-view-menu-icon-text'}>Use AWSD or arrow keys on your keyboard to move around</div>
                                             </div>
                                             <div className={'space-view-menu-icon-cont'}>
                                                 <div className={'space-view-menu-icon-esc'}/>
@@ -452,6 +452,11 @@ class Scene extends Component {
                                     </div>
                                     <div className={'space-view-menu-share'}></div>
                                 </div>
+                            </motion.div>
+                            :
+                            <motion.div {...pageAnimation} className={'space-view-esc'}>
+                                <div className="space-view-esc-icon"/>
+                                <div className="space-view-esc-text">Press the ESC key to menu</div>
                             </motion.div>
                     }
                 </AnimatePresence>

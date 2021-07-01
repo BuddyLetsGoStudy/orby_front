@@ -687,20 +687,31 @@ fetch('https://api.orby.space/spaces/')
         console.log(icons);
         for (let icon of icons) {
             icon.onclick = () => {
-                console.log('fuck you;');
-                for (let mda of document.getElementsByClassName('we-pp')) {
-                    mda.style.visibility = 'hidden';
-                    mda.style.opacity = 0;
-                    mda.previousSibling.style.width = '32px'
-                    mda.previousSibling.style.height = '32px'
-                    mda.previousSibling.style.zIndex = '4'
+                if (icon.nextSibling.style.visibility === 'visible') {
+                    for (let mda of document.getElementsByClassName('we-pp')) {
+                        mda.style.visibility = 'hidden';
+                        mda.style.opacity = 0;
+                        mda.previousSibling.style.width = '32px'
+                        mda.previousSibling.style.height = '32px'
+                        mda.previousSibling.style.zIndex = '4'
+                    }
+                } else {
+                    console.log('fuck you;');
+                    for (let mda of document.getElementsByClassName('we-pp')) {
+                        mda.style.visibility = 'hidden';
+                        mda.style.opacity = 0;
+                        mda.previousSibling.style.width = '32px'
+                        mda.previousSibling.style.height = '32px'
+                        mda.previousSibling.style.zIndex = '4'
+                    }
+                    icon.nextSibling.style.visibility = 'visible';
+                    icon.nextSibling.style.opacity = 1;
+                    icon.style.width = '47px'
+                    icon.style.height = '47px'
+                    icon.style.zIndex = '10'
+                    console.log(icon.nextSibling);
                 }
-                icon.nextSibling.style.visibility = 'visible';
-                icon.nextSibling.style.opacity = 1;
-                icon.style.width = '47px'
-                icon.style.height = '47px'
-                icon.style.zIndex = '10'
-                console.log(icon.nextSibling);
+           
             }
         }
     })

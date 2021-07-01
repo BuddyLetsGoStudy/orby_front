@@ -6,6 +6,9 @@
     z-index: 6;
 }
 
+.space-view-cont-active{
+    /* z-index: 667; */
+}
 .space-view-menu{
     width: 100%;
     height: calc(100vh);
@@ -21,7 +24,9 @@
     display: flex;
     align-items: self-start;
     justify-content: space-between;
+    /* margin-top: 120px; */
     margin-top: 70px;
+
 }
 
 .space-view-menu-back{
@@ -121,4 +126,30 @@
     line-height: 120%;
     color: #FFFFFF;
 }
+.space-view-menu-share{
+    width: 90px;
+}
 
+.space-view-esc{
+    position: absolute;
+    top: 10vh;
+    left: 5vw;
+    display: flex;
+    align-items: center;
+    z-index: 6;
+}
+
+.space-view-esc-icon{
+    background-image: url('./assets/img/esc-black.svg');
+    background-size: cover;
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+}
+
+.space-view-esc-text{
+    width: 107px;
+    font-size: 12px;
+    line-height: 120%;
+    color: #555555;
+}

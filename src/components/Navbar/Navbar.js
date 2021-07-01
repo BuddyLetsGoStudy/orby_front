@@ -42,8 +42,8 @@ const Navbar = () => {
                 <AnimatePresence exitBeforeEnter>
                     <motion.div className={'navbar-ul-cont-animation'} {...pageAnimation} key={authState.token}>
                         <div className={'navbar-icons'}>
-                            <div className={'navbar-icons-globus'}/>
-                            <div className={'navbar-icons-squares'}/>
+                            <Link to="/" className={'navbar-icons-globus'}/>
+                            <Link to="/list" className={'navbar-icons-squares'}/>
                         </div>
                         <div className={'navbar-ul'}>
                             <Link to="/create" className={'navbar-ul-li navbar-ul-li-create'}>

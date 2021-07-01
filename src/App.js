@@ -28,7 +28,7 @@ const App = () => {
       <Navbar />
       <AnimatePresence exitBeforeEnter>
         <Switch location={location} key={location.pathname}>
-            {/* <Route path={"/"} exact component={SpacesList}/> */}
+            <Route path={"/list"} exact component={SpacesList}/>
             <Route path={"/"} exact component={Globe}/>
             <Route path={"/search/:query"} component={Search}/>
             <Route path={"/space/:spaceid"} component={Space} />
