@@ -7,6 +7,7 @@ import { pageAnimation } from '../../variables'
 import _ from 'lodash'
 import './styles.css'
 import SpaceCreate from '../SpaceCreate/SpaceCreate'
+import Space from '../Space/Space'
 import ThreeDPreview from '../SpaceCreate/SpaceArtobjects/Popups/AddArtobject/ThreeDPreview/ThreeDPreview'
 import SpaceCongrats from '../SpaceCongrats/SpaceCongrats'
 import Button from '../Button/Button'
@@ -26,7 +27,8 @@ class SpaceEdit extends Component {
        deleted: false,
        showHint: false,
        showCongrats: false,
-       redirectToMySpaces: false
+       redirectToMySpaces: false,
+       preview: false
     }
 
     publish = e => {
@@ -62,6 +64,7 @@ class SpaceEdit extends Component {
     }
     componentWillUnmount() {
         this.props.dispatch({type: "SPACE_CLOSE"})
+        this.props.dispatch({type: "SPACE_DEFAULT"})
     }
 
 
@@ -83,9 +86,13 @@ class SpaceEdit extends Component {
         this.setState({redirectToMySpaces: true})
     }
 
+    previewSpace = () => this.setState({preview: true})
+
+    closePreviewSpace = () => this.setState({preview: false})
+
     render() {
         const { hints } = this.props;
-        const { space, edit, deleted, showHint, showCongrats, redirectToMySpaces } = this.state
+        const { space, edit, deleted, showHint, showCongrats, redirectToMySpaces, preview } = this.state
         const { published, geo, name, description, date, avatar, artobjects, positions } = space;
         if (deleted || redirectToMySpaces) {
             return  <AnimatePresence exitBeforeEnter><Redirect to="/myspaces"/></AnimatePresence>
@@ -172,7 +179,7 @@ class SpaceEdit extends Component {
                     </div>
                     <div className="edit-buttons-cont">
                         <Button size={'small'} text={'Preview 2D'} fontSize={'15px'} margin={'0 25px 0 0'}/>
-                        <Button text={'Preview 3D gallery'} fontSize={'16px'} margin={'0 25px 0 0'}/>
+                        <Button onClick={this.previewSpace} text={'Preview 3D gallery'} fontSize={'16px'} margin={'0 25px 0 0'}/>
                         <Button onClick={this.deleteSpace} size={'small'} color={'violet'} text={'Delete space'} fontSize={'15px'} />
                     </div>
                     <div className="edit-publish-cont">
@@ -195,6 +202,7 @@ class SpaceEdit extends Component {
                 { hints && showHint && <motion.div className={'screen-fade'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}/>}
                 </AnimatePresence>
                 { showCongrats && <SpaceCongrats onClick={this.redirectToMySpaces}/> }
+                { preview && <Space preview={true} closePreview={this.closePreviewSpace} /> }
                 </motion.div>
             )
         }
@@ -210,6 +218,7 @@ const mapDispatchToProps = dispatch => ({
     loadSpace: id => dispatch(loadSpace(id)),
     deleteSpace: id => dispatch(deleteSpace(id)),
     publishSpace: (id, param) => dispatch(publishSpace(id, param)),
+    flushSpaceData: () => dispatch({type: "SPACE_DEFAULT"}),
     hintsOff: () => dispatch({type: 'HINTS_OFF'}),
     dispatch               
  })

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
@@ -100,109 +101,108 @@ class Scene extends Component {
 
     // REFACTOR THIS SHIT
     genArtobjects = () => {
-        fetch(`${API_DOMAIN}/spaces/${this.props.match.params.spaceid}/`)
-				.then(response => response.json())
-  				.then(data => {
-					  console.log(data)
-					  const { name, artobjects, options } = data;
-                      this.setState({space: data})
-					  const { positions } = JSON.parse(options);
-					  console.log('YEAHHAHHA', name, artobjects, positions)
-					  document.title = `${name} gallery`;
-					
-					  artobjects.map((artobject, i) => {
-						//   setTimeout(() => {
-							const imgUrl = artobject.upload;
-							const fileType = imgUrl.split('.').pop();
-							const artobjectID = artobject.id
-							console.log(artobject);
-							const { category } = artobject;
-							const { width, height, length } = JSON.parse(artobject.options);
+        const { space, preview } = this.props;
+        console.log(space, this.props)
+        if(preview){
+            this.setState({space})
+            document.title = `${space.name} gallery`;
+            space.artobjects.map(artobject => this.genArtobject(artobject, space.positions))
+        } else {
+            fetch(`${API_DOMAIN}/spaces/${this.props.match.params.spaceid}/`)
+            .then(response => response.json())
+              .then(data => {
+                  console.log(data)
+                  const { name, artobjects, options } = data;
+                  this.setState({space: data})
+                  const { positions } = JSON.parse(options);
+                  console.log('YEAHHAHHA', name, artobjects, positions)
+                  document.title = `${name} gallery`;
+                
+                  artobjects.map(artobject => this.genArtobject(artobject, positions))
+            })
+        }
+       
+    }
 
-							const artPosition = positions.indexOf(artobjectID) 
-							console.log(artPosition, 'FUCUCUUFVHIFU',  artPositions[artPosition][0])
-							// category !== 2 && genLight(lightPos[artPosition][0], lightPos[artPosition][1], scene)
+    genArtobject = (artobject, positions) => {
+        const imgUrl = artobject.upload;
+        const fileType = imgUrl.split('.').pop();
+        const artobjectID = artobject.id
+        console.log(artobject);
+        const { category } = artobject;
+        const { width, height, length } = JSON.parse(artobject.options);
 
-							
-							const texture = new THREE.TextureLoader().load(imgUrl)
-							texture.wrapS = THREE.RepeatWrapping
-							texture.wrapT = THREE.RepeatWrapping
-							texture.repeat.set( 1, 1 );
-							let incr = 0.1;
-							if (category === 2 && artPosition > 0) {
-								let incr = 7;
-								const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
-								loader.load(imgUrl, gltf => {
-									let obj = fileType === 'obj' ? gltf : gltf.scene
-									console.log(artPosition - 12, 'UFVIIFDVODI')
-									obj.position.x = threeDPos[artPosition - 12][0];
-									obj.position.y = threeDPos[artPosition - 12][1];
-									obj.position.z = threeDPos[artPosition - 12][2];
-									// console.log('POSITIONS NOW BUDDY FYCK', threeDPos[artPosition - 11][0], threeDPos[artPosition - 11][1], threeDPos[artPosition - 11][2])
+        const artPosition = positions.indexOf(artobjectID) 
+        console.log(artPosition, 'FUCUCUUFVHIFU',  artPositions[artPosition][0])
+        // category !== 2 && genLight(lightPos[artPosition][0], lightPos[artPosition][1], scene)
 
-                                    var bbox = new THREE.Box3().setFromObject(obj);
-                                    var size = bbox.getSize(new THREE.Vector3());
-                                    var maxAxis = Math.max(size.x, size.y, size.z);
-                                    obj.scale.multiplyScalar(15.0 / maxAxis);
+        
+        const texture = new THREE.TextureLoader().load(imgUrl)
+        texture.wrapS = THREE.RepeatWrapping
+        texture.wrapT = THREE.RepeatWrapping
+        texture.repeat.set( 1, 1 );
+        let incr = 0.1;
+        if (category === 2 && artPosition > 0) {
+            let incr = 7;
+            const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
+            loader.load(imgUrl, gltf => {
+                let obj = fileType === 'obj' ? gltf : gltf.scene
+                console.log(artPosition - 12, 'UFVIIFDVODI')
+                obj.position.x = threeDPos[artPosition - 12][0];
+                obj.position.y = threeDPos[artPosition - 12][1];
+                obj.position.z = threeDPos[artPosition - 12][2];
 
-                                    
-									// obj.scale.y = height * incr;
-									// obj.scale.x = width * incr;
-									// obj.scale.z = length * incr;
-									this.scene.add( obj );
+                var bbox = new THREE.Box3().setFromObject(obj);
+                var size = bbox.getSize(new THREE.Vector3());
+                var maxAxis = Math.max(size.x, size.y, size.z);
+                obj.scale.multiplyScalar(15.0 / maxAxis);
 
-								}, undefined, function ( error ) {
-									console.error( error );
+                this.scene.add( obj );
 
-								} );
-                                console.log('fukc')
-							} else if (artPosition >= 0 && artPositions[artPosition][3] === 1) {
-								let geometry = new THREE.BoxGeometry(0.7, height * incr, width * incr)
-								let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture })
-								// let material = new THREE.MeshBasicMaterial({color: '#fff' })
+            }, undefined, function ( error ) {
+                console.error( error );
 
-								let cube = new THREE.Mesh(geometry, material)
-								cube.position.x = artPositions[artPosition][0];
-								cube.position.y = artPositions[artPosition][1];
-								cube.position.z = artPositions[artPosition][2];
-								this.scene.add(cube)
+            } );
+            console.log('fukc')
+        } else if (artPosition >= 0 && artPositions[artPosition][3] === 1) {
+            let geometry = new THREE.BoxGeometry(0.7, height * incr, width * incr)
+            let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture })
 
-								let geometryRamka = new THREE.BoxGeometry(0.69, height * incr + 0.2, width * incr + 0.2)
-								let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10  } );
-								let ramka = new THREE.Mesh(geometryRamka, materialRamka)
-								ramka.position.x = artPositions[artPosition][0];
-								ramka.position.y = artPositions[artPosition][1];
-								ramka.position.z = artPositions[artPosition][2];
-								ramka.castShadow = true;
-								this.scene.add(ramka)
-							
-							} else if (artPosition >= 0){
-								let geometry = new THREE.BoxGeometry(width * incr, height * incr, 0.7)
-								let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture})
-								// let material = new THREE.MeshBasicMaterial({color: '#fff' })
+            let cube = new THREE.Mesh(geometry, material)
+            cube.position.x = artPositions[artPosition][0];
+            cube.position.y = artPositions[artPosition][1];
+            cube.position.z = artPositions[artPosition][2];
+            this.scene.add(cube)
 
-								let cube = new THREE.Mesh(geometry, material)
-								cube.position.x = artPositions[artPosition][0];
-								cube.position.y = artPositions[artPosition][1];
-								cube.position.z = artPositions[artPosition][2];
-								this.scene.add(cube)
+            let geometryRamka = new THREE.BoxGeometry(0.69, height * incr + 0.2, width * incr + 0.2)
+            let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10  } );
+            let ramka = new THREE.Mesh(geometryRamka, materialRamka)
+            ramka.position.x = artPositions[artPosition][0];
+            ramka.position.y = artPositions[artPosition][1];
+            ramka.position.z = artPositions[artPosition][2];
+            ramka.castShadow = true;
+            this.scene.add(ramka)
+        
+        } else if (artPosition >= 0){
+            let geometry = new THREE.BoxGeometry(width * incr, height * incr, 0.7)
+            let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture})
 
-								let geometryRamka = new THREE.BoxGeometry(width * incr + 0.2, height * incr + 0.2, 0.69)
-								let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10} );
-								let ramka = new THREE.Mesh(geometryRamka, materialRamka)
-								ramka.position.x = artPositions[artPosition][0];
-								ramka.position.y = artPositions[artPosition][1];
-								ramka.position.z = artPositions[artPosition][2];
-								ramka.castShadow = true;
-								this.scene.add(ramka)
-							
-							}
-						//   }, 3000)
-							
-							
-					})
-				})
+            let cube = new THREE.Mesh(geometry, material)
+            cube.position.x = artPositions[artPosition][0];
+            cube.position.y = artPositions[artPosition][1];
+            cube.position.z = artPositions[artPosition][2];
+            this.scene.add(cube)
 
+            let geometryRamka = new THREE.BoxGeometry(width * incr + 0.2, height * incr + 0.2, 0.69)
+            let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10} );
+            let ramka = new THREE.Mesh(geometryRamka, materialRamka)
+            ramka.position.x = artPositions[artPosition][0];
+            ramka.position.y = artPositions[artPosition][1];
+            ramka.position.z = artPositions[artPosition][2];
+            ramka.castShadow = true;
+            this.scene.add(ramka)
+        
+        }
     }
     // SHIT ZONE ENDED
 
@@ -404,7 +404,11 @@ class Scene extends Component {
     }
 
     closeSpace = () => {
-        this.props.history.goBack.length ? this.props.history.goBack() :  this.props.history.push('/')
+        if(this.props.preview) {
+            this.props.closePreview()
+        } else {
+            this.props.history.goBack.length ? this.props.history.goBack() :  this.props.history.push('/')
+        }
     };
 
     enterSpace = () => {
@@ -466,4 +470,10 @@ class Scene extends Component {
     }
 }
 
-export default Scene
+
+
+const mapStateToProps = state => ({
+    space: state.Space.space,
+})
+
+export default connect(mapStateToProps, null)(Scene);

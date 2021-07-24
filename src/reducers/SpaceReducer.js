@@ -12,7 +12,8 @@ const DefaultState = {
     },
     uploadedSpace: {},
     step: 'artobjects',
-    edit: false
+    edit: false,
+    preview: false
 };
   
 const SpaceReducer = (state = DefaultState, action) => {
@@ -51,7 +52,9 @@ const SpaceReducer = (state = DefaultState, action) => {
                 uploadedSpace: action.payload,
                 step: 'artobjects',
                 edit: state.edit,
-                loading: false
+                loading: false,
+                preview: false,
+
             }
         case "SPACE_CREATE_ERROR":
             return {
@@ -90,6 +93,7 @@ const SpaceReducer = (state = DefaultState, action) => {
                 uploadedSpace: {},
                 step: 'artobjects',
                 edit: false,
+                preview: false,
             }
         case "SPACE_CLOSE":
             return {
@@ -106,8 +110,24 @@ const SpaceReducer = (state = DefaultState, action) => {
                 },
                 uploadedSpace: {},
                 step: 'artobjects',
-                edit: false
+                edit: false,
+                preview: false,
             }
+            case "SPACE_PREVIEW":
+                return {
+                    ...state,
+                    preview: true
+                }
+            case "SPACE_PREVIEW_CLOSE":
+                return {
+                    ...state,
+                    preview: false
+                }
+            case "LOAD_SPACE":
+                return {
+                    ...state,
+                    space: action.payload
+                }
         default:
             return state
     }

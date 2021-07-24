@@ -78,10 +78,10 @@
     height: 15px;
     background-image: url('./assets/img/arrow.svg');
     background-size: cover;
-    z-index: 10;
+    z-index: 6;
   }
 
 
   .button-text{
-    z-index: 10;
+    z-index: 6;
   }

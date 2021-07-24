@@ -120,6 +120,16 @@ export const loadSpace = id => async dispatch => {
       const res = await axios.get(`${API_DOMAIN}/spaces/${id}/`, AUTH_JSON_CONFIG());
       console.log('res', res)
       resolve(res.data)
+
+      const options = JSON.parse(res.data.options)
+      const { positions } = options
+      dispatch({
+        type: "LOAD_SPACE",
+        payload: {
+          ...res.data,
+          positions
+        },
+      })
     } catch (e) {
       reject()
     }
@@ -208,6 +218,32 @@ export const deleteSpace = id => async dispatch => {
   })
 };
 
+
+
+export const previewSpace = () => async dispatch => {
+  try {
+      dispatch({type: "SPACE_PREVIEW"})
+  } catch (e) {
+      console.log(e)
+  }
+};
+
+export const closePreviewSpace = () => async dispatch => {
+  try {
+      dispatch({type: "SPACE_PREVIEW_CLOSE"})
+  } catch (e) {
+      console.log(e)
+  }
+};
+
+
+export const flushSpaceData = () => async dispatch => {
+  try {
+      dispatch({type: "SPACE_DEFAULT"})
+  } catch (e) {
+      console.log(e)
+  }
+};
 
 
 
