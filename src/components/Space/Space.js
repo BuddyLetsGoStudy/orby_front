@@ -104,7 +104,18 @@ class Scene extends Component {
         const { space, preview } = this.props;
         console.log(space, this.props)
         if(preview){
-            this.setState({space})
+            const tempSpace = space
+            console.log(tempSpace, '\dflkjnghrnkdlkjnbh=======')
+            if(!tempSpace.avatar) {
+                tempSpace.avatar = 'https://api.orby.space/media/avatars/spacedefault.png'
+            }
+            if(!tempSpace.name) {
+                tempSpace.name = 'Untitled gallery'
+            }
+            if(!tempSpace.description) {
+                tempSpace.description = 'Here will be your gallery description'
+            }
+            this.setState({space: tempSpace})
             document.title = `${space.name} gallery`;
             space.artobjects.map(artobject => this.genArtobject(artobject, space.positions))
         } else {
@@ -201,7 +212,6 @@ class Scene extends Component {
             ramka.position.z = artPositions[artPosition][2];
             ramka.castShadow = true;
             this.scene.add(ramka)
-        
         }
     }
     // SHIT ZONE ENDED
