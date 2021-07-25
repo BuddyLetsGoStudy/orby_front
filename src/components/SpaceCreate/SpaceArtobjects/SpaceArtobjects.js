@@ -41,7 +41,7 @@ class SpaceArtobjects extends Component {
         if((this.props.edit !== prevProps.edit) || (prevProps.space !== this.props.space) ) {
             const { artobjects, positions } = this.props.space;
             positions.forEach((id, i) => {
-                this.displayArtobject(i + 1, id !== 0 && _.find(artobjects, {id}).upload)
+                id !== 0 ? this.displayArtobject(i + 1, id !== 0 && _.find(artobjects, {id}).upload) : this.artobjectDeleted(i + 1)
             })
         }
     }
@@ -91,6 +91,7 @@ class SpaceArtobjects extends Component {
     artobjectDeleted = positionID => this.displayArtobject(positionID)
 
     displayArtobject = (id, url=false, threeD=false) => {
+        console.log(id, 'SUDUWPOPP========================HUI')
         const artobjCont = document.getElementById(`${id}`)
         const artobjWallCont =  document.getElementById(`d${id}`)
         artobjCont.style.backgroundImage = url ? `url('${threeD ? 'baka' : url}')` : ``
