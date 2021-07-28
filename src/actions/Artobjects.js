@@ -1,5 +1,6 @@
 import axios from "axios";
-import { API_DOMAIN, AUTH_CONFIG } from "../variables";
+import { API_DOMAIN, AUTH_CONFIG, AUTH_JSON_CONFIG } from "../variables";
+import { createSpace } from './SpaceCreation'
 import _ from 'lodash';
 import store from '../store';
 
@@ -35,7 +36,7 @@ export const ArtobjectUploadAndUpdate = (artobject, id) => async dispatch => {
   
 
 
-export const deleteArtobject = (id) => async dispatch => {
+export const deleteArtobject = (id, spaceid=false) => async dispatch => {
     return new Promise(async (resolve, reject) => {
         try {
             const res = await axios.delete(`${API_DOMAIN}/artobjects/${id}/`, AUTH_CONFIG())
@@ -51,7 +52,17 @@ export const deleteArtobject = (id) => async dispatch => {
                 type: "UPDATE_SPACE",
                 payload: {field: "artobjects", value: _.filter(store.getState().Space.space.artobjects, el => (el.id !== id))},
             })
-         
+            if(store.getState().Space.edit) {
+                const body = {
+                    options: JSON.stringify({positions: newPositions}),
+                }
+                const ress = await axios.patch(`${API_DOMAIN}/spaces/${spaceid}/`, body, AUTH_JSON_CONFIG())
+          
+                console.log('[eniinnnsss', ress)
+                // dispatch(createSpace(spaceid))
+                console.log('[jiiiiii')
+
+            }
           
             resolve()
         } catch(e) {

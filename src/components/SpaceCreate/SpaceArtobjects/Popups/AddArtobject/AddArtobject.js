@@ -220,7 +220,8 @@ class AddArtobject extends Component {
     }
 
     deleteArtobject = () => {
-        this.props.deleteArtobject(this.state.artobjectID)
+        const spaceid = window.location.href.split('/')[window.location.href.split('/').length - 1]
+        this.props.deleteArtobject(this.state.artobjectID, spaceid)
             .then(() => {
                 this.props.onDeleted(this.props.positionID)
                 this.props.onClose()

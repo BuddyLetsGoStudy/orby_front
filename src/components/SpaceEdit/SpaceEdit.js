@@ -52,7 +52,7 @@ class SpaceEdit extends Component {
             this.props.deleteSpace(this.props.match.params.spaceid)
             .then(() => this.setState({deleted: true})) // ГАВНО
         } else {
-            console.log(positions,'fdgfhj')
+            console.log(positions,'fdgfhj', artobjects)
             positions.forEach((id, i) => {
                 if(id !== 0){
                     const artobject = _.find(artobjects, {id});
@@ -62,6 +62,7 @@ class SpaceEdit extends Component {
             })
         }
     }
+
     componentWillUnmount() {
         this.props.dispatch({type: "SPACE_CLOSE"})
         this.props.dispatch({type: "SPACE_DEFAULT"})
