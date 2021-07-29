@@ -11,6 +11,7 @@ import Space from '../Space/Space'
 import ThreeDPreview from '../SpaceCreate/SpaceArtobjects/Popups/AddArtobject/ThreeDPreview/ThreeDPreview'
 import SpaceCongrats from '../SpaceCongrats/SpaceCongrats'
 import Button from '../Button/Button'
+import jwt_decode from "jwt-decode";
 
 class SpaceEdit extends Component {
     state = {
@@ -28,7 +29,8 @@ class SpaceEdit extends Component {
        showHint: false,
        showCongrats: false,
        redirectToMySpaces: false,
-       preview: false
+       preview: false,
+       redirect: false
     }
 
     publish = e => {
@@ -40,8 +42,14 @@ class SpaceEdit extends Component {
         this.props.loadSpace(this.props.match.params.spaceid)
             .then(space => {
                 console.log(space)
-                this.setState({space: {name: space.name, published: space.published, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
-                this.manageUI)
+                const dict =  jwt_decode(localStorage.getItem('token'))
+                if (dict.email === space.author) {
+                    this.setState({space: {name: space.name, published: space.published, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
+                    this.manageUI)
+                } else {
+                    this.setState({redirect: true})
+                }
+               
             })
         this.props.hints && setTimeout(() => this.setState({showHint: true}), 1000)
     }
@@ -93,8 +101,11 @@ class SpaceEdit extends Component {
 
     render() {
         const { hints } = this.props;
-        const { space, edit, deleted, showHint, showCongrats, redirectToMySpaces, preview } = this.state
+        const { space, edit, deleted, showHint, showCongrats, redirectToMySpaces, preview, redirect } = this.state
         const { published, geo, name, description, date, avatar, artobjects, positions } = space;
+        if (redirect) {
+            return <Redirect to="/" />
+        }
         if (deleted || redirectToMySpaces) {
             return  <AnimatePresence exitBeforeEnter><Redirect to="/myspaces"/></AnimatePresence>
         }
