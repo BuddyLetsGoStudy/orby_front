@@ -17,7 +17,16 @@ const Globe = () => {
       }, []);
       
     return (
-        <div id="earth_div"></div>
+        <>
+          <div id="earth_div"></div>
+          <div className="globe-plus-cont">
+            <div className="globe-plus-bg">
+              <div className="globe-plus">
+                <div className="globe-plus-icon"/>
+              </div>
+            </div>
+          </div>
+        </>
     )
 }
 
