@@ -674,7 +674,7 @@ fetch('https://api.orby.space/spaces/')
                     </div>
                     <div class="globe-text">
                         <div class="globe-text-title">${space.name}</div>
-                        <div class="globe-text-geo">Moscow, Russia</div>
+                        <div class="globe-text-geo">${space.author}</div>
                         <div class="globe-text-arrow"></div>
                     </div>
                 </a>

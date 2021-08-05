@@ -13,7 +13,6 @@ export const LoginUser = (email, password) => async dispatch => {
     
         const body = JSON.stringify({user: { email, password }})
         const res = await axios.post(`${API_DOMAIN}/api/users/login/`, body, GUEST_CONFIG)
-        console.log(res.data)
         dispatch({
             type: "LOGIN_USER_SUCCESS",
             payload: res.data,
@@ -41,7 +40,6 @@ export const RegUser = (email, username, password) => async dispatch => {
 
         const body = JSON.stringify({user: { email, username, password }})
         const res = await axios.post(`${API_DOMAIN}/api/users/`, body, GUEST_CONFIG)
-        console.log(res.data)
         dispatch({
             type: "PROFILE_LOADED",
             payload: res.data,
@@ -53,9 +51,6 @@ export const RegUser = (email, username, password) => async dispatch => {
         dispatch({type: "HINTS_ON"})
 
     } catch (e) {
-        console.log('shit')
-
-        console.log(e.response.data, 'fuckckk')
       dispatch({
         type: "REG_USER_ERROR",
         payload: e.response.data

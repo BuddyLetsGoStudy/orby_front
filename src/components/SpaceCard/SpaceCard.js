@@ -14,7 +14,7 @@ const SpaceCard = props => {
                 <div className={'space-card-avatar'} style={{backgroundImage: `url('${space.avatar}')`}}/>
                 <div className={'space-card-bottom'}>
                     <div className={'space-card-title'}>{space.name}</div>
-                    <div className={'space-card-geo'}>Moscow, Russia</div>
+                    <div className={'space-card-geo'}>{space.author}</div>
                 </div>
             </a>
         </div>

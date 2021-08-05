@@ -25,15 +25,12 @@ const SpacesList = () => {
                                 <div className={'spaceslist-block-card-avatar'} style={{backgroundImage: `url('${space.avatar}')`}}/>
                                 <div className={'spaceslist-block-card-bottom'}>
                                     <div className={'spaceslist-block-card-title'}>{space.name}</div>
-                                    <div className={'spaceslist-block-card-geo'}>Moscow, Russia</div>
+                                    <div className={'spaceslist-block-card-geo'}>{space.author}</div>
                                 </div>
                             </Link>
                         </div>
                     ))
                 }
-            
-
-                
             </div>
         </motion.div>
     )

@@ -18,7 +18,6 @@ class SpaceCreate extends Component {
     }
 
     createSpace = () => {
-        console.log(this.props.edit, 'FUUUUUCK')
         this.props.createSpace(this.props.edit)
             .then(id => {
                 this.setState({redirectID: id})
@@ -39,7 +38,6 @@ class SpaceCreate extends Component {
         const { redirectID } = this.state;
         const { step, edit } = this.props;
         if (redirectID && edit) {
-            console.log('GAVNOOOO', edit)
             // window.history.pushState({}, null, `/edit/${redirectID}`);
             // return(<Redirect to={`/edit/${redirectID}`} />)
             return(<SpaceEdit match={{params:{spaceid: edit}}}/>)

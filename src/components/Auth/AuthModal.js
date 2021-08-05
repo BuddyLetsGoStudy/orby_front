@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"
 import { AnimatePresence, motion } from "framer-motion"
-import { CloseAuthModal, LoginUser, RegUser } from "../../actions/AuthActions";
+import { CloseAuthModal, LoginUser, RegUser } from "../../actions/AuthActions"
 import Button from '../Button/Button'
 import './styles.css'
 
 
 const AuthModal = () => {
     const dispatch = useDispatch();
-    const authState = useSelector(state => state.Auth);
+    const authState = useSelector(state => state.Auth)
     const [ modalType, setModalType ] = useState('login')
     const [ showPswd, setShowPswd ] = useState(false)
 
@@ -29,14 +29,12 @@ const AuthModal = () => {
         const email = document.getElementsByName('email')[0].value
         const password = document.getElementsByName('password')[0].value
         const username = document.getElementsByName('login')[0].value
-        console.log(email,password,username)
         email && username && password && dispatch(RegUser(email, username, password))
     }
 
     return(
         // <motion.div  className={'auth-modal'} initial={{opacity: 0, scale: 0.1, translateY: '-20vh'}} animate={{opacity: 1, scale: 1, translateY: '0vh'}} exit={{opacity: 0, scale: 0.1, translateY: '-20vh'}} transition={{ ease: "easeOut", duration: 0.15 }}>
         <motion.div  className={'auth-modal'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{ ease: "easeOut", duration: 0.15 }}>
-
             <div className={'auth-modal-cont'}>
                 {
                     modalType === 'login' ?
@@ -67,10 +65,8 @@ const AuthModal = () => {
                             <div className={`auth-modal-input-pswd-eye ${showPswd ? 'auth-modal-input-pswd-eye-open' : ''}`} onClick={togglePassword}/>
                         </div>
                         <Button onClick={submitRegForm} size={'medium'} text={'Lets get started'} fontSize={'16px'} margin={'30px 0 60px 0'}/>
-
                         </>
                 }
-
                 <div className={'auth-modal-close'} onClick={closeModal}></div>
             </div>
         </motion.div>

@@ -29,7 +29,6 @@ class SpaceArtobjects extends Component {
     componentDidMount() {
         const { space, hints } = this.props;
         const { artobjects, positions } = space;
-        console.log(',OUNTEFD MAZAAFKAKAKAKAFDKSKA )))))', space)
         positions.forEach((id, i) => {
             id !== 0 && this.displayArtobject(i + 1, _.find(artobjects, {id}).upload)
         })
@@ -37,12 +36,9 @@ class SpaceArtobjects extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log('UODATED ==============', prevProps.edit, this.props.edit)
         if((this.props.edit !== prevProps.edit) || (prevProps.space !== this.props.space) ) {
             const { artobjects, positions } = this.props.space;
-            console.log("POSITION", positions)
             positions.forEach((id, i) => {
-                console.log('NOW IS ', i + 1)
                 id !== 0 ? this.displayArtobject(i + 1, id !== 0 && _.find(artobjects, {id}).upload) : this.artobjectDeleted(i + 1)
             })
         }
@@ -63,12 +59,10 @@ class SpaceArtobjects extends Component {
     unhoverWall = () => this.setState({hoveredWall: 0})
 
     hoverArtobject = e => {
-        console.log('hovered:', e.currentTarget.id)
         this.setState({hoveredArtobject: parseInt(e.currentTarget.id, 10)})
     }
 
     unhoverArtobject = () => { 
-        console.log('unhovered')
         this.setState({hoveredArtobject: 0})
     }
 
@@ -77,7 +71,6 @@ class SpaceArtobjects extends Component {
     artobjectAdded = (positionID, artobject) => {
         const { id, upload, category } = artobject;
         const { artobjects } = this.props.space;
-        console.log(artobjects, id);
         this.closeHint(category == 1 ? 'show2DHint' : 'show3DHint')
         this.displayArtobject(positionID, upload, category == 2 && true)
 
@@ -85,7 +78,6 @@ class SpaceArtobjects extends Component {
         findIndex !== -1 && artobjects.splice(findIndex , 1)
         this.props.dispatch({type: 'UPDATE_SPACE', payload: {field: 'artobjects', value: [...artobjects, artobject]}})
 
-        console.log([...this.props.space.artobjects, artobject])
         let newPositions = this.props.space.positions
         newPositions[positionID - 1] = id
         this.props.dispatch({type: 'UPDATE_SPACE', payload: {field: 'positions', value: newPositions}})
@@ -94,7 +86,6 @@ class SpaceArtobjects extends Component {
     artobjectDeleted = positionID => this.displayArtobject(positionID)
 
     displayArtobject = (id, url=false, threeD=false) => {
-        console.log(id, 'SUDUWPOPP========================HUI')
         const artobjCont = document.getElementById(`${id}`)
         if (artobjCont) {
             const artobjWallCont =  document.getElementById(`d${id}`)
@@ -115,7 +106,6 @@ class SpaceArtobjects extends Component {
         const { showWelcome, showAddArtobject, hoveredWall, hoveredArtobject, clickedPosition, show2DHint, show3DHint, preview } = this.state;
         const { edit, space, hints } = this.props;
         const { artobjects } = space;
-        console.log(preview, 'hui', this.props)
         return (
             <>
                 <motion.div className={`body-cont`} {...pageAnimation}>

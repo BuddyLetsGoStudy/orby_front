@@ -36,7 +36,8 @@ class AddArtobject extends Component {
         error: false,
         compressing: false,
         threeD: false,
-        threeDChanged: false
+        threeDChanged: false,
+        deleteConfirmModal: false
     }
 
     imageToBase64 = (url, callback) => {
@@ -44,11 +45,9 @@ class AddArtobject extends Component {
         xhr.onload = function() {
             var reader = new FileReader();
             reader.onloadend = function() {
-                console.log('fuck', reader.result)
                 callback(reader.result);
             }
             reader.readAsDataURL(xhr.response);
-            console.log('xhr', xhr.width, xhr.response.width)
             // const { height, width } = xhr.response.srcElement;
             // console.log(height, width);
             // const proportionOne = height / width;
@@ -62,21 +61,22 @@ class AddArtobject extends Component {
     componentDidMount(){
         // document.body.classList.add('no-scroll');
         const { positionID, positions, artobjects } = this.props;
-        console.log(positionID, positionID < 13)
         const artobjectID = positions[positionID - 1]
         if (artobjectID !== 0 && positionID < 13) {
-            console.log('shit')
             const artobject = _.find(artobjects, {id: artobjectID})
             const { name, description, upload, options } = artobject;
-            
+            const { width, height } = JSON.parse(options)
+            const proportionOne = height / width;
+            const proportionTwo = width / height;
+
             this.imageToBase64(upload, base64img => {
-                this.setState({...JSON.parse(options), upload: base64img, name, description, create: false, artobjectID, file: false})
+                this.setState({...JSON.parse(options), upload: base64img, name, description, create: false, artobjectID, file: false, proportionOne, proportionTwo})
             })
         } else if(artobjectID !== 0) {
-            console.log('fuck')
             const artobject = _.find(artobjects, {id: artobjectID})
             const { name, description, upload, options } = artobject;
-            this.setState({...JSON.parse(options), upload, name, description, create: false, artobjectID, file: false, threeD: true})
+            const { width, height, length } = JSON.parse(options)
+            this.setState({...JSON.parse(options), upload, name, description, create: false, artobjectID, file: false, threeD: true, width, height, length})
         }
 
         positionID > 12 && this.setState({threeD: true})
@@ -96,13 +96,9 @@ class AddArtobject extends Component {
         formData.append("upload", file)
         formData.append("category", 1)
         formData.append("options", JSON.stringify(1))
-        for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-        }
 
         this.props.ArtobjectUploadAndUpdate(formData, false)
             .then(artobject => {
-                console.log(artobject.upload, 'che suka')
                 this.setState({upload: artobject.upload, artobjectID: artobject.id, threeDChanged: true, file: ''})
 
                 // this.props.onCreated(this.props.positionID, artobject)
@@ -128,15 +124,11 @@ class AddArtobject extends Component {
         reader.onloadend = () => {
             const image = new Image();
             image.src = reader.result;
-            console.log(image.src, file);
           
             image.onload = async e => {
                 const { height, width } = e.srcElement;
-                console.log(height, width);
-
                 const proportionOne = height / width;
                 const proportionTwo = width / height;
-                console.log(proportionOne, proportionTwo)
 
                 this.setState({
                     file: file,
@@ -179,7 +171,6 @@ class AddArtobject extends Component {
             })
         } else {
             const width = e.target.value;
-            console.log('changedSize', width * proportionOne);
             // widthElem.value = width;
             // heightElem.value = width * proportionOne
             this.setState({ 
@@ -202,13 +193,12 @@ class AddArtobject extends Component {
             !threeDChanged && file && formData.append("upload", file)
             formData.append("category", threeD ? 2 : 1)
             formData.append("options", JSON.stringify(options))
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            }
+            // for (var pair of formData.entries()) {
+            //     console.log(pair[0]+ ', ' + pair[1]); 
+            // }
     
             this.props.ArtobjectUploadAndUpdate(formData, create ? threeDChanged ? artobjectID : false : artobjectID)
                 .then(artobject => {
-                    console.log(artobject, 'che blyat')
                     this.props.onCreated(this.props.positionID, artobject)
                     this.props.onClose()
 
@@ -219,7 +209,11 @@ class AddArtobject extends Component {
         }
     }
 
-    deleteArtobject = () => {
+    deleteArtobject = () => this.setState({deleteConfirmModal: true})
+    closeDeleteArtobject = () => this.setState({deleteConfirmModal: false})
+
+
+    deleteArtobjectConfirmed = () => {
         const spaceid = window.location.href.split('/')[window.location.href.split('/').length - 1]
         this.props.deleteArtobject(this.state.artobjectID, spaceid)
             .then(() => {
@@ -233,11 +227,10 @@ class AddArtobject extends Component {
 
     render() {
         const { onClose, positionID} = this.props;
-        const { name, description, artist, width, height, length, upload, date, create, submit, error, errorMsg, compressing, threeD, file } = this.state;
+        const { name, description, artist, width, height, length, upload, date, create, submit, error, errorMsg, compressing, threeD, file, deleteConfirmModal } = this.state;
         return (
             // <motion.div className={'create-popup background-transparent'} initial={{opacity: 0, scale: 0.1, translateY: '-20vh'}} animate={{opacity: 1, scale: 1, translateY: '0vh'}} exit={{opacity: 0, scale: 0.1, translateY: '-20vh'}} transition={{ ease: "easeOut", duration: 0.15 }}>
             <motion.div className={'create-popup background-transparent'} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{ ease: "easeOut", duration: 0.15 }}>
-
                 <div className={'create-popup-cont'}>
                     <div className={'create-popup-header'}>
                         { `${create ? 'Add' : 'Edit'} ${threeD ? '3D object' : 'artwork'}`}
@@ -303,6 +296,19 @@ class AddArtobject extends Component {
                         <Button onClick={this.submitArtobject} text={'OK'}/>
                     </div>
                 </div>
+                {
+                    deleteConfirmModal &&
+                    <motion.div className={"create-popup-delete-bg"} initial={{opacity: 0}} animate={{opacity: 1}} transition={{ ease: "easeOut", duration: 0.5 }}>
+                        <div className={"create-popup-delete"}>
+                            <div className={"create-popup-delete-title"}>Are you sure?</div>
+                            <div className={"create-popup-delete-btn-cont"}>
+                                <Button onClick={this.deleteArtobjectConfirmed} text={'Delete'} margin={'0 25px 0 0'}/>
+                                <Button onClick={this.closeDeleteArtobject} text={'Cancel'}/>
+                            </div>
+                            <div className={"create-popup-delete-close"} onClick={this.closeDeleteArtobject}/>
+                        </div>
+                    </motion.div>
+                }
             </motion.div>
         )
     }

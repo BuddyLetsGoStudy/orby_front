@@ -37,7 +37,7 @@ const artPositions = [
     [-26, 10, -59.5, 2], [0, 10, -59.5, 2],  [26, 10, -59.5, 2], // stena 1
     [59.5, 10, -26, 1], [59.5, 10, 0, 1],  [59.5, 10, 26, 1], // stena 2
     [26, 10, 59.5, 2], [0, 10, 59.5, 2], [-26, 10, 59.5, 2],   // stena 3
-    [-59.5, 10, 26, 1],[-59.5, 10, 0, 1], [-59.5, 10, -26, 1], // stena 4
+    [-59.5, 10, 26, 1], [-59.5, 10, 0, 1], [-59.5, 10, -26, 1], // stena 4
 ]
 
 const threeDPos = [
@@ -102,10 +102,8 @@ class Scene extends Component {
     // REFACTOR THIS SHIT
     genArtobjects = () => {
         const { space, preview } = this.props;
-        console.log(space, this.props)
         if(preview){
             const tempSpace = space
-            console.log(tempSpace, '\dflkjnghrnkdlkjnbh=======')
             if(!tempSpace.avatar) {
                 tempSpace.avatar = 'https://api.orby.space/media/avatars/spacedefault.png'
             }
@@ -122,11 +120,9 @@ class Scene extends Component {
             fetch(`${API_DOMAIN}/spaces/${this.props.match.params.spaceid}/`)
             .then(response => response.json())
               .then(data => {
-                  console.log(data)
                   const { name, artobjects, options } = data;
                   this.setState({space: data})
                   const { positions } = JSON.parse(options);
-                  console.log('YEAHHAHHA', name, artobjects, positions)
                   document.title = `${name} gallery`;
                 
                   artobjects.map(artobject => this.genArtobject(artobject, positions))
@@ -139,12 +135,10 @@ class Scene extends Component {
         const imgUrl = artobject.upload;
         const fileType = imgUrl.split('.').pop();
         const artobjectID = artobject.id
-        console.log(artobject);
         const { category } = artobject;
         const { width, height, length } = JSON.parse(artobject.options);
 
         const artPosition = positions.indexOf(artobjectID) 
-        console.log(artPosition, 'FUCUCUUFVHIFU',  artPositions[artPosition][0])
         // category !== 2 && genLight(lightPos[artPosition][0], lightPos[artPosition][1], scene)
 
         
@@ -158,7 +152,6 @@ class Scene extends Component {
             const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
             loader.load(imgUrl, gltf => {
                 let obj = fileType === 'obj' ? gltf : gltf.scene
-                console.log(artPosition - 12, 'UFVIIFDVODI')
                 obj.position.x = threeDPos[artPosition - 12][0];
                 obj.position.y = threeDPos[artPosition - 12][1];
                 obj.position.z = threeDPos[artPosition - 12][2];
@@ -174,7 +167,6 @@ class Scene extends Component {
                 console.error( error );
 
             } );
-            console.log('fukc')
         } else if (artPosition >= 0 && artPositions[artPosition][3] === 1) {
             let geometry = new THREE.BoxGeometry(0.7, height * incr, width * incr)
             let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture })
@@ -278,10 +270,10 @@ class Scene extends Component {
 		this.worldOctree.fromGraphNode(ground);
     }
 
-
     changeKeyStatesTrue = e => this.keyStates[e.code] = true;
     changeKeyStatesFalse = e => this.keyStates[e.code] = false;
     requestPointerLock = e => document.body.requestPointerLock()
+
     mouseMoveListener = e => {
         if (document.pointerLockElement === document.body) {
             this.camera.rotation.y -= e.movementX / 500;
@@ -438,7 +430,6 @@ class Scene extends Component {
             <motion.div {...pageAnimation}>
                 <div className={`space-view-cont ${!showMenu ? 'space-view-cont-active' : ''}`} ref={(mount) => { this.mount = mount }} />
                 <AnimatePresence exitBeforeEnter>
-
                     {
                         showMenu ?
                             <motion.div {...pageAnimation} className={'space-view-menu'}>

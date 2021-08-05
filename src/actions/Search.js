@@ -10,7 +10,6 @@ export const searchSpaces = query => async dispatch => {
         });
     
         const res = await axios.get(`${API_DOMAIN}/spaces/?search=${query}`, GUEST_CONFIG)
-        console.log(res.data)
         dispatch({
             type: "SEARCH_SUCCESS",
             payload: res.data,

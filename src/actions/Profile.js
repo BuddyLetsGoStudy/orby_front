@@ -49,7 +49,6 @@ export const UpdateProfile = () => async dispatch => {
         dispatch({type: "EDIT_PROFILE_SUCCESS"})
         dispatch({type: "USER_LOADED", payload: res.data})
         setTimeout(() => dispatch({type: 'PROFILE_SUCCESS_OVER'}), 1500)
-        console.log(res.data)
 
     } catch(e) {
         console.log(e.response.data)

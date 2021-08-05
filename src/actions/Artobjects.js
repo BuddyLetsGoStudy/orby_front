@@ -43,7 +43,6 @@ export const deleteArtobject = (id, spaceid=false) => async dispatch => {
 
             const newPositions = store.getState().Space.space.positions
             newPositions[store.getState().Space.space.positions.indexOf(id)] = 0
-            console.log(_.filter(store.getState().Space.space.artobjects, el => (el.id !== id)), newPositions, 'FUCUCCUCUUCU')
             dispatch({
                 type: "UPDATE_SPACE",
                 payload: {field: "positions", value: newPositions},
@@ -57,11 +56,6 @@ export const deleteArtobject = (id, spaceid=false) => async dispatch => {
                     options: JSON.stringify({positions: newPositions}),
                 }
                 const ress = await axios.patch(`${API_DOMAIN}/spaces/${spaceid}/`, body, AUTH_JSON_CONFIG())
-          
-                console.log('[eniinnnsss', ress)
-                // dispatch(createSpace(spaceid))
-                console.log('[jiiiiii')
-
             }
           
             resolve()

@@ -5,9 +5,11 @@ import { pageAnimation } from '../../variables'
 import { Link } from 'react-router-dom';
 import './styles.css';
 
+
 const Globe = () => {
   const [ hint, changeHint ] = useState(false)
   const [ plus, changePlus ] = useState(false)
+  const authState = useSelector(state => state.Auth)
 
   useEffect(() => {
       const script = document.createElement('script');
@@ -18,21 +20,20 @@ const Globe = () => {
       document.body.appendChild(script);
 
       setTimeout(() => changePlus(true), 4000)
-      setTimeout(() => changeHint(true), 5000)
+      setTimeout(() => changeHint(true), 7000)
     
       return () => {
         document.body.removeChild(script);
       }
     }, []);
   
-  
   return (
-      <>
-        <div id="earth_div"></div>
-        <AnimatePresence exitBeforeEnter>
-          {
-            plus &&
-            <motion.div className="globe-plus-cont" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+    <>
+      <div id="earth_div"></div>
+      <AnimatePresence exitBeforeEnter>
+        {
+          plus && authState.hints &&
+          <motion.div className="globe-plus-cont" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
             <div className="globe-plus-bg">
               <AnimatePresence exitBeforeEnter>
                 {
@@ -47,15 +48,13 @@ const Globe = () => {
                 <div className="globe-plus-icon"/>
               </Link>
               <motion.div className="globe-plus-bg-glow" initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 2, yoyo: Infinity}}} exit={{opacity: 0}}/>
-
             </div>
-            </motion.div>
-          }
+          </motion.div>
+        }
       </AnimatePresence>
-         
-
-      </>
+    </>
   )
 }
+
 
 export default Globe

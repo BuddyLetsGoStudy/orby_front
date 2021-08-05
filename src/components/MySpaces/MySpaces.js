@@ -46,7 +46,7 @@ const MySpaces = () => {
                                 <div className={'myspaces-block-card-avatar'} style={{backgroundImage: `url('${space.avatar}')`}}/>
                                 <div className={'myspaces-block-card-bottom'}>
                                     <div className={'myspaces-block-card-title'}>{space.name}</div>
-                                    <div className={'myspaces-block-card-geo'}>Moscow, Russia</div>
+                                    <div className={'myspaces-block-card-geo'}>{space.author}</div>
                                 </div>
                             </Link>
                             <div className={'myspaces-block-publish'}>

@@ -20,7 +20,6 @@ const Navbar = () => {
     const searchState = useSelector(state => state.Search);
     
     useEffect(() => {
-        console.log('pedik')
         dispatch(LoadUser())
     }, [])
 

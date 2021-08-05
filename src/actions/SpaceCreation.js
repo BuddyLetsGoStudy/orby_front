@@ -8,13 +8,11 @@ import imageCompression from 'browser-image-compression';
 export const createSpace = (id) => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log('WHEYFGDNIJKORWEGRJDN')
       dispatch({
         type: "SPACE_CREATE_LOADING"
       });
       if (!store.getState().Space.edit) {
         const { name, description, geo, date, avatarRaw, positions, artobjects } = store.getState().Space.space
-        console.log(artobjects, artobjects.map(el => (parseInt(el.id, 10))))
         let avatarURL = API_DOMAIN + '/media/avatars/spacedefault.png';
         if (avatarRaw) {
           const bodyava = new FormData();
@@ -102,7 +100,6 @@ export const publishSpace = (id, param = true) => async dispatch => {
         published: param
       }
       const res = await axios.patch(`${API_DOMAIN}/spaces/${id}/`, body, AUTH_JSON_CONFIG());
-      console.log('res', res)
       dispatch({
         type: "SPACE_DEFAULT",
         payload: res.data,
@@ -118,7 +115,6 @@ export const loadSpace = id => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
       const res = await axios.get(`${API_DOMAIN}/spaces/${id}/`, AUTH_JSON_CONFIG());
-      console.log('res', res)
       resolve(res.data)
 
       const options = JSON.parse(res.data.options)
@@ -146,7 +142,6 @@ export const loadMySpaces = () => async dispatch => {
       // const res = await axios.get(`${API_DOMAIN}/spaces/?search=${jwt_decode(store.getState().Auth.token).id}&author_username_only`, AUTH_JSON_CONFIG());
       const res = await axios.get(`${API_DOMAIN}/spaces/?search=${username}&author_username_only=${true}`, AUTH_JSON_CONFIG());
 
-      console.log('res', res)
       dispatch({
         type: "MYSPACES_GET",
         payload: res.data,
@@ -161,18 +156,15 @@ export const loadMySpaces = () => async dispatch => {
 export const publishMySpaces = (id, published = true) => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(id, published, 'SPACEPPSFPPL')
       const body = {
         published
       }
       const res = await axios.patch(`${API_DOMAIN}/spaces/${id}/`, body, AUTH_JSON_CONFIG());
 
       const updID = res.data.id;
-      console.log(updID, res.data.published, 'RESSSS')
       const { spaces } = store.getState().Profile
       const updSpaces = spaces;
       updSpaces.find(space => space.id === updID).published = res.data.published;
-      console.log(updSpaces.find(space => space.id === updID).published, 'udated field')
       dispatch({
         type: "MYSPACES_GET",
         payload: updSpaces,
@@ -188,7 +180,6 @@ export const loadAllSpaces = () => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
       const res = await axios.get(`${API_DOMAIN}/spaces/`, GUEST_CONFIG);
-      console.log('res', res)
       dispatch({
         type: "ALLSPACES_GET",
         payload: _.filter(res.data, {published: true}),
@@ -206,7 +197,6 @@ export const deleteSpace = id => async dispatch => {
   return new Promise(async (resolve, reject) => {
     try {
       const res = await axios.delete(`${API_DOMAIN}/spaces/${id}/`, AUTH_JSON_CONFIG());
-      console.log('res', res)
       dispatch({
         type: "SPACE_DEFAULT",
         payload: res.data,

@@ -41,7 +41,6 @@ class SpaceEdit extends Component {
     componentDidMount() {
         this.props.loadSpace(this.props.match.params.spaceid)
             .then(space => {
-                console.log(space)
                 const dict =  jwt_decode(localStorage.getItem('token'))
                 if (dict.email === space.author) {
                     this.setState({space: {name: space.name, published: space.published, artobjects: space.artobjects, positions: JSON.parse(space.options).positions, avatar: space.avatar, date: space.date, geo: space.geo.split(','), options: JSON.parse(space.options), description: space.description.length >= 180 ? space.description.slice(0, 180) + '... <span>See more</span>' : space.description}}, 
@@ -60,7 +59,6 @@ class SpaceEdit extends Component {
             this.props.deleteSpace(this.props.match.params.spaceid)
             .then(() => this.setState({deleted: true})) // ГАВНО
         } else {
-            console.log(positions,'fdgfhj', artobjects)
             positions.forEach((id, i) => {
                 if(id !== 0){
                     const artobject = _.find(artobjects, {id});
