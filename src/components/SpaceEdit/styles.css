@@ -48,6 +48,11 @@
     line-height: 23px;
     color: #3F414E;
 }
+@media screen and (max-height: 785px){
+    .edit-card-header{
+        height: 80px;
+    }
+}
 
 .edit-card-body{
     position: relative;
@@ -62,6 +67,15 @@
     border-top: 0;
     transition: .2s;
 }
+
+@media screen and (max-height: 785px){
+    .edit-card-body{
+        height: auto;
+        padding: 20px 73px;
+    }
+
+}
+
 
 .edit-card-pencil{
     background-image: url('./assets/img/pencil.svg');
@@ -150,6 +164,12 @@
 
 .edit-card-walls{
     padding: 90px 38px;
+}
+
+@media screen and (max-height: 785px){
+    .edit-card-walls{
+        padding: 69px 38px;
+    }
 }
 
 .edit-card-row{
@@ -281,7 +301,7 @@
 
 @media screen and (max-height: 785px){
     .edit-publish-cont{
-        height: 70px;
+        height: 90px;
     }
 }
 

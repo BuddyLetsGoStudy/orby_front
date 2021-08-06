@@ -4,7 +4,7 @@ const DefaultState = {
     username: '',
     email: '',
     token: localStorage.getItem('token'),
-    hints: localStorage.getItem('hints') ? localStorage.getItem('hints') : true,
+    hints: localStorage.getItem('hints'),
     error: '',
     avatar: '',
 };
@@ -58,7 +58,6 @@ const AuthReducer = (state = DefaultState, action) => {
         case "USER_LOADING_FAIL":
         case "LOGOUT_USER":
             localStorage.removeItem('token');
-            localStorage.removeItem('hints');
             return {
                 ...state,
                 username: '',
