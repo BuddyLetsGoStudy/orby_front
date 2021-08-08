@@ -45,7 +45,7 @@ const Navbar = () => {
                             <Link to="/list" className={'navbar-icons-squares'}/>
                         </div>
                         <div className={'navbar-ul'}>
-                            <Link to="/create" className={'navbar-ul-li navbar-ul-li-create'}>
+                            <Link to={authState.token ? '/create' : ''} className={'navbar-ul-li navbar-ul-li-create'} onClick={() => authState.token ? null : dispatch(ShowAuthModal())}>
                                 <div className={'navbar-ul-li-plus'}></div>
                                 <div className={'navbar-ul-li-text'}>
                                     Create a space

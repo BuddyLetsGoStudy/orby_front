@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import { ShowAuthModal, LoadUser } from "../../actions/AuthActions";
 import { AnimatePresence, motion } from "framer-motion"
 import { pageAnimation } from '../../variables'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './styles.css';
 
 
 const Globe = () => {
+  const dispatch = useDispatch();
+  const history = useHistory()
   const [ hint, changeHint ] = useState(false)
   const [ plus, changePlus ] = useState(false)
   const authState = useSelector(state => state.Auth)
@@ -30,6 +33,11 @@ const Globe = () => {
         hintTimeout && clearTimeout(hintTimeout)
       }
     }, []);
+
+    const plusClicked = () => {
+      console.log(authState.token)
+      authState.token ? history.push('/create') : dispatch(ShowAuthModal())
+    }
   
   return (
     <>
@@ -48,9 +56,9 @@ const Globe = () => {
                     </motion.div>
                 }
               </AnimatePresence>
-              <Link to="/create" className="globe-plus">
+              <div onClick={plusClicked} className="globe-plus">
                 <div className="globe-plus-icon"/>
-              </Link>
+              </div>
               <motion.div className="globe-plus-bg-glow" initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 2, yoyo: Infinity}}} exit={{opacity: 0}}/>
             </div>
           </motion.div>
