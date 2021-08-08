@@ -152,14 +152,15 @@ class Scene extends Component {
             const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
             loader.load(imgUrl, gltf => {
                 let obj = fileType === 'obj' ? gltf : gltf.scene
-                obj.position.x = threeDPos[artPosition - 12][0];
-                obj.position.y = threeDPos[artPosition - 12][1];
-                obj.position.z = threeDPos[artPosition - 12][2];
 
                 var bbox = new THREE.Box3().setFromObject(obj);
                 var size = bbox.getSize(new THREE.Vector3());
                 var maxAxis = Math.max(size.x, size.y, size.z);
                 obj.scale.multiplyScalar(15.0 / maxAxis);
+                console.log(size)
+                obj.position.x = threeDPos[artPosition - 12][0];
+                obj.position.y = threeDPos[artPosition - 12][1] + 7;
+                obj.position.z = threeDPos[artPosition - 12][2];
 
                 this.scene.add( obj );
 

@@ -19,11 +19,15 @@ const Globe = () => {
     
       document.body.appendChild(script);
 
-      setTimeout(() => changePlus(true), 4000)
-      setTimeout(() => changeHint(true), 7000)
+      let plusTimeout = null;
+      let hintTimeout = null;
+      if(authState.hints && !plus) plusTimeout = setTimeout(() => changePlus(true), 4000)
+      if(authState.hints && !hint) hintTimeout = setTimeout(() => changeHint(true), 7000)
     
       return () => {
         document.body.removeChild(script);
+        plusTimeout && clearTimeout(plusTimeout)
+        hintTimeout && clearTimeout(hintTimeout)
       }
     }, []);
   
@@ -32,7 +36,7 @@ const Globe = () => {
       <div id="earth_div"></div>
       <AnimatePresence exitBeforeEnter>
         {
-          plus && authState.hints &&
+          plus &&
           <motion.div className="globe-plus-cont" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
             <div className="globe-plus-bg">
               <AnimatePresence exitBeforeEnter>
