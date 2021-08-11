@@ -97,9 +97,15 @@ class SpaceArtobjects extends Component {
 
     onSubmit = () => _.isEmpty(this.props.space.artobjects) ? null : this.props.onSubmit()
 
-    previewSpace = () => this.setState({preview: true})
+    previewSpace = () => {
+        window.location.hash = "#";
+        this.setState({preview: true})
+    }
 
-    closePreviewSpace = () => this.setState({preview: false})
+    closePreviewSpace = () => {
+        this.setState({preview: false})
+        window.history.replaceState(null, null, ' ');
+    }
 
 
     render() {
