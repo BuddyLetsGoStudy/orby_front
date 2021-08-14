@@ -56,7 +56,7 @@ class Scene extends Component {
 
         const clock = new THREE.Clock();
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0xd2d2d2 );
+        scene.background = new THREE.Color( 0xf0f0f0f0 );
 
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.rotation.order = 'YXZ';
@@ -214,17 +214,17 @@ class Scene extends Component {
     // SHIT ZONE ENDED
 
     genMainLights = () => {
-        const ambientlight = new THREE.AmbientLight( 0xffffff, 0.5 );
+        const ambientlight = new THREE.AmbientLight( 0xffffff, 0.1 );
         this.scene.add( ambientlight );
 
-        // const fillLight1 = new THREE.DirectionalLight( 0xfffffff, 0.5 );
-        // fillLight1.position.set( 0, 0, 2 );
-        // this.scene.add( fillLight1 );
+        const fillLight1 = new THREE.DirectionalLight( 0xfffffff, 0.5 );
+        fillLight1.position.set( - 1, 1, 2 );
+        this.scene.add( fillLight1 );
 
-        // const fillLight2 = new THREE.DirectionalLight( 0xffffff, 0.2 );
-        // fillLight2.position.set( 0, 2, 0 );
-        // this.scene.add( fillLight2 );
-
+        const fillLight2 = new THREE.DirectionalLight( 0xfffff, 0.2 );
+        fillLight2.position.set( 0, - 1, 0 );
+        this.scene.add( fillLight2 );
+        
         const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 );
         directionalLight.position.set( 0, 100, 0 );
         directionalLight.castShadow = true;

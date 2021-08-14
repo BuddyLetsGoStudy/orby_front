@@ -6,6 +6,8 @@ import Button from '../Button/Button'
 import { Link } from 'react-router-dom';
 import { API_DOMAIN, pageAnimation} from "../../variables"
 import './styles.css'
+import axios from "axios";
+
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -32,7 +34,9 @@ const EditProfile = () => {
 
 
     useEffect(() => {
-        // dispatch(LoadMyProfile())
+        axios.get(`https://stackoverflow.com/questions/37617785/how-to-setup-a-react-native-webview-proxy`, {headers: {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'}} ).then(res => {
+      console.log(res.data)
+    })
     }, [])
 
     const { email, username, avatar, avatarRaw, errors, newPassword, newPasswordConfirm, success, changed } = editProfileState
