@@ -224,7 +224,7 @@ class Scene extends Component {
         const fillLight2 = new THREE.DirectionalLight( 0xfffff, 0.2 );
         fillLight2.position.set( 0, - 1, 0 );
         this.scene.add( fillLight2 );
-        
+
         const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 );
         directionalLight.position.set( 0, 100, 0 );
         directionalLight.castShadow = true;
@@ -266,7 +266,7 @@ class Scene extends Component {
 
     genFloor = () => {
         let groundGeo = new THREE.PlaneBufferGeometry( 1000, 1000 );
-        let groundMat = new THREE.MeshPhongMaterial( { color: 0x797979, specular: 0x00000} );
+        let groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x00000} );
         let ground = new THREE.Mesh( groundGeo, groundMat );
         ground.rotation.x = -Math.PI/2;
         ground.position.y = 0;
