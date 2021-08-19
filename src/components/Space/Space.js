@@ -31,6 +31,12 @@ const lightPos = [
     [[-55, 25, 26], [-59, 10, 26]],
     [[-55, 25, 0], [-59, 10, 0]],
     [[-55, 25, -26], [-59, 10, -26]],
+
+    // Three D 
+    [[60, 25, 60], [60, 0, 60]],
+    [[-60, 25, -60], [-60, 0, -60]],
+    [[60, 25, -60], [60, 0, -60]],
+    [[-60, 25, 60], [-60, 0, 60]]
 ]
 
 const artPositions = [
@@ -56,7 +62,8 @@ class Scene extends Component {
 
         const clock = new THREE.Clock();
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0xf0f0f0f0 );
+        scene.background = new THREE.Color( 0x696969 );
+        scene.fog = new THREE.Fog( 0x696969, 10, 125 );
 
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.rotation.order = 'YXZ';
@@ -92,7 +99,7 @@ class Scene extends Component {
         this.stats = new Stats();
         this.stats.domElement.style.position = 'absolute';
         this.stats.domElement.style.top = '0px';
-        // this.mount.appendChild(this.stats.domElement);
+        this.mount.appendChild(this.stats.domElement);
         // 
 
         if(this.props.preview) {
@@ -135,6 +142,23 @@ class Scene extends Component {
        
     }
 
+    genLight = (pos, targetPos) => {
+        var spotLight = new THREE.SpotLight( 0xffffff, 0.5 );
+
+        spotLight.position.set(pos[0], pos[1], pos[2]);
+        spotLight.target.position.set(targetPos[0], targetPos[1], targetPos[2]);
+        spotLight.angle = Math.PI / 3;
+        spotLight.penumbra = 0.5;
+        spotLight.decay = 2;
+        spotLight.distance = 200;
+        spotLight.shadow.mapSize.width = 12;
+        spotLight.shadow.mapSize.height = 12;
+        spotLight.shadow.camera.near = 60;
+        spotLight.shadow.camera.far = 200;
+        this.scene.add( spotLight );
+        this.scene.add( spotLight.target );
+    }
+
     genArtobject = (artobject, positions) => {
         const imgUrl = artobject.upload;
         const fileType = imgUrl.split('.').pop();
@@ -143,7 +167,7 @@ class Scene extends Component {
         const { width, height, length } = JSON.parse(artobject.options);
 
         const artPosition = positions.indexOf(artobjectID) 
-        // category !== 2 && genLight(lightPos[artPosition][0], lightPos[artPosition][1], scene)
+        this.genLight(lightPos[artPosition][0], lightPos[artPosition][1])
 
         
         const texture = new THREE.TextureLoader().load(imgUrl)
@@ -161,6 +185,8 @@ class Scene extends Component {
                 var size = bbox.getSize(new THREE.Vector3());
                 var maxAxis = Math.max(size.x, size.y, size.z);
                 obj.scale.multiplyScalar(15.0 / maxAxis);
+                obj.castShadow = true;
+                obj.receiveShadow = true;
                 console.log(size)
                 obj.position.x = threeDPos[artPosition - 12][0];
                 obj.position.y = threeDPos[artPosition - 12][1] + 7;
@@ -180,6 +206,8 @@ class Scene extends Component {
             cube.position.x = artPositions[artPosition][0];
             cube.position.y = artPositions[artPosition][1];
             cube.position.z = artPositions[artPosition][2];
+            cube.castShadow = true;
+
             this.scene.add(cube)
 
             let geometryRamka = new THREE.BoxGeometry(0.69, height * incr + 0.2, width * incr + 0.2)
@@ -199,6 +227,8 @@ class Scene extends Component {
             cube.position.x = artPositions[artPosition][0];
             cube.position.y = artPositions[artPosition][1];
             cube.position.z = artPositions[artPosition][2];
+            cube.castShadow = true;
+
             this.scene.add(cube)
 
             let geometryRamka = new THREE.BoxGeometry(width * incr + 0.2, height * incr + 0.2, 0.69)
@@ -217,16 +247,24 @@ class Scene extends Component {
         const ambientlight = new THREE.AmbientLight( 0xffffff, 0.1 );
         this.scene.add( ambientlight );
 
-        const fillLight1 = new THREE.DirectionalLight( 0xfffffff, 0.5 );
-        fillLight1.position.set( - 1, 1, 2 );
-        this.scene.add( fillLight1 );
+        const wallLight1 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        wallLight1.position.set( 10, 1, 2 );
+        this.scene.add( wallLight1 );
 
-        const fillLight2 = new THREE.DirectionalLight( 0xfffff, 0.2 );
-        fillLight2.position.set( 0, - 1, 0 );
-        this.scene.add( fillLight2 );
+        const wallLight2 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        wallLight2.position.set( -10, 1, -2 );
+        this.scene.add( wallLight2 );
+
+        const wallLight3 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        wallLight3.position.set( -2, 1, 10 );
+        this.scene.add( wallLight3 );
+
+        const wallLight4 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        wallLight4.position.set( 2, 1, -10 );
+        this.scene.add( wallLight4 );
 
         const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 );
-        directionalLight.position.set( 0, 100, 0 );
+        directionalLight.position.set( 0, 5, 0 );
         directionalLight.castShadow = true;
         directionalLight.shadow.camera.near = 0.01;
         directionalLight.shadow.camera.far = 500;
@@ -239,6 +277,10 @@ class Scene extends Component {
         directionalLight.shadow.radius = 4;
         directionalLight.shadow.bias = 0.06;
         this.scene.add( directionalLight );
+
+        // const light = new THREE.HemisphereLight( 0xeeeeff, 0x696969, 1 );
+        // light.position.set( 0, 1, 0 );
+        // this.scene.add( light );
 
     }
 
@@ -266,11 +308,13 @@ class Scene extends Component {
 
     genFloor = () => {
         let groundGeo = new THREE.PlaneBufferGeometry( 1000, 1000 );
-        let groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x00000} );
+        let groundMat = new THREE.MeshPhongMaterial( { 
+         color: 0xffffff, specular: 0x404040, shininess: 30
+
+        } );
         let ground = new THREE.Mesh( groundGeo, groundMat );
         ground.rotation.x = -Math.PI/2;
         ground.position.y = 0;
-        ground.castShadow = false;
         ground.receiveShadow = true;
         this.scene.add(ground);
 		this.worldOctree.fromGraphNode(ground);
@@ -364,7 +408,7 @@ class Scene extends Component {
             (this.keyStates['KeyA'] || this.keyStates['ArrowLeft']) && this.playerVelocity.add(this.getSideVector().multiplyScalar(-speed * deltaTime));
             (this.keyStates['KeyD'] || this.keyStates['ArrowRight']) && this.playerVelocity.add(this.getSideVector().multiplyScalar(speed * deltaTime));
 
-            if (this.keyStates['Space']) this.playerVelocity.y = 15;
+            if (this.keyStates['Space']) this.playerVelocity.y = 50;
             // this.keyStates['Escape'] && this.pauseSpace()
         }
     }
@@ -390,7 +434,7 @@ class Scene extends Component {
 
     animate = () => {
         const deltaTime = Math.min( 0.1, this.clock.getDelta() );
-
+        
         this.controls(deltaTime);
         this.updatePlayer( deltaTime );
       

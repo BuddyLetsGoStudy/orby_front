@@ -12,8 +12,6 @@ import Space from './components/Space/Space';
 import Search from './components/Search/Search';
 import Globe from './components/Globe/Globe';
 
-
-
 import Navbar from './components/Navbar/Navbar';
 import AuthModal from './components/Auth/AuthModal';
 import PrivateRoute from './common/PrivateRoute';
