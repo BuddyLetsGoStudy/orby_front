@@ -408,7 +408,7 @@ class Scene extends Component {
             (this.keyStates['KeyA'] || this.keyStates['ArrowLeft']) && this.playerVelocity.add(this.getSideVector().multiplyScalar(-speed * deltaTime));
             (this.keyStates['KeyD'] || this.keyStates['ArrowRight']) && this.playerVelocity.add(this.getSideVector().multiplyScalar(speed * deltaTime));
 
-            if (this.keyStates['Space']) this.playerVelocity.y = 50;
+            if (this.keyStates['Space']) this.playerVelocity.y = 25;
             // this.keyStates['Escape'] && this.pauseSpace()
         }
     }
