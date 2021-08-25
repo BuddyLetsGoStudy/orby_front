@@ -62,8 +62,8 @@ class Scene extends Component {
 
         const clock = new THREE.Clock();
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0x696969 );
-        scene.fog = new THREE.Fog( 0x696969, 10, 125 );
+        scene.background = new THREE.Color( 0xD9D9D9 );
+        scene.fog = new THREE.Fog( 0xD9D9D9, 10, 200 );
 
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.rotation.order = 'YXZ';
@@ -143,7 +143,7 @@ class Scene extends Component {
     }
 
     genLight = (pos, targetPos) => {
-        var spotLight = new THREE.SpotLight( 0xffffff, 0.5 );
+        var spotLight = new THREE.SpotLight( 0xffffff, 0.2 );
 
         spotLight.position.set(pos[0], pos[1], pos[2]);
         spotLight.target.position.set(targetPos[0], targetPos[1], targetPos[2]);
@@ -244,7 +244,7 @@ class Scene extends Component {
     // SHIT ZONE ENDED
 
     genMainLights = () => {
-        const ambientlight = new THREE.AmbientLight( 0xffffff, 0.1 );
+        const ambientlight = new THREE.AmbientLight( 0xffffff, 0.3 );
         this.scene.add( ambientlight );
 
         const wallLight1 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
@@ -297,7 +297,7 @@ class Scene extends Component {
 			this.worldOctree.fromGraphNode( mesh );
 
             let plankGeometry = new THREE.BoxGeometry(...wallPositions[i][1][0]);
-            let plankMaterial = new THREE.MeshPhongMaterial( { color: 0x333333, specular: 0xffffff, shininess: 1 } );
+            let plankMaterial = new THREE.MeshPhongMaterial( { color: 0xa6a6a6, specular: 0xffffff, shininess: 1 } );
             let plankMesh = new THREE.Mesh( plankGeometry, plankMaterial );
             plankMesh.position.set(...wallPositions[i][1][1]);
             plankMesh.castShadow = true;
@@ -308,8 +308,8 @@ class Scene extends Component {
 
     genFloor = () => {
         let groundGeo = new THREE.PlaneBufferGeometry( 1000, 1000 );
-        let groundMat = new THREE.MeshPhongMaterial( { 
-         color: 0xffffff, specular: 0x404040, shininess: 30
+        let groundMat = new THREE.MeshStandardMaterial( { 
+         color: 0xffffff, specular: 0xffffff, shininess: 30
 
         } );
         let ground = new THREE.Mesh( groundGeo, groundMat );
