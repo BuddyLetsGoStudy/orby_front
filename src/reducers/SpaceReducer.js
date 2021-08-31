@@ -6,7 +6,7 @@ const DefaultState = {
         geo: [0, 0],
         date: '',
         avatar: '',
-        positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         artobjects: [],
         avatarRaw: ''
     },
@@ -45,7 +45,7 @@ const SpaceReducer = (state = DefaultState, action) => {
                     geo: [0, 0],
                     date: '',
                     avatar: '',
-                    positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     artobjects: [],
                     avatarRaw: ''
                 },
@@ -86,7 +86,7 @@ const SpaceReducer = (state = DefaultState, action) => {
                     geo: [0, 0],
                     date: '',
                     avatar: '',
-                    positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     artobjects: [],
                     avatarRaw: ''
                 },
@@ -104,7 +104,7 @@ const SpaceReducer = (state = DefaultState, action) => {
                     geo: [0, 0],
                     date: '',
                     avatar: '',
-                    positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     artobjects: [],
                     avatarRaw: ''
                 },

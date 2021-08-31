@@ -6,7 +6,7 @@ import './styles.css'
 
 class Wall extends Component {
     render() {
-        const { num, hoveredWall, hoveredArtobject, hoverWall, unhoverWall, space } = this.props;
+        const { num, hoveredWall, hoveredArtobject, hoverWall, unhoverWall, space, hoverArtobject, unhoverArtobject, addArtobject } = this.props;
         const { positions, artobjects } = space;
         return (
             <div className={'space-create-wall-and-cube'}>
@@ -21,6 +21,24 @@ class Wall extends Component {
                         <ThreeDPreview url={_.find(artobjects, {id: positions[12 + num - 1]}).upload} size={'smaller'} animate={hoveredArtobject === 12 + num ? true : false}/>
                     }
                 </div>
+                {
+                    num === 4 && 
+                    <>
+                    <div className={'create-add-artobjects-add-3d create-add-artobjects-add-3d-hui'} id={17} onMouseOver={hoverArtobject} onMouseOut={unhoverArtobject} onClick={addArtobject}>
+                    {
+                        positions[16] !== 0 &&
+                        <ThreeDPreview url={_.find(artobjects, {id: positions[16]}).upload} size={'small'} animate={false}/>
+                    }
+                    </div>
+                    <div className={`space-create-cube space-create-cube-${5} ${hoveredArtobject === 17 ? 'space-create-cube-hover' : ''}`} id={`d${17}`}>
+                    {
+                        positions[16] !== 0 &&
+                        <ThreeDPreview url={_.find(artobjects, {id: positions[16]}).upload} size={'smaller'} animate={hoveredArtobject === 17 ? true : false}/>
+                    }
+                    </div>
+                    </>
+                }
+               
             </div>
         )
     }

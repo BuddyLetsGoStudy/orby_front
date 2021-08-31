@@ -31,6 +31,6 @@ export const GUEST_CONFIG = {
 export const pageAnimation = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
-    exit: { opacity: 0 },
+    exit: { opacity: 0 }, 
     transition: { duration: 0.15 }
 }

@@ -18,7 +18,7 @@ class SpaceEdit extends Component {
         space: {
             published: false,
             geo: [55.85982975066385, 37.56725341796876],
-            positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             name: '',
             description: '',
             date: '',
@@ -153,6 +153,12 @@ class SpaceEdit extends Component {
                                             {
                                                 positions[13] !== 0 &&
                                                 <ThreeDPreview url={_.find(artobjects, {id: positions[13]})?.upload} size={'micro'} animate={false}/>
+                                            }
+                                        </div>
+                                        <div className="edit-card-row-wall-artobject-3d" id='17'>
+                                            {
+                                                positions[16] !== 0 &&
+                                                <ThreeDPreview url={_.find(artobjects, {id: positions[16]})?.upload} size={'micro'} animate={false}/>
                                             }
                                         </div>
                                     </div>

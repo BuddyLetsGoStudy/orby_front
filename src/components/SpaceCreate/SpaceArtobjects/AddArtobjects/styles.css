@@ -11,6 +11,7 @@
 
 .create-add-artobjects{
     display: flex;
+    z-index: 2;
 }
   
 .create-add-artobjects-title{
@@ -37,6 +38,7 @@
     padding: 17.73px 13.65px;
     transition: .2s;
     position: relative;
+    z-index: 2;
 }
 
 .create-add-artobjects-cont:hover{

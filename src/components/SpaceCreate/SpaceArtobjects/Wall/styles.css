@@ -177,3 +177,20 @@
         top: -79px;
     }
 }
+
+.space-create-cube-5{
+    top: -68px;
+    left: 222px;
+}
+
+@media screen and (max-height: 785px){
+    .space-create-cube-5{
+        top: -55px;
+    }
+}
+
+.create-add-artobjects-add-3d-hui{
+    position: absolute;
+    top: -137px;
+    left: 196px;
+}
