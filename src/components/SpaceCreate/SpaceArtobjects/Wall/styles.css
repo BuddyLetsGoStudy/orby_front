@@ -179,18 +179,28 @@
 }
 
 .space-create-cube-5{
-    top: -68px;
-    left: 222px;
+    top: 227px;
+    right: 11px;
 }
 
 @media screen and (max-height: 785px){
     .space-create-cube-5{
-        top: -55px;
+        top: 177px;
     }
 }
 
 .create-add-artobjects-add-3d-hui{
     position: absolute;
-    top: -137px;
-    left: 196px;
+    top: 158px;
+    right: -2px;
+    left: unset;
+    margin: 0;
 }
+
+@media screen and (max-height: 785px){
+    .create-add-artobjects-add-3d-hui{
+        top: 112px;
+    }
+}
+
+

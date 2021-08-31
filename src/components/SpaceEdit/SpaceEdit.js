@@ -155,16 +155,17 @@ class SpaceEdit extends Component {
                                                 <ThreeDPreview url={_.find(artobjects, {id: positions[13]})?.upload} size={'micro'} animate={false}/>
                                             }
                                         </div>
-                                        <div className="edit-card-row-wall-artobject-3d" id='17'>
-                                            {
-                                                positions[16] !== 0 &&
-                                                <ThreeDPreview url={_.find(artobjects, {id: positions[16]})?.upload} size={'micro'} animate={false}/>
-                                            }
-                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="edit-card-row edit-card-holo"/>
+                                <div className="edit-card-row edit-card-holo">
+                                    <div className={`edit-card-row-wall-artobject-3d ${positions[16] !== 0 ? 'peniiiis' : ''}`} id='17'>
+                                        {
+                                            positions[16] !== 0 &&
+                                            <ThreeDPreview url={_.find(artobjects, {id: positions[16]})?.upload} size={'micro'} animate={false}/>
+                                        }
+                                    </div>
+                                </div>
 
                                 <div className="edit-card-row">
                                     <div className="edit-card-row-wall">

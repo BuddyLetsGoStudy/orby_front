@@ -22,7 +22,7 @@ class Wall extends Component {
                     }
                 </div>
                 {
-                    num === 4 && 
+                    num === 1 && 
                     <>
                     <div className={'create-add-artobjects-add-3d create-add-artobjects-add-3d-hui'} id={17} onMouseOver={hoverArtobject} onMouseOut={unhoverArtobject} onClick={addArtobject}>
                     {
