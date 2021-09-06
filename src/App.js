@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { useEffect } from 'react'
 import { Switch, Route, NavLink, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion"
@@ -20,6 +20,14 @@ import PrivateRoute from './common/PrivateRoute';
 const App = () => {
   const location = useLocation();
   const authState = useSelector(state => state.Auth)
+
+  useEffect(() => {
+    const first = localStorage.getItem('first')
+    if(!first) {
+      localStorage.setItem('first', true)
+      window.location.href = 'https://pr.orby.space';
+    }
+  }, [])
 
   return (
     <>
