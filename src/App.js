@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Switch, Route, NavLink, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion"
-
+import { isMobile } from 'react-device-detect';
 import SpacesList from './components/SpacesList/SpacesList';
 import SpaceCreate from './components/SpaceCreate/SpaceCreate';
 import SpaceEdit from './components/SpaceEdit/SpaceEdit';
@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     const first = localStorage.getItem('first')
-    if(!first) {
+    if(!first && isMobile) {
       localStorage.setItem('first', true)
       window.location.href = 'https://pr.orby.space';
     }
