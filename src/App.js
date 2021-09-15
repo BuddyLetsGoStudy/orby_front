@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     const first = localStorage.getItem('first')
-    if(!first && isMobile) {
+    if(!first || isMobile) {
       localStorage.setItem('first', true)
       window.location.href = 'https://pr.orby.space';
     }
