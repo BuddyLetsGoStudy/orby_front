@@ -163,19 +163,37 @@ class AddArtobject extends Component {
         if (isNaN(e.target.value)) return null
       
         if (e.target.name === 'height') {
-            const height = e.target.value;  
-
+            let height = e.target.value;  
+            let newHeight =  Math.round(height * 10) / 10
+            let newWidth = Math.round(height * proportionTwo * 10) / 10
+            if (newHeight >= 200 || newWidth >= 250) {
+                newHeight = 200
+                newWidth = Math.round(newHeight * proportionTwo * 10) / 10
+                if (newWidth >= 250) {
+                    newWidth = 250
+                    newHeight =  Math.round(newWidth * proportionOne * 10) / 10
+                }
+            }
+            
             this.setState({ 
-                width: Math.round(height * proportionTwo * 10) / 10,
-                height: Math.round(height * 10) / 10
+                width: newWidth,
+                height: newHeight
             })
         } else {
-            const width = e.target.value;
-            // widthElem.value = width;
-            // heightElem.value = width * proportionOne
+            let width = e.target.value;
+            let newHeight = Math.round(width * proportionOne * 10) / 10
+            let newWidth = Math.round(width * 10) / 10
+            if (newWidth >= 250 || newHeight >= 200) {
+                newWidth = 250
+                newHeight = Math.round(newWidth * proportionOne * 10) / 10
+                if (newHeight >= 200) {
+                    newHeight = 200
+                    newWidth =  Math.round(newHeight * proportionTwo * 10) / 10
+                }
+            }
             this.setState({ 
-                width: Math.round(width * 10) / 10,
-                height: Math.round(width * proportionOne * 10) / 10
+                width: newWidth,
+                height: newHeight
             })
         }
     }

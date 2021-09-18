@@ -165,8 +165,9 @@ class Scene extends Component {
         const fileType = imgUrl.split('.').pop();
         const artobjectID = artobject.id
         const { category } = artobject;
-        const { width, height, length } = JSON.parse(artobject.options);
-
+        let { width, height, length } = JSON.parse(artobject.options);
+        if (height > 200) height = 200
+        if (width > 250) width = 250
         const artPosition = positions.indexOf(artobjectID) 
         this.genLight(lightPos[artPosition][0], lightPos[artPosition][1])
 
@@ -176,6 +177,7 @@ class Scene extends Component {
         texture.wrapT = THREE.RepeatWrapping
         texture.repeat.set( 1, 1 );
         let incr = 0.1;
+        // ============== 3D ==============
         if (category === 2 && artPosition > 0) {
             let incr = 7;
             const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
@@ -199,13 +201,17 @@ class Scene extends Component {
                 console.error( error );
 
             } );
+        // ============== PAingsitsins} ==============
         } else if (artPosition >= 0 && artPositions[artPosition][3] === 1) {
             let geometry = new THREE.BoxGeometry(0.7, height * incr, width * incr)
             let material = new THREE.MeshBasicMaterial({color: '#fff', map:texture })
 
             let cube = new THREE.Mesh(geometry, material)
+            // if(height >= 100) {
+
+            // }
             cube.position.x = artPositions[artPosition][0];
-            cube.position.y = artPositions[artPosition][1];
+            cube.position.y = 10 + (height / 100);
             cube.position.z = artPositions[artPosition][2];
             cube.castShadow = true;
 
@@ -215,7 +221,7 @@ class Scene extends Component {
             let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10  } );
             let ramka = new THREE.Mesh(geometryRamka, materialRamka)
             ramka.position.x = artPositions[artPosition][0];
-            ramka.position.y = artPositions[artPosition][1];
+            ramka.position.y = 10 + (height / 100);
             ramka.position.z = artPositions[artPosition][2];
             ramka.castShadow = true;
             this.scene.add(ramka)
@@ -226,7 +232,7 @@ class Scene extends Component {
 
             let cube = new THREE.Mesh(geometry, material)
             cube.position.x = artPositions[artPosition][0];
-            cube.position.y = artPositions[artPosition][1];
+            cube.position.y = 10 + (height / 100);
             cube.position.z = artPositions[artPosition][2];
             cube.castShadow = true;
 
@@ -236,7 +242,7 @@ class Scene extends Component {
             let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10} );
             let ramka = new THREE.Mesh(geometryRamka, materialRamka)
             ramka.position.x = artPositions[artPosition][0];
-            ramka.position.y = artPositions[artPosition][1];
+            ramka.position.y = 10 + (height / 100);
             ramka.position.z = artPositions[artPosition][2];
             ramka.castShadow = true;
             this.scene.add(ramka)
