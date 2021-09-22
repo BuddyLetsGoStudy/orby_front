@@ -5,6 +5,8 @@ import { pageAnimation } from '../../variables'
 import { loadMySpaces, publishMySpaces } from "../../actions/SpaceCreation";
 import { Link } from 'react-router-dom';
 import SpaceCongrats from '../SpaceCongrats/SpaceCongrats'
+import SpaceShare from '../SpaceShare/SpaceShare'
+
 import './styles.css'
 
 const MySpaces = () => {
@@ -12,7 +14,7 @@ const MySpaces = () => {
     const profileState = useSelector(state => state.Profile);
     const authState = useSelector(state => state.Auth);
     const [ showCongrats, setShowCongrats ] = useState(false);
-
+    const [ showShare, setShowShare ] = useState(false);
 
     useEffect(() => {
         dispatch(loadMySpaces())
@@ -50,6 +52,10 @@ const MySpaces = () => {
                                 </div>
                             </Link>
                             <div className={'myspaces-block-publish'}>
+                                <div className={'myspaces-block-publish-share-cont'} onClick={() => setShowShare(space.id)}>
+                                    <div className={'myspaces-block-publish-share-icon'}/>
+                                    <div className={'myspaces-block-publish-share'}>Share</div>
+                                </div>
                                 <div className={'myspaces-block-publish-marble'}/>
                                 <div className={'myspaces-block-publish-text'}>Publish</div>
                                 <div className={`edit-publish-switch ${ space.published ? 'edit-publish-switch-on' : ''}`} onClick={() => publish(space.id, space.published)}/>
@@ -59,6 +65,7 @@ const MySpaces = () => {
                 }
             </div>
             { showCongrats && <SpaceCongrats onClick={closeCongrats} />}
+            { showShare && <SpaceShare onClose={() => setShowShare(false)} spaceID={showShare} />}
         </motion.div>
     )
 }

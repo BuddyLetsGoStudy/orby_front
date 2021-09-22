@@ -1,0 +1,110 @@
+.space-share{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.14);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.space-share-body{
+    background: #FFFFFF;
+    box-shadow: 0px 32px 60px rgba(70, 67, 79, 0.08);
+    border-radius: 50px;
+    width: 528.97px;
+    height: 240.84px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    position: relative;
+}
+
+
+.space-share-title{
+    color: #3F414E;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 25px;
+    margin-top: 30px;
+
+}
+
+.space-share-icon-cont{
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.space-share-icon-cont > div{
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 26px;
+}
+
+.space-share-icon-ig{
+    width: 27px;
+    height: 27px;
+    background-image: url('./assets/img/ig.svg');
+}
+
+.space-share-icon-fb{
+    width: 14.5px;
+    height: 27px;
+    background-image: url('./assets/img/fb.svg');
+}
+
+.space-share-icon-vk{
+    width: 29px;
+    height: 16.37px;
+    background-image: url('./assets/img/vk.svg');
+}
+
+.space-share-link{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.space-share-link-icon{
+    width: 25.33px;
+    height: 26.66px;
+    background-image: url('./assets/img/link.svg');
+    margin-right: 5px;
+}
+
+.space-share-link-icon-grey{
+    background-image: url('./assets/img/link-grey.svg');
+}
+
+.space-share-link-text{
+    font-size: 16px;
+    line-height: 143%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #388CFF;
+}
+
+.space-share-link-text-grey{
+    color: rgba(174, 178, 190, 1);
+}
+
+.space-share-close{
+    background-image: url('./assets/img/close.svg');
+    width: 22px;
+    height: 23px;
+    background-size: cover;
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+

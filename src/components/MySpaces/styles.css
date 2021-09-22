@@ -106,7 +106,6 @@
 
 .myspaces-block-publish{
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
@@ -167,3 +166,27 @@
     color: #A4AED0;
     width: 113px;
 }
+
+.myspaces-block-publish-share-cont{
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    cursor: pointer;
+}
+
+.myspaces-block-publish-share-icon{
+    width: 16px;
+    height: 20px;
+    background-image: url('./assets/img/share.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 8px;
+}
+
+.myspaces-block-publish-share{
+    color: #388CFF;
+    font-size: 18px;
+    line-height: 22px;
+}
+
