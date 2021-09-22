@@ -71,6 +71,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .space-share-link-icon{
@@ -78,6 +79,7 @@
     height: 26.66px;
     background-image: url('./assets/img/link.svg');
     margin-right: 5px;
+    transition: 0.3s;
 }
 
 .space-share-link-icon-grey{
@@ -91,6 +93,7 @@
     align-items: center;
     text-align: center;
     color: #388CFF;
+    transition: 0.3s;
 }
 
 .space-share-link-text-grey{
