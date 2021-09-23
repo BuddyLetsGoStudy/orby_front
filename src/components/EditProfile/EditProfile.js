@@ -32,25 +32,15 @@ const EditProfile = () => {
 
     const onChange = e => dispatch({type: 'PROFILE_CHANGE', payload: {field: e.target.name, value: e.target.value}})
 
-
-    useEffect(() => {
-        axios.get(`https://stackoverflow.com/questions/37617785/how-to-setup-a-react-native-webview-proxy`, {headers: {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'}} ).then(res => {
-      console.log(res.data)
-    })
-    }, [])
-
     const { email, username, avatar, avatarRaw, errors, newPassword, newPasswordConfirm, success, changed } = editProfileState
     return (
         <motion.div className={'edit-profile'}{...pageAnimation}>
             <div className={'edit-profile-title'}>Edit profile</div>
             <div className={'edit-profile-cont'}>
                 <div className={'edit-profile-avatar'} style={{backgroundImage: avatar ? `url('${avatarRaw ? '' : API_DOMAIN}${avatar}')` : ''}}>
-                    {
-                        !avatar &&
-                        <div className={'edit-profile-avatar-text'}>
-                            <span>Upload</span> your profile avatar
-                        </div>
-                    }
+                    <div className={`edit-profile-avatar-text ${avatar ? 'edit-profile-avatar-text-none' : ''}`}>
+                        <span>Upload</span><br/> your profile avatar
+                    </div>
                     <input type="file" className={'edit-profile-avatar-input'} onChange={imageChange} name="avatar" accept="image/*"></input>
                 </div>
                 <div className={'edit-profile-inputs'}>

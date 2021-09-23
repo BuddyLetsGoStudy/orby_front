@@ -40,13 +40,20 @@
 
 .myspaces-block-card{
     height: 233px;
-    background: grey;
     box-shadow: 0px 32px 60px rgba(84, 95, 122, 0.08);
     border-radius: 20px;
     margin-bottom: 20px;
     position: relative;
     cursor: pointer;
     display: block;
+    background-image: url('./assets/img/card-bg.jpg');
+    background-size: 110%;
+    background-position: center;
+    transition: .3s;
+}
+
+.myspaces-block-card:hover{
+    background-size: 170%;
 }
 
 .myspaces-block-card-bg{

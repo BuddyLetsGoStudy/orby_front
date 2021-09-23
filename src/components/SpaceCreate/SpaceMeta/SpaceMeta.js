@@ -48,12 +48,9 @@ class SpaceMeta extends Component {
         return (
             <motion.div className={'create-meta-cont'} {...pageAnimation}>
                 <div className={'create-meta-avatar'} style={{backgroundImage: avatar ? `url('${avatar}')` : ''}}>
-                    {
-                        !avatar &&
-                        <div className={'create-meta-avatar-text'}>
-                            <span>Upload</span> your gallery avatar
-                        </div>
-                    }
+                    <div className={`create-meta-avatar-text ${avatar ? 'create-meta-avatar-text-none' : ''}`}>
+                        <span>Upload</span> your gallery avatar
+                    </div>
                     <input type="file" className={'create-meta-avatar-input'} onChange={this.imageChange} name="avatar" accept="image/*, .glb"></input>
                 </div>
                 <div className={'create-meta-name-and-date'}>

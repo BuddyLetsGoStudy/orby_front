@@ -44,7 +44,7 @@ const MySpaces = () => {
                     profileState.spaces.map(space => (
                         <div className={'myspaces-block'}>
                             <Link to={`/edit/${space.id}`} className={'myspaces-block-card'}>
-                                <div className={'myspaces-block-card-bg'}  style={{backgroundImage: `url('${space.artobjects[0] && space.artobjects[0].upload}')`}} />
+                                <div className={'myspaces-block-card-bg'}  style={space.artobjects[0] && space.artobjects[0].category === 1 ? {backgroundImage: `url('${space.artobjects[0].upload}')`} : {}} />
                                 <div className={'myspaces-block-card-avatar'} style={{backgroundImage: `url('${space.avatar}')`}}/>
                                 <div className={'myspaces-block-card-bottom'}>
                                     <div className={'myspaces-block-card-title'}>{space.name}</div>
