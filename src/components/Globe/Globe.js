@@ -17,8 +17,7 @@ const Globe = () => {
   useEffect(() => {
       const script = document.createElement('script');
     
-      script.src = "https://api.orby.space/media/common/api.js";
-      script.async = true;
+      script.src = "https://api.orby.space/media/common/hui.js";
     
       document.body.appendChild(script);
 

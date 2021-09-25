@@ -6,6 +6,24 @@
  * Powered by Cesium (http://www.webglearth.org/cesium). Apache 2.0 license.
  */
 
+// var pushState = history.pushState;
+// history.pushState = function () {
+//     pushState.apply(history, arguments);
+//     alert('Jesus')
+    // thisFunctionDoesNotExistAndWasCreatedWithTheOnlyPurposeOfStopJavascriptExecutionOfAllTypesIncludingCatchAndAnyArbitraryWeirdScenario();
+// };
+
+url = location.href;
+
+document.body.addEventListener('click', () => {
+    requestAnimationFrame(()=>{
+      url!==location.href&&thisFunctionDoesNotExistAndWasCreatedWithTheOnlyPurposeOfStopJavascriptExecutionOfAllTypesIncludingCatchAndAnyArbitraryWeirdScenario();
+
+      url = location.href;
+    });
+}, {once: true}, true);
+
+
 //------------------------------------------------------------------------------
 CESIUM_BASE_URL = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//www.webglearth.com/v2/';
 /**
