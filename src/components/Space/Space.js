@@ -115,7 +115,7 @@ class Scene extends Component {
     genArtobjects = () => {
         const { space, preview } = this.props;
         if(preview){
-            const tempSpace = space
+            const tempSpace = JSON.parse(JSON.stringify(space));
             if(!tempSpace.avatar) {
                 tempSpace.avatar = 'https://api.orby.space/media/avatars/spacedefault.png'
             }
@@ -405,7 +405,7 @@ class Scene extends Component {
         this.playerDirection.cross(this.camera.up);
 
         return this.playerDirection;
-    }
+    } 
     
     controls = deltaTime => {
         const speed = 50;
