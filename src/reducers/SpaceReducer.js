@@ -95,6 +95,7 @@ const SpaceReducer = (state = DefaultState, action) => {
                 edit: false,
                 preview: false,
             }
+
         case "SPACE_CLOSE":
             return {
                 loading: false,

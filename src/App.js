@@ -11,6 +11,7 @@ import EditProfile from './components/EditProfile/EditProfile';
 import Space from './components/Space/Space';
 import Search from './components/Search/Search';
 import Globe from './components/Globe/Globe';
+import CesiumTest from './components/CesiumTest/CesiumTest';
 
 import Navbar from './components/Navbar/Navbar';
 import AuthModal from './components/Auth/AuthModal';
@@ -35,13 +36,16 @@ const App = () => {
       <AnimatePresence exitBeforeEnter>
         <Switch location={location} key={location.pathname}>
             <Route path={"/list"} exact component={SpacesList}/>
-            <Route path={"/"} exact component={Globe}/>
+            {/* <Route path={"/"} exact component={Globe}/> */}
+            <Route path={"/"} exact component={CesiumTest}/>
             <Route path={"/search/:query"} component={Search}/>
             <Route path={"/space/:spaceid"} component={Space} />
             <PrivateRoute path={"/edit/profile"} exact component={EditProfile} />
             <PrivateRoute path={"/edit/:spaceid"} component={SpaceEdit} />
             <PrivateRoute path={"/create"} exact component={SpaceCreate} />
             <PrivateRoute path={"/myspaces"} exact component={MySpaces} />
+            {/* <Route path={"/cesium"} exact component={CesiumTest} /> */}
+
             {/* <PrivateRoute path={"/globe"} exact component={Globe} /> */}
 
 

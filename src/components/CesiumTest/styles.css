@@ -1,0 +1,7 @@
+.cesium-viewer-toolbar { display: none !important; }
+.cesium-viewer-fullscreenContainer { display: none !important; }
+.cesium-viewer-bottom { display: none !important; }
+.cesium-viewer{
+    height: calc(100vh - 75px);
+    background-color: rgb(245,247,254);
+}

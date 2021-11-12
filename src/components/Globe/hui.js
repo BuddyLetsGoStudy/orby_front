@@ -13,15 +13,17 @@
     // thisFunctionDoesNotExistAndWasCreatedWithTheOnlyPurposeOfStopJavascriptExecutionOfAllTypesIncludingCatchAndAnyArbitraryWeirdScenario();
 // };
 
-url = location.href;
 
-document.body.addEventListener('click', () => {
-    requestAnimationFrame(()=>{
-      url!==location.href&&thisFunctionDoesNotExistAndWasCreatedWithTheOnlyPurposeOfStopJavascriptExecutionOfAllTypesIncludingCatchAndAnyArbitraryWeirdScenario();
 
-      url = location.href;
-    });
-}, {once: true}, true);
+// url = location.href;
+
+// document.body.addEventListener('click', () => {
+//     requestAnimationFrame(() => {
+//       url !== location.href && thisFunctionDoesNotExistAndWasCreatedWithTheOnlyPurposeOfStopJavascriptExecutionOfAllTypesIncludingCatchAndAnyArbitraryWeirdScenario();
+
+//       url = location.href;
+//     });
+// }, {once: true}, true);
 
 
 //------------------------------------------------------------------------------
