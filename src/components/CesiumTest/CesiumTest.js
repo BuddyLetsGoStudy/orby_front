@@ -14,9 +14,6 @@ const CesiumTest = () => {
           credit : 'Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.'
       });
         const viewer = new Cesium.Viewer(document.getElementById("main"), {
-            // imageryProvider: Cesium.createWorldImagery({
-            //     style: Cesium.IonWorldImageryStyle.ROAD,
-            //   }),
             imageryProvider: positron,
             timeline: false,
             animation : false,
@@ -25,20 +22,8 @@ const CesiumTest = () => {
 
             });
            
-       
-// var shadedRelief2 = new Cesium.WebMapTileServiceImageryProvider({
-//     url : 'http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS/tile/1.0.0/USGSShadedReliefOnly/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
-//     layer : 'USGSShadedReliefOnly',
-//     style : 'default',
-//     format : 'image/jpeg',
-//     tileMatrixSetID : 'default028mm',
-//     maximumLevel: 19,
-//     credit : new Cesium.Credit('U. S. Geological Survey')
-// });
-// viewer.imageryLayers.addImageryProvider(shadedRelief2);
-
-        // viewer.scene.shadowMap.enabled = false
         viewer.scene.shadowMap.maximumDistance = 1.0
+        viewer.scene.backgroundColor = Cesium.Color.fromBytes(245,247,254,255);
 
         viewer.scene.skyBox.destroy();
         
@@ -53,16 +38,16 @@ const CesiumTest = () => {
         viewer.scene.skyAtmosphere = undefined;
         viewer.scene.globe.showGroundAtmosphere = false
 
-        viewer.entities.add({
+        // viewer.entities.add({
         
-          name: "tokyo",
+        //   name: "tokyo",
         
-          description: "test",
-          position: Cesium.Cartesian3.fromDegrees(37.63015658378601, 55.75658004848549, 100),
+        //   description: "test",
+        //   position: Cesium.Cartesian3.fromDegrees(37.63015658378601, 55.75658004848549, 100),
         
-          point: { pixelSize: 10 }
+        //   point: { pixelSize: 10 }
         
-        });
+        // });
         
     }, [])
     return (
