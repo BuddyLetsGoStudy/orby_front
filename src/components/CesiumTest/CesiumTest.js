@@ -22,19 +22,15 @@ const CesiumTest = () => {
 
             });
            
-        viewer.scene.shadowMap.maximumDistance = 1.0
         viewer.scene.backgroundColor = Cesium.Color.fromBytes(245,247,254,255);
 
         viewer.scene.skyBox.destroy();
-        
         viewer.scene.skyBox = undefined;
-        
         viewer.scene.sun.destroy();
-        
         viewer.scene.sun = undefined;
-        
+        viewer.scene.moon.destroy();
+        viewer.scene.moon = undefined;
         viewer.scene.skyAtmosphere.destroy();
-        
         viewer.scene.skyAtmosphere = undefined;
         viewer.scene.globe.showGroundAtmosphere = false
 
