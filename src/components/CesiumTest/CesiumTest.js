@@ -10,7 +10,7 @@ const CesiumTest = () => {
     useLayoutEffect(() => {
         Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0MmY3NjNmZS1hYzZhLTRmZTUtOGQwOS0wYWU4NzRhODM3NDIiLCJpZCI6NzI1NjUsImlhdCI6MTYzNjc1ODk5NH0.ynkAqSd3XNzEJssUG3yissMf7wI9x8ahnA-0ninyyDc"
         var positron = new Cesium.UrlTemplateImageryProvider({
-          url : 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          url : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
           credit : 'Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.'
       });
         const viewer = new Cesium.Viewer(document.getElementById("main"), {
