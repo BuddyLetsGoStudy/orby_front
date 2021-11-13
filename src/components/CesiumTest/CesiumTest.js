@@ -21,7 +21,10 @@ const CesiumTest = () => {
             shadows: false
 
             });
+
            
+        document.body.addEventListener('mousedown', () => viewer.scene.camera.cancelFlight())
+
         viewer.scene.backgroundColor = Cesium.Color.fromBytes(245,247,254,255);
 
         viewer.scene.skyBox.destroy();
@@ -33,6 +36,22 @@ const CesiumTest = () => {
         viewer.scene.skyAtmosphere.destroy();
         viewer.scene.skyAtmosphere = undefined;
         viewer.scene.globe.showGroundAtmosphere = false
+        // viewer.camera.position = new Cesium.Cartesian3.fromDegrees(37.63015658378601, 55.75658004848549, 1);
+      
+      const preloader = queuedTileCount => {
+        if(viewer.scene.globe.tilesLoaded){
+          console.log('tilesLoaded')
+          viewer.scene.globe.tileLoadProgressEvent.removeEventListener(preloader)
+          viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(37.63015, 55.75658, 15000.0),
+            duration: 4
+        });
+        }
+      }
+      viewer.scene.globe.tileLoadProgressEvent.addEventListener(preloader);
+      // viewer.scene.globe.tileCacheSize = 100
+      viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000
+      viewer.scene.screenSpaceCameraController.minimumZoomDistance = 600
 
         // viewer.entities.add({
         
