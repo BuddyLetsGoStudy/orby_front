@@ -8,19 +8,38 @@ import './styles.css'
 const CesiumTest = () => {
     const dispatch = useDispatch();
     useLayoutEffect(() => {
-        Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMzBjNGIzNS01NTBmLTQ1MTQtYTEwMi01ZjUyMzkxNDM5MGQiLCJpZCI6NzI1NjUsImlhdCI6MTYzNjEzMzYyMX0.QE_uu33TDk37tgCt_7V7xfWXqAVfg_ay83SMJ1hXgn8"
+        Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0MmY3NjNmZS1hYzZhLTRmZTUtOGQwOS0wYWU4NzRhODM3NDIiLCJpZCI6NzI1NjUsImlhdCI6MTYzNjc1ODk5NH0.ynkAqSd3XNzEJssUG3yissMf7wI9x8ahnA-0ninyyDc"
+        var positron = new Cesium.UrlTemplateImageryProvider({
+          url : 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          credit : 'Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.'
+      });
         const viewer = new Cesium.Viewer(document.getElementById("main"), {
-            imageryProvider: Cesium.createWorldImagery({
-                style: Cesium.IonWorldImageryStyle.ROAD,
-              }),
+            // imageryProvider: Cesium.createWorldImagery({
+            //     style: Cesium.IonWorldImageryStyle.ROAD,
+            //   }),
+            imageryProvider: positron,
             timeline: false,
             animation : false,
             contextOptions : { alpha : true},
             shadows: false
 
             });
-            viewer.scene.backgroundColor = Cesium.Color.fromBytes(245,247,254,255);
-        
+           
+       
+// var shadedRelief2 = new Cesium.WebMapTileServiceImageryProvider({
+//     url : 'http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS/tile/1.0.0/USGSShadedReliefOnly/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
+//     layer : 'USGSShadedReliefOnly',
+//     style : 'default',
+//     format : 'image/jpeg',
+//     tileMatrixSetID : 'default028mm',
+//     maximumLevel: 19,
+//     credit : new Cesium.Credit('U. S. Geological Survey')
+// });
+// viewer.imageryLayers.addImageryProvider(shadedRelief2);
+
+        // viewer.scene.shadowMap.enabled = false
+        viewer.scene.shadowMap.maximumDistance = 1.0
+
         viewer.scene.skyBox.destroy();
         
         viewer.scene.skyBox = undefined;
@@ -32,7 +51,7 @@ const CesiumTest = () => {
         viewer.scene.skyAtmosphere.destroy();
         
         viewer.scene.skyAtmosphere = undefined;
-        
+        viewer.scene.globe.showGroundAtmosphere = false
 
         viewer.entities.add({
         
