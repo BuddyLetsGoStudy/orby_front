@@ -22,8 +22,10 @@ const CesiumTest = () => {
 
             });
 
+        const cancelFlight = () => viewer.scene.camera.cancelFlight()
            
-        document.body.addEventListener('mousedown', () => viewer.scene.camera.cancelFlight())
+        document.body.addEventListener('mousedown', cancelFlight)
+        document.addEventListener('wheel', cancelFlight)
 
         viewer.scene.backgroundColor = Cesium.Color.fromBytes(245,247,254,255);
 
@@ -63,6 +65,13 @@ const CesiumTest = () => {
         //   point: { pixelSize: 10 }
         
         // });
+
+        return(() => {
+          console.log('fuck you burn in hell')
+          document.body.removeEventListener('mousedown', cancelFlight)
+          document.removeEventListener('wheel', cancelFlight)
+          viewer.scene.globe.tileLoadProgressEvent.removeEventListener(preloader)
+        })
         
     }, [])
     return (
