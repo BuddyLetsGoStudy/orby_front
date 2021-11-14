@@ -217,7 +217,7 @@ class Scene extends Component {
 
             this.scene.add(cube)
 
-            let geometryRamka = new THREE.BoxGeometry(0.69, height * incr + 0.2, width * incr + 0.2)
+            let geometryRamka = new THREE.BoxGeometry(0.6, height * incr + 0.3, width * incr + 0.3)
             let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10  } );
             let ramka = new THREE.Mesh(geometryRamka, materialRamka)
             ramka.position.x = artPositions[artPosition][0];
@@ -238,7 +238,7 @@ class Scene extends Component {
 
             this.scene.add(cube)
 
-            let geometryRamka = new THREE.BoxGeometry(width * incr + 0.2, height * incr + 0.2, 0.69)
+            let geometryRamka = new THREE.BoxGeometry(width * incr + 0.3, height * incr + 0.3, 0.6)
             let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10} );
             let ramka = new THREE.Mesh(geometryRamka, materialRamka)
             ramka.position.x = artPositions[artPosition][0];
@@ -408,14 +408,14 @@ class Scene extends Component {
     } 
     
     controls = deltaTime => {
-        const speed = 50;
+        const speed = 75;
         if (this.playerOnFloor) {
             (this.keyStates['KeyW'] || this.keyStates['ArrowUp']) && this.playerVelocity.add(this.getForwardVector().multiplyScalar(speed * deltaTime));
             (this.keyStates['KeyS'] || this.keyStates['ArrowDown']) && this.playerVelocity.add(this.getForwardVector().multiplyScalar(-speed * deltaTime));
             (this.keyStates['KeyA'] || this.keyStates['ArrowLeft']) && this.playerVelocity.add(this.getSideVector().multiplyScalar(-speed * deltaTime));
             (this.keyStates['KeyD'] || this.keyStates['ArrowRight']) && this.playerVelocity.add(this.getSideVector().multiplyScalar(speed * deltaTime));
 
-            if (this.keyStates['Space']) this.playerVelocity.y = 25;
+            if (this.keyStates['Space']) this.playerVelocity.y = 15;
             // this.keyStates['Escape'] && this.pauseSpace()
         }
     }

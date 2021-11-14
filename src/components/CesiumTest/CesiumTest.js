@@ -39,7 +39,7 @@ const CesiumTest = () => {
         viewer.scene.skyAtmosphere = undefined;
         viewer.scene.globe.showGroundAtmosphere = false
         // viewer.camera.position = new Cesium.Cartesian3.fromDegrees(37.63015658378601, 55.75658004848549, 1);
-      
+        
       const preloader = queuedTileCount => {
         if(viewer.scene.globe.tilesLoaded){
           console.log('tilesLoaded')
@@ -50,6 +50,76 @@ const CesiumTest = () => {
         });
         }
       }
+
+      viewer.selectionIndicator.destroy()
+      const popupElem = document.createElement('div')
+      popupElem.classList.add('globe-popup')
+      popupElem.innerHTML = `
+      <a href="https://orby.space/space/1" class="globe-cont"> 
+        <div class="globe-header" style="background-image: url('https://api.orby.space/media/common/fucker.svg')">
+            <div class="globe-header-avatar" style="background-image: url('https://api.orby.space/media/common/fucker.svg')"></div>
+        </div>
+        <div class="globe-text">
+            <div class="globe-text-title">Penis</div>
+            <div class="globe-text-geo">Dude</div>
+            <div class="globe-text-arrow"></div>
+        </div>
+      </a>
+      `
+      const cunt = document.getElementsByClassName('cesium-infoBox')[0]
+      viewer.container.appendChild(popupElem);
+      var isEntityVisible = true;
+
+      var entity = viewer.entities.add({
+        position : Cesium.Cartesian3.fromDegrees(-75.166493, 39.9060534),
+        billboard : {
+          image : 'https://api.orby.space/media/common/fucker.svg',
+          width : 32,
+          height : 32
+        }
+      });
+
+      var scratch3dPosition = new Cesium.Cartesian3();
+      var scratch2dPosition = new Cesium.Cartesian2();
+      
+      // Every animation frame, update the HTML element position from the entity.
+      viewer.clock.onTick.addEventListener(function(clock) {
+          var position3d;
+          var position2d;
+      
+          // Not all entities have a position, need to check.
+          if (entity.position) {
+              position3d = entity.position.getValue(clock.currentTime, scratch3dPosition);
+          }
+          
+          // Moving entities don't have a position for every possible time, need to check.
+          if (position3d) {
+              position2d = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+                  viewer.scene, position3d, scratch2dPosition);
+          }
+      
+          // Having a position doesn't guarantee it's on screen, need to check.
+          if (position2d) {
+              // Set the HTML position to match the entity's position.
+              cunt.style.left = position2d.x + 'px';
+              cunt.style.top = position2d.y + 'px';
+              
+              // Reveal HTML when entity comes on screen
+              if (!isEntityVisible) {
+                  isEntityVisible = true;
+                  cunt.style.display = 'block';
+              }
+          } else if (isEntityVisible) {
+              // Hide HTML when entity goes off screen or loses its position.
+              isEntityVisible = false;
+              cunt.style.display = 'none';
+          }
+      });
+      
+   
+
+      
+  
       viewer.scene.globe.tileLoadProgressEvent.addEventListener(preloader);
       // viewer.scene.globe.tileCacheSize = 100
       viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000
@@ -67,7 +137,7 @@ const CesiumTest = () => {
         // });
 
         return(() => {
-          console.log('fuck you burn in hell')
+          console.log('fuck you burn in hell bb')
           document.body.removeEventListener('mousedown', cancelFlight)
           document.removeEventListener('wheel', cancelFlight)
           viewer.scene.globe.tileLoadProgressEvent.removeEventListener(preloader)
