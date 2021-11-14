@@ -36,8 +36,8 @@ const App = () => {
       <AnimatePresence exitBeforeEnter>
         <Switch location={location} key={location.pathname}>
             <Route path={"/list"} exact component={SpacesList}/>
-            {/* <Route path={"/"} exact component={Globe}/> */}
-            <Route path={"/"} exact component={CesiumTest}/>
+            <Route path={"/"} exact component={Globe}/>
+            {/* <Route path={"/"} exact component={CesiumTest}/> */}
             <Route path={"/search/:query"} component={Search}/>
             <Route path={"/space/:spaceid"} component={Space} />
             <PrivateRoute path={"/edit/profile"} exact component={EditProfile} />

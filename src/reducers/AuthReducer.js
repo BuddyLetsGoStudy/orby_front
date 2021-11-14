@@ -4,7 +4,7 @@ const DefaultState = {
     username: '',
     email: '',
     token: localStorage.getItem('token'),
-    hints: localStorage.getItem('hints'),
+    hints: localStorage.getItem('hints') === null ? true : localStorage.getItem('hints'),
     error: '',
     avatar: '',
 };

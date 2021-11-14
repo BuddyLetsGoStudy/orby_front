@@ -243,3 +243,22 @@
 
 }
 
+.globe-zoom-cont{
+	max-width: 1180px;
+	position: absolute;
+	bottom: 50px;
+	left: calc(50% - 133px);
+}
+
+.globe-zoom{
+	background: linear-gradient(90deg, #FFFFFF 41.33%, rgba(255, 255, 255, 0) 100%);
+	border-radius: 64px;
+	width: 277px;
+	height: 45px;
+	color: #7B839A;
+	font-size: 18px;
+	line-height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

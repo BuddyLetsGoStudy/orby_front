@@ -504,7 +504,7 @@ class Scene extends Component {
                                             </div>
                                             <div className={'space-view-menu-icon-cont'}>
                                                 <div className={'space-view-menu-icon-keys'}/>
-                                                <div className={'space-view-menu-icon-text'}>Use AWSD or arrow keys on your keyboard to move around</div>
+                                                <div className={'space-view-menu-icon-text'}>Use WASD or arrow keys on your keyboard to move around</div>
                                             </div>
                                             <div className={'space-view-menu-icon-cont'}>
                                                 <div className={'space-view-menu-icon-esc'}/>

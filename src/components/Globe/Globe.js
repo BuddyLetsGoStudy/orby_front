@@ -4,6 +4,7 @@ import { ShowAuthModal, LoadUser } from "../../actions/AuthActions";
 import { AnimatePresence, motion } from "framer-motion"
 import { pageAnimation } from '../../variables'
 import { Link, useHistory } from 'react-router-dom';
+import CesiumTest from '../CesiumTest/CesiumTest'
 import './styles.css';
 
 
@@ -12,24 +13,27 @@ const Globe = () => {
   const history = useHistory()
   const [ hint, changeHint ] = useState(false)
   const [ plus, changePlus ] = useState(false)
+  const [ zoom, changeZoom ] = useState(false)
+
   const authState = useSelector(state => state.Auth)
 
   useEffect(() => {
-      const script = document.createElement('script');
-    
-      script.src = "https://api.orby.space/media/common/hui.js";
-    
-      document.body.appendChild(script);
+      let plusTimeout, hintTimeout, zoomTimeout, zoomDeletionTimeout = null;
 
-      let plusTimeout = null;
-      let hintTimeout = null;
       if(authState.hints && !plus) plusTimeout = setTimeout(() => changePlus(true), 4000)
       if(authState.hints && !hint) hintTimeout = setTimeout(() => changeHint(true), 7000)
+      if(authState.hints && !zoom) zoomTimeout = setTimeout(() => {
+        changeZoom(true)
+        document.addEventListener("wheel", () => {
+          zoomDeletionTimeout = setTimeout(() => changeZoom(false), 1000)
+        })
+      }, 1000)
     
       return () => {
-        document.body.removeChild(script);
         plusTimeout && clearTimeout(plusTimeout)
         hintTimeout && clearTimeout(hintTimeout)
+        zoomTimeout && clearTimeout(zoomTimeout)
+        zoomDeletionTimeout && clearTimeout(zoomDeletionTimeout)
       }
     }, []);
 
@@ -40,8 +44,20 @@ const Globe = () => {
   
   return (
     <>
-      <div id="earth_div"></div>
+      {/* <div id="earth_div"></div> */}
+      <CesiumTest />
       <AnimatePresence exitBeforeEnter>
+        {
+          zoom &&
+              <motion.div className="globe-zoom-cont" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+                <div className={"globe-zoom"}>Use mouse scroll to zoom</div>
+              </motion.div>
+
+        }
+            </AnimatePresence>
+
+            <AnimatePresence exitBeforeEnter>
+
         {
           plus &&
           <motion.div className="globe-plus-cont" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>

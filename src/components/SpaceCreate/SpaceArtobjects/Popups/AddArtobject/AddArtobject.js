@@ -267,7 +267,7 @@ class AddArtobject extends Component {
                                 <div className={'create-popup-add-file-text'}>
                                     {`Drag & drop your ${ threeD ? '3D model' : 'artwork' } here`}
                                     <div>
-                                    or <span>Choose</span> from computer<br></br> {threeD && <penis>.glb .gltf or .obj</penis>}
+                                    or <span>Choose</span> from computer<br></br> {threeD && <penis>.glb .gltf or .obj (max 20 mb)</penis>}
                                     </div>
                                 </div>
                             }
