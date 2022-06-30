@@ -1,6 +1,6 @@
 .space-view-cont{
     width: 100%;
-    height: calc(100vh - 150px);
+    min-height: 100%;
     position: absolute;
     top: 0;
     z-index: 6;
@@ -140,7 +140,7 @@
 }
 
 .space-view-esc-icon{
-    background-image: url('./assets/img/esc-black.svg');
+    background-image: url('./assets/img/esc.svg');
     background-size: cover;
     width: 45px;
     height: 45px;
@@ -151,5 +151,10 @@
     width: 107px;
     font-size: 12px;
     line-height: 120%;
-    color: #555555;
+    color: #C4C4C4;
+    margin-top: 5px;
+}
+
+.dg{
+    z-index: 1000000!important;
 }

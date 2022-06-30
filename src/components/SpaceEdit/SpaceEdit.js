@@ -50,7 +50,7 @@ class SpaceEdit extends Component {
                 }
                
             })
-        this.props.hints && setTimeout(() => this.setState({showHint: true}), 1000)
+        this.props.hints.published && setTimeout(() => this.setState({showHint: true}), 1000)
     }
 
     manageUI = () => {

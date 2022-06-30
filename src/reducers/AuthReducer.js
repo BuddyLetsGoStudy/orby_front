@@ -4,24 +4,35 @@ const DefaultState = {
     username: '',
     email: '',
     token: localStorage.getItem('token'),
-    hints: localStorage.getItem('hints') === null ? true : localStorage.getItem('hints'),
+    // hints: localStorage.getItem('hints') === null  ? false : localStorage.getItem('hints'),
+    hints: localStorage.getItem('hints') ? JSON.parse(localStorage.getItem('hints')) : 
+    {
+        plus: true,
+        howtocreate: true,
+        publish: true,
+        published: true
+    },
     error: '',
     avatar: '',
+    redirect: false
 };
-  
+  console.log()
 const AuthReducer = (state = DefaultState, action) => {
     switch (action.type) {
         case "SHOW_AUTHMODAL":
+            console.log(action.payload.redirect, 'suka(')
             return {
                 ...state,
-                showAuthModal: true
+                showAuthModal: true,
+                redirect: action.payload.redirect
             };
 
         case "CLOSE_AUTHMODAL":
             return {
                 ...state,
                 error: false,
-                showAuthModal: false
+                showAuthModal: false,
+                redirect: false
             };
 
         case "REG_USER_LOADING":
@@ -39,12 +50,15 @@ const AuthReducer = (state = DefaultState, action) => {
             return {
                 ...state,
                 loading: false,
+                redirect: false,
+                
                 token: action.payload.token,
                 username: action.payload.username,
                 email: action.payload.email,
                 avatar: action.payload.avatar,
                 error: false,
                 showAuthModal: false, 
+                hints: JSON.parse(localStorage.getItem('hints'))
             }
 
         case "LOGIN_USER_ERROR":
@@ -67,17 +81,47 @@ const AuthReducer = (state = DefaultState, action) => {
                 error: false,
             }
             
-        case "HINTS_ON": 
-            localStorage.setItem('hints', true)
-            return {
-                ...state,
-                hints: true
-            }
         case "HINTS_OFF": 
-            localStorage.removeItem('hints');
+            localStorage.setItem('hints', JSON.stringify({
+                plus: false,
+                howtocreate: false,
+                publish: false,
+                published: false
+            }))
             return {
                 ...state,
-                hints: false
+                hints: {
+                    plus: false,
+                    howtocreate: false,
+                    publish: false,
+                    published: false
+                }
+            }
+        case "HINTS_ON": 
+            localStorage.setItem('hints', JSON.stringify({
+                plus: true,
+                howtocreate: true,
+                publish: true,
+                published: true
+            }));
+            return {
+                ...state,
+                hints: {
+                    plus: true,
+                    howtocreate: true,
+                    publish: true,
+                    published: true
+                }
+            }
+        case "HINT_SEEN":
+            const newHints = {
+                ...state.hints,
+                [action.payload.hint]: false
+            }
+            localStorage.setItem('hints', JSON.stringify(newHints))
+            return {
+                ...state,
+                hints: newHints
             }
         default:
             return state

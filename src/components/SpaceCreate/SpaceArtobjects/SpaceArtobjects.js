@@ -32,7 +32,7 @@ class SpaceArtobjects extends Component {
         positions.forEach((id, i) => {
             id !== 0 && this.displayArtobject(i + 1, _.find(artobjects, {id}).upload)
         })
-        hints && setTimeout(() => this.setState({showWelcome: true}), 1001)
+        hints.howtocreate && setTimeout(() => this.setState({showWelcome: true}), 1001)
     }
 
     componentDidUpdate(prevProps) {
@@ -44,16 +44,24 @@ class SpaceArtobjects extends Component {
         }
     }
 
+
     closePopup = () => this.setState({showAddArtobject: false})
 
     closeWelcome = () => {
-        setTimeout(() => this.setState({show2DHint: true, hoveredWall: 1, hoveredArtobject: 1}), 500)
-        setTimeout(() => this.setState({show3DHint: true}), 1500)
+        const { hints, hintSeen } = this.props;
+
+        hints.howtocreate && setTimeout(() => this.setState({show2DHint: true, hoveredWall: 1, hoveredArtobject: 1}), 500)
+        hints.howtocreate && setTimeout(() => {
+            hintSeen()
+            this.setState({show3DHint: true})
+        }, 1500)
 
         this.setState({showWelcome: false})
     }
 
-    closeHint = e =>  this.setState({[e.target ? e.target.id : e]: false, hoveredWall: 0, hoveredArtobject: 0})
+    closeHint = e =>  {
+        this.setState({[e.target ? e.target.id : e]: false, hoveredWall: 0, hoveredArtobject: 0})
+    }
 
     hoverWall = e => this.setState({hoveredWall: parseInt(e.currentTarget.id[2], 10) || parseInt(e.currentTarget.id[1], 10)})
     unhoverWall = () => this.setState({hoveredWall: 0})
@@ -154,4 +162,9 @@ const mapStateToProps = state => ({
     hints: state.Auth.hints,
 })
 
-export default connect(mapStateToProps,  null)(SpaceArtobjects);
+const mapDispatchToProps = dispatch => ({
+    hintSeen: () => dispatch({type: "HINT_SEEN", payload: {hint: 'howtocreate'}}),
+    dispatch               
+ })
+
+export default connect(mapStateToProps, mapDispatchToProps)(SpaceArtobjects);

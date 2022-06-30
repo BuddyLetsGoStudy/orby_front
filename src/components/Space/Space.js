@@ -3,34 +3,45 @@ import { connect } from 'react-redux'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
+
+// import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { Octree } from './Octree';
 import { Capsule } from './Capsule';
 import Stats from './Stats';
 import { AnimatePresence, motion } from "framer-motion"
 import { pageAnimation, API_DOMAIN } from '../../variables'
 import Button from '../Button/Button'
+import RobotoRegular from './assets/fonts/Roboto_Regular.json'
+import RobotoBold from './assets/fonts/Roboto_Bold.json'
+import * as dat from 'dat.gui'
 import './styles.css'
 
+
+const wc = 75 //walls coord
+
 const wallPositions = [
-    [[[1, 30, 90], [60, 10, 0]], [[1.5, 1.5, 90.5], [60, 0.75, 0]]], // first array = wall position; second array = bottom plank position;
-    [[[1, 30, 90], [-60, 10, 0]], [[1.5, 1.5, 90.5], [-60, 0.75, 0]]],
-    [[[90, 30, 1], [0, 10, 60]], [[90.5, 1.5, 1.5], [0, 0.75, 60]]],
-    [[[90, 30, 1], [0, 10, -60]], [[90.5, 1.5, 1.5], [0, 0.75, -60]]]
+    [[[1, 40, 110], [wc, 10, 0]], [[1.5, 1.5, 110.5], [wc, 0.25, 0]]], // first array = wall position; second array = bottom plank position;
+    [[[1, 40, 110], [-wc, 10, 0]], [[1.5, 1.5, 110.5], [-wc, 0.25, 0]]],
+    [[[110, 40, 1], [0, 10, wc]], [[110.5, 1.5, 1.5], [0, 0.25, wc]]],
+    [[[110, 40, 1], [0, 10, -wc]], [[110.5, 1.5, 1.5], [0, 0.25, -wc]]]
 ]
 
 const lightPos = [
-    [[-26, 25, -55], [-26, 10, -59]],
-    [[0, 25, -55], [0, 10, -59]],
-    [[26, 25, -55], [26, 10, -59]],
-    [[55, 25, -26], [59, 10, -26]],
-    [[55, 25, 0], [59, 10, 0]],
-    [[55, 25, 26], [59, 10, 26]],
-    [[26, 25, 55], [26, 10, 59]],
-    [[0, 25, 55], [0, 10, 59]],
-    [[-26, 25, 55], [-26, 10, 59]],
-    [[-55, 25, 26], [-59, 10, 26]],
-    [[-55, 25, 0], [-59, 10, 0]],
-    [[-55, 25, -26], [-59, 10, -26]],
+    [[-37, 25, -wc+5], [-37, 10, -wc+1]],
+    [[0, 25, -wc+5], [0, 10, -wc+1]],
+    [[37, 25, -wc+5], [37, 10, -wc+1]],
+    [[wc-5, 25, -37], [wc-1, 10, -37]],
+    [[wc-5, 25, 0], [wc-1, 10, 0]],
+    [[wc-5, 25, 37], [wc-1, 10, 37]],
+    [[37, 25, wc-5], [37, 10, wc-1]],
+    [[0, 25, wc-5], [0, 10, wc-1]],
+    [[-37, 25, wc-5], [-37, 10, wc-1]],
+    [[-wc+5, 25, 37], [-wc+1, 10, 37]],
+    [[-wc+5, 25, 0], [-wc+1, 10, 0]],
+    [[-wc+5, 25, -37], [-wc+1, 10, -37]],
 
     // Three D 
     [[60, 25, 60], [60, 0, 60]],
@@ -41,10 +52,10 @@ const lightPos = [
 ]
 
 const artPositions = [
-    [-26, 10, -59.5, 2], [0, 10, -59.5, 2],  [26, 10, -59.5, 2], // stena 1
-    [59.5, 10, -26, 1], [59.5, 10, 0, 1],  [59.5, 10, 26, 1], // stena 2
-    [26, 10, 59.5, 2], [0, 10, 59.5, 2], [-26, 10, 59.5, 2],   // stena 3
-    [-59.5, 10, 26, 1], [-59.5, 10, 0, 1], [-59.5, 10, -26, 1], // stena 4
+    [-37, 10, -wc+.5, 2, 1], [0, 10, -wc+.5, 2, 1],  [37, 10, -wc+.5, 2, 1], // stena 1
+    [wc-.5, 10, -37, 1, 2], [wc-.5, 10, 0, 1, 2],  [wc-.5, 10, 37, 1, 2], // stena 2
+    [37, 10, wc-.5, 2, 3], [0, 10, wc-.5, 2, 3], [-37, 10, wc-.5, 2, 3],   // stena 3
+    [-wc+.5, 10, 37, 1, 4], [-wc+.5, 10, 0, 1, 4], [-wc+.5, 10, -37, 1, 4], // stena 4
 ]
 
 const threeDPos = [
@@ -58,15 +69,24 @@ class Scene extends Component {
     }
 
     componentDidMount() {
+  
+    
+        window.addEventListener('resize', this.onWindowResize);
+       
+        // const gui = new dat.GUI()
+        const all3DObj = new THREE.Group();
+        const fontLoader = new FontLoader();
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
 
         const clock = new THREE.Clock();
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color( 0xD9D9D9 );
-        scene.fog = new THREE.Fog( 0xD9D9D9, 10, 200 );
+        scene.background = new THREE.Color( '#000000' );
+        // scene.fog = new THREE.Fog( '#000000', 10, 200 ); 
 
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        // const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 1000 );
+ 
         camera.rotation.order = 'YXZ';
 
         const renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -74,7 +94,14 @@ class Scene extends Component {
         renderer.setSize( window.innerWidth, window.innerHeight );
         renderer.shadowMap.enabled = true; 
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        const glassMaterial = new THREE.MeshNormalMaterial()
+        const wallsMaterial = new THREE.MeshPhongMaterial( { 
+            color: '#363636',
+            specular: 0x050505,
+            shininess: 100
+        } )
 
+        
         this.GRAVITY = 28;
         this.worldOctree = new Octree();
         this.playerCollider = new Capsule( new THREE.Vector3( 0, 3.5, 0 ), new THREE.Vector3( 0, 10, 0 ), 3.5 );
@@ -90,17 +117,26 @@ class Scene extends Component {
         this.scene = scene
         this.camera = camera
         this.renderer = renderer
+        this.all3DObj = all3DObj
+        // this.gui = gui
+        this.wallsMaterial = wallsMaterial
+        this.glassMaterial = glassMaterial
+
+        this.fontLoader = fontLoader
+        this.robotoRegular = fontLoader.parse(RobotoRegular)
+        this.RobotoBold = fontLoader.parse(RobotoBold)
+
 
         this.genMainLights()
         this.genWalls(4)
         this.genFloor()
         this.genArtobjects()
-
+        this.scene.add(this.all3DObj)
         // DEV
-        this.stats = new Stats();
-        this.stats.domElement.style.position = 'absolute';
-        this.stats.domElement.style.top = '0px';
-        this.mount.appendChild(this.stats.domElement);
+        // this.stats = new Stats();
+        // this.stats.domElement.style.position = 'absolute';
+        // this.stats.domElement.style.top = '0px';
+        // this.mount.appendChild(this.stats.domElement);
         // 
 
         if(this.props.preview) {
@@ -109,6 +145,9 @@ class Scene extends Component {
 
         this.mount.appendChild(this.renderer.domElement)
         this.start()
+
+
+     
     }
 
     // REFACTOR THIS SHIT
@@ -143,19 +182,43 @@ class Scene extends Component {
        
     }
 
-    genLight = (pos, targetPos) => {
-        var spotLight = new THREE.SpotLight( 0xffffff, 0.2 );
+    genLight3D = (pos, size) => {
+        const { x, y, z } = pos
+        let spotLight =  new THREE.SpotLight('#ffffff', 1, 30, Math.PI * 0.1, 0.25, 1)
+        const spotLightHelper = new THREE.SpotLightHelper(spotLight)
+        // this.scene.add(spotLightHelper)
+        spotLight.position.set(x, y + size.y + 10, z)
+        spotLight.target.position.set(x, y, z);
 
-        spotLight.position.set(pos[0], pos[1], pos[2]);
-        spotLight.target.position.set(targetPos[0], targetPos[1], targetPos[2]);
-        spotLight.angle = Math.PI / 3;
-        spotLight.penumbra = 0.5;
-        spotLight.decay = 2;
+        // let spotLight2 =  new THREE.SpotLight('#ffffff', 1, 30, Math.PI * 0.1, 0.25, 1)
+        // spotLight2.position.set(x, y - size.y -3, z)
+        // spotLight2.target.position.set(x, y, z);
+
+        this.scene.add(spotLight)
+
+    }
+
+    genLight = (pos, targetPos, boundingBox, artPos) => {
+        let spotLight = new THREE.SpotLight( 0xffffff, 0.6 );
+        // spotLight.lookAt(targetPos)
+       
+
+
+        spotLight.position.set(pos[0], boundingBox.max.y + 20, pos[2]);
+        spotLight.target.position.set(targetPos[0], boundingBox.max.y + 2, targetPos[2]);
+        spotLight.angle = Math.PI / 4;
         spotLight.distance = 200;
-        spotLight.shadow.mapSize.width = 12;
-        spotLight.shadow.mapSize.height = 12;
-        spotLight.shadow.camera.near = 60;
-        spotLight.shadow.camera.far = 200;
+        spotLight.penumbra = 1
+        spotLight.shadow.mapSize.width = 1024;
+        spotLight.shadow.mapSize.height = 1024;
+    
+        // spotLight.shadow.radius = .5;
+//         spotLight.shadow.camera.near = 1
+//         spotLight.shadow.camera.far = 6
+//         spotLight.shadow.camera.top = 100
+// spotLight.shadow.camera.right = 100
+// spotLight.shadow.camera.bottom = -100
+// spotLight.shadow.camera.left = -100
         this.scene.add( spotLight );
         this.scene.add( spotLight.target );
     }
@@ -164,12 +227,12 @@ class Scene extends Component {
         const imgUrl = artobject.upload;
         const fileType = imgUrl.split('.').pop();
         const artobjectID = artobject.id
-        const { category } = artobject;
-        let { width, height, length } = JSON.parse(artobject.options);
+        const { category, name } = artobject;
+        let { width, height, length, artist } = JSON.parse(artobject.options);
         if (height > 200) height = 200
         if (width > 250) width = 250
         const artPosition = positions.indexOf(artobjectID) 
-        this.genLight(lightPos[artPosition][0], lightPos[artPosition][1])
+        // this.genLight(lightPos[artPosition][0], lightPos[artPosition][1])
 
         
         const texture = new THREE.TextureLoader().load(imgUrl)
@@ -177,25 +240,33 @@ class Scene extends Component {
         texture.wrapT = THREE.RepeatWrapping
         texture.repeat.set( 1, 1 );
         let incr = 0.1;
+        const artobjectPosY = 10 + (height / 100);
+
         // ============== 3D ==============
         if (category === 2 && artPosition > 0) {
-            let incr = 7;
+            let incr = 1.5;
             const loader = fileType === 'obj' ? new OBJLoader() : new GLTFLoader();
             loader.load(imgUrl, gltf => {
                 let obj = fileType === 'obj' ? gltf : gltf.scene
-
+                // obj.scale.set(0.1, 0.1, 0.1)
                 var bbox = new THREE.Box3().setFromObject(obj);
                 var size = bbox.getSize(new THREE.Vector3());
                 var maxAxis = Math.max(size.x, size.y, size.z);
+                console.log({size})
                 obj.scale.multiplyScalar(15.0 / maxAxis);
                 obj.castShadow = true;
                 obj.receiveShadow = true;
-                console.log(size)
+                console.log(obj.position.multiplyScalar(15.0 / size.y))
                 obj.position.x = threeDPos[artPosition - 12][0];
                 obj.position.y = threeDPos[artPosition - 12][1] + 7;
                 obj.position.z = threeDPos[artPosition - 12][2];
 
-                this.scene.add( obj );
+                  obj.traverse((o) => {
+                    if (o.isMesh) o.material =  this.glassMaterial
+                    });
+                    this.all3DObj.add(obj)
+                // this.scene.add( obj );
+                this.genLight3D(obj.position, size)
 
             }, undefined, function ( error ) {
                 console.error( error );
@@ -211,7 +282,7 @@ class Scene extends Component {
 
             // }
             cube.position.x = artPositions[artPosition][0];
-            cube.position.y = 10 + (height / 100);
+            cube.position.y = artobjectPosY
             cube.position.z = artPositions[artPosition][2];
             cube.castShadow = true;
 
@@ -221,10 +292,13 @@ class Scene extends Component {
             let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10  } );
             let ramka = new THREE.Mesh(geometryRamka, materialRamka)
             ramka.position.x = artPositions[artPosition][0];
-            ramka.position.y = 10 + (height / 100);
+            ramka.position.y = artobjectPosY
             ramka.position.z = artPositions[artPosition][2];
-            ramka.castShadow = true;
             this.scene.add(ramka)
+            cube.geometry.computeBoundingBox()
+            this.genArtobjectInfo(cube.geometry.boundingBox.getSize(new THREE.Vector3()), artPositions[artPosition], artobjectPosY, name, artist)
+
+            this.genLight(lightPos[artPosition][0], lightPos[artPosition][1], cube.geometry.boundingBox)
         
         } else if (artPosition >= 0){
             let geometry = new THREE.BoxGeometry(width * incr, height * incr, 0.7)
@@ -232,58 +306,123 @@ class Scene extends Component {
 
             let cube = new THREE.Mesh(geometry, material)
             cube.position.x = artPositions[artPosition][0];
-            cube.position.y = 10 + (height / 100);
+            cube.position.y = artobjectPosY
             cube.position.z = artPositions[artPosition][2];
-            cube.castShadow = true;
 
-            this.scene.add(cube)
+            this.scene.add(cube);
 
             let geometryRamka = new THREE.BoxGeometry(width * incr + 0.3, height * incr + 0.3, 0.6)
             let materialRamka = new THREE.MeshPhongMaterial( { color: '#2b2b2b', specular: 0xffffff, shininess: 10} );
             let ramka = new THREE.Mesh(geometryRamka, materialRamka)
             ramka.position.x = artPositions[artPosition][0];
-            ramka.position.y = 10 + (height / 100);
+            ramka.position.y = artobjectPosY
             ramka.position.z = artPositions[artPosition][2];
             ramka.castShadow = true;
             this.scene.add(ramka)
+            this.worldOctree.fromGraphNode(cube);
+
+            // const cubeCollider = new Capsule( 
+            //     new THREE.Vector3( artPositions[artPosition][0] - 5, 0, artPositions[artPosition][2] - 5 ),
+            //     new THREE.Vector3( artPositions[artPosition][0] + 5, 13, artPositions[artPosition][2] + 5 ), 
+            //     5 );
+
+            // console.log(cubeCollider)
+            // setTimeout(() => console.log(this.playerCollider, cubeCollider), 5000)
+            cube.geometry.computeBoundingBox()
+
+            // setTimeout(() => console.log(this.playerCollider.intersectsBox(cube.geometry.boundingBox)), 5000)
+            // setTimeout(() => console.log(this.worldOctree.calcBox()), 3000)
+
+            this.genLight(lightPos[artPosition][0], lightPos[artPosition][1], cube.geometry.boundingBox, artPosition)
+            
+            this.genArtobjectInfo(cube.geometry.boundingBox.getSize(new THREE.Vector3()), artPositions[artPosition], artobjectPosY, name, artist)
+
         }
+        
+    }
+
+    
+
+    genArtobjectInfo = (box, artPosition, artPositionY, name, artist) => {
+        const geometry = new TextGeometry(`«${name}»${artist ? `\nby ${artist}` : ''}`, {
+            font: this.RobotoBold,
+            size: .2,
+            height: 0.001,
+            curveSegments: 12,
+           
+        } );
+        const material = new THREE.MeshBasicMaterial({color: "#ffffff"})
+
+        const textMesh = new THREE.Mesh(geometry, material)
+        let textPosY = artPositionY  - box.y / 2 + .5;
+        console.log(textPosY,'fdfsdfdsfdskjfnsdkjfdnsjhkn')
+        if (textPosY < 6) textPosY = 6
+        switch (artPosition[4]){
+            case 1:
+                textMesh.position.set(artPosition[0] + box.x / 2 + .5 , textPosY, artPosition[2] + .1)
+
+                break;
+            case 2:
+                textMesh.position.set(artPosition[0] - .1, textPosY, artPosition[2] + box.z / 2 + .4)
+                textMesh.rotateY(-Math.PI / 2)
+
+                break;
+            case 3:
+                textMesh.position.set(artPosition[0] - box.x / 2 - .5 , textPosY, artPosition[2] - .2)
+                textMesh.rotateY(Math.PI)
+                break;
+            case 4:
+                console.log(box)
+                textMesh.position.set(artPosition[0] + .1, textPosY, artPosition[2] + -box.z / 2 - .4)
+
+                textMesh.rotateY(Math.PI / 2)
+
+                break;
+            default:
+                break;
+
+        }
+        // textMesh.position.set(artPosition[0] + box.x / 2 + .5 , textPosY, artPosition[2] + .1)
+        this.scene.add(textMesh)
+            
+        
     }
     // SHIT ZONE ENDED
 
     genMainLights = () => {
-        const ambientlight = new THREE.AmbientLight( 0xffffff, 0.3 );
-        this.scene.add( ambientlight );
+        const ambientlight = new THREE.AmbientLight( '#363636', .3 );
+        // this.scene.add( ambientlight );
 
-        const wallLight1 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
-        wallLight1.position.set( 10, 1, 2 );
-        this.scene.add( wallLight1 );
+        // const wallLight1 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        // wallLight1.position.set( 10, 1, 2 );
+        // this.scene.add( wallLight1 );
 
-        const wallLight2 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
-        wallLight2.position.set( -10, 1, -2 );
-        this.scene.add( wallLight2 );
+        // const wallLight2 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        // wallLight2.position.set( -10, 1, -2 );
+        // this.scene.add( wallLight2 );
 
-        const wallLight3 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
-        wallLight3.position.set( -2, 1, 10 );
-        this.scene.add( wallLight3 );
+        // const wallLight3 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        // wallLight3.position.set( -2, 1, 10 );
+        // this.scene.add( wallLight3 );
 
-        const wallLight4 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
-        wallLight4.position.set( 2, 1, -10 );
-        this.scene.add( wallLight4 );
+        // const wallLight4 = new THREE.DirectionalLight( 0xfffffff, 0.4 );
+        // wallLight4.position.set( 2, 1, -10 );
+        // this.scene.add( wallLight4 );
 
-        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 );
-        directionalLight.position.set( 0, 5, 0 );
-        directionalLight.castShadow = true;
-        directionalLight.shadow.camera.near = 0.01;
-        directionalLight.shadow.camera.far = 500;
-        directionalLight.shadow.camera.right = 30;
-        directionalLight.shadow.camera.left =  30;
-        directionalLight.shadow.camera.top	= 30;
-        directionalLight.shadow.camera.bottom = 30;
-        directionalLight.shadow.mapSize.width = 1024;
-        directionalLight.shadow.mapSize.height = 1024;
-        directionalLight.shadow.radius = 4;
-        directionalLight.shadow.bias = 0.06;
-        this.scene.add( directionalLight );
+        // const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 );
+        // directionalLight.position.set( 0, 5, 0 );
+        // directionalLight.castShadow = true;
+        // directionalLight.shadow.camera.near = 0.01;
+        // directionalLight.shadow.camera.far = 500;
+        // directionalLight.shadow.camera.right = 30;
+        // directionalLight.shadow.camera.left =  30;
+        // directionalLight.shadow.camera.top	= 30;
+        // directionalLight.shadow.camera.bottom = 30;
+        // directionalLight.shadow.mapSize.width = 1024;
+        // directionalLight.shadow.mapSize.height = 1024;
+        // directionalLight.shadow.radius = 4;
+        // directionalLight.shadow.bias = 0.06;
+        // this.scene.add( directionalLight );
 
         // const light = new THREE.HemisphereLight( 0xeeeeff, 0x696969, 1 );
         // light.position.set( 0, 1, 0 );
@@ -293,9 +432,14 @@ class Scene extends Component {
 
     genWalls = num => {
         for(let i = 0; i < num; i++) {
-            let geometry = new THREE.BoxGeometry(...wallPositions[i][0][0]);
-            let material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0xffffff, shininess: 0} );
-            let mesh = new THREE.Mesh( geometry, material );
+            let geometry = new THREE.BoxGeometry(...wallPositions[i][0][0], 10,10);
+           
+  
+    
+              
+        
+            let mesh = new THREE.Mesh( geometry, this.wallsMaterial );
+     
             mesh.matrixAutoUpdate = false
             mesh.position.set(...wallPositions[i][0][1]);
             mesh.castShadow = true;
@@ -304,8 +448,8 @@ class Scene extends Component {
 			this.worldOctree.fromGraphNode( mesh );
 
             let plankGeometry = new THREE.BoxGeometry(...wallPositions[i][1][0]);
-            let plankMaterial = new THREE.MeshPhongMaterial( { color: 0xa6a6a6, specular: 0xffffff, shininess: 1 } );
-            let plankMesh = new THREE.Mesh( plankGeometry, plankMaterial );
+          
+            let plankMesh = new THREE.Mesh( plankGeometry, this.wallsMaterial );
             plankMesh.position.set(...wallPositions[i][1][1]);
             plankMesh.castShadow = true;
             plankMesh.receiveShadow = true;
@@ -314,12 +458,12 @@ class Scene extends Component {
     }
 
     genFloor = () => {
-        let groundGeo = new THREE.PlaneBufferGeometry( 1000, 1000 );
-        let groundMat = new THREE.MeshStandardMaterial( { 
-         color: 0xffffff, specular: 0xffffff, shininess: 30
+        let groundGeo = new THREE.PlaneBufferGeometry( 200, 200 );
+      
+       
 
-        } );
-        let ground = new THREE.Mesh( groundGeo, groundMat );
+        
+        let ground = new THREE.Mesh( groundGeo, this.wallsMaterial );
         ground.rotation.x = -Math.PI/2;
         ground.position.y = 0;
         ground.receiveShadow = true;
@@ -339,11 +483,12 @@ class Scene extends Component {
     }
 
     addListeners = () => {
+        document.addEventListener('fullscreenchange', this.onWindowResize)
+
         document.addEventListener('keydown', this.changeKeyStatesTrue);
         document.addEventListener('keyup', this.changeKeyStatesFalse);
         document.addEventListener('mousedown', this.requestPointerLock);
         document.body.addEventListener('mousemove', this.mouseMoveListener);
-        window.addEventListener('resize', this.onWindowResize);
         document.addEventListener('pointerlockchange', this.pointerLockChanged);
     }
 
@@ -352,13 +497,16 @@ class Scene extends Component {
         document.removeEventListener('keyup', this.changeKeyStatesFalse);
         document.removeEventListener('mousedown', this.requestPointerLock);
         document.body.removeEventListener('mousemove', this.mouseMoveListener);
-        window.removeEventListener('resize', this.onWindowResize);
+        document.removeEventListener('fullscreenchange', this.onWindowResize)
+
     }
-    
+
     onWindowResize = () => {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setSize(width, height);
     }
 
     playerCollitions = () => {
@@ -422,7 +570,8 @@ class Scene extends Component {
 
     componentWillUnmount() {
         this.stop()
-        this.mount.removeChild(this.renderer.domElement)
+        this.scene.remove.apply(this.scene, this.scene.children);
+        // this.mount.removeChild(this.renderer.domElement)
         window.onpopstate = () => null
     }
 
@@ -433,9 +582,12 @@ class Scene extends Component {
     }
 
     stop = () => {
+        setTimeout(this.onWindowResize, 500)
         this.removeListeners()
         document.exitPointerLock()
         document.title = "Orby"
+        window.removeEventListener('resize', this.onWindowResize);
+
         cancelAnimationFrame(this.frameId)
     }
 
@@ -449,9 +601,15 @@ class Scene extends Component {
         this.frameId = window.requestAnimationFrame(this.animate)
 
         // DEV
-        this.stats.update();
+        // this.stats.update();
         // 
         
+        if(this.all3DObj.children) {
+            this.all3DObj.children.forEach(el => {
+                el.rotation.y += .001
+            })
+           
+        }
         this.now = Date.now();
         this.delta = this.now - this.then;
         if (this.delta > this.interval) {
@@ -471,14 +629,19 @@ class Scene extends Component {
         }
     };
 
-    enterSpace = () => {
-        this.setState({showMenu: false}, () => {
-            this.addListeners()
-            this.requestPointerLock()
+    enterSpace =  () => {
+        document.documentElement.requestFullscreen().then(() => {
+            this.setState({showMenu: false}, () => {
+                this.addListeners()
+                this.requestPointerLock()
+                this.onWindowResize()
+            })
         })
     }
 
-    pauseSpace = () => this.setState({showMenu: true}, () => this.removeListeners())
+    pauseSpace = () => {
+        this.setState({showMenu: true}, () => this.removeListeners())
+    }
 
     pointerLockChanged = () => !document.pointerLockElement && this.pauseSpace()
 

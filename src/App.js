@@ -9,9 +9,12 @@ import SpaceEdit from './components/SpaceEdit/SpaceEdit';
 import MySpaces from './components/MySpaces/MySpaces';
 import EditProfile from './components/EditProfile/EditProfile';
 import Space from './components/Space/Space';
+// import SpaceCopy from './components/Space/Space_copy';
+
 import Search from './components/Search/Search';
 import Globe from './components/Globe/Globe';
 import CesiumTest from './components/CesiumTest/CesiumTest';
+import TestThree from './components/TestThree/TestThree';
 
 import Navbar from './components/Navbar/Navbar';
 import AuthModal from './components/Auth/AuthModal';
@@ -23,6 +26,7 @@ const App = () => {
   const authState = useSelector(state => state.Auth)
 
   useEffect(() => {
+    
     const first = localStorage.getItem('first')
     if(!first || isMobile) {
       localStorage.setItem('first', true)
@@ -35,8 +39,8 @@ const App = () => {
       <Navbar />
       <AnimatePresence exitBeforeEnter>
         <Switch location={location} key={location.pathname}>
-            <Route path={"/list"} exact component={SpacesList}/>
-            <Route path={"/"} exact component={Globe}/>
+            {/* <Route path={"/list"} exact component={SpacesList}/> */}
+            <Route path={"/"} exact component={SpacesList}/>
             {/* <Route path={"/"} exact component={CesiumTest}/> */}
             <Route path={"/search/:query"} component={Search}/>
             <Route path={"/space/:spaceid"} component={Space} />
@@ -45,6 +49,8 @@ const App = () => {
             <PrivateRoute path={"/create"} exact component={SpaceCreate} />
             <PrivateRoute path={"/myspaces"} exact component={MySpaces} />
             {/* <Route path={"/cesium"} exact component={CesiumTest} /> */}
+            <Route path={"/three"} component={TestThree} />
+
 
             {/* <PrivateRoute path={"/globe"} exact component={Globe} /> */}
 

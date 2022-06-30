@@ -4,11 +4,13 @@ import { AnimatePresence, motion } from "framer-motion"
 import { CloseAuthModal, LoginUser, RegUser } from "../../actions/AuthActions"
 import Button from '../Button/Button'
 import './styles.css'
+import { useHistory } from 'react-router-dom';
 
 
 const AuthModal = () => {
     const dispatch = useDispatch();
     const authState = useSelector(state => state.Auth)
+    const history = useHistory()
     const [ modalType, setModalType ] = useState('login')
     const [ showPswd, setShowPswd ] = useState(false)
 
@@ -23,6 +25,11 @@ const AuthModal = () => {
         const email = document.getElementsByName('email')[0].value
         const password = document.getElementsByName('password')[0].value
         email && password && dispatch(LoginUser(email, password))
+            .then(redirect => {
+                console.log("RSOLVE", redirect)
+
+                redirect && history.push(redirect)
+            })
     }
 
     const submitRegForm = () => {
@@ -30,6 +37,10 @@ const AuthModal = () => {
         const password = document.getElementsByName('password')[0].value
         const username = document.getElementsByName('login')[0].value
         email && username && password && dispatch(RegUser(email, username, password))
+            .then(redirect => {
+                redirect && history.push(redirect)
+                
+            })
     }
 
     return(
